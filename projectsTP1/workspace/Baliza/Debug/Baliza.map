@@ -806,54 +806,54 @@ OUTPUT(Baliza.axf elf32-littlearm)
  .debug_ranges  0x00000100      0x2f8 ./SDK/startup/startup_mk64f12.o
  .debug_ranges  0x000003f8       0x20 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_macro    0x00000000    0x114b2
- .debug_macro   0x00000000       0x60 ./source/App.o
- .debug_macro   0x00000060      0xa5a ./source/App.o
- .debug_macro   0x00000aba      0x34e ./source/App.o
- .debug_macro   0x00000e08       0x22 ./source/App.o
- .debug_macro   0x00000e2a       0x3a ./source/App.o
- .debug_macro   0x00000e64       0x4c ./source/App.o
- .debug_macro   0x00000eb0       0x22 ./source/App.o
- .debug_macro   0x00000ed2       0x98 ./source/gpio.o
- .debug_macro   0x00000f6a       0x5c ./source/gpio.o
- .debug_macro   0x00000fc6       0x1c ./source/gpio.o
- .debug_macro   0x00000fe2       0x22 ./source/gpio.o
- .debug_macro   0x00001004       0xdf ./source/gpio.o
- .debug_macro   0x000010e3      0xecf ./source/gpio.o
- .debug_macro   0x00001fb2       0x48 ./source/gpio.o
- .debug_macro   0x00001ffa     0xe07b ./source/gpio.o
- .debug_macro   0x00010075       0x9c ./SDK/startup/hardware.o
- .debug_macro   0x00010111       0x10 ./SDK/startup/hardware.o
- .debug_macro   0x00010121     0x122b ./SDK/startup/hardware.o
- .debug_macro   0x0001134c       0x16 ./SDK/startup/hardware.o
- .debug_macro   0x00011362       0x9c ./SDK/startup/main.o
- .debug_macro   0x000113fe       0x11 ./SDK/startup/semihost_hardfault.o
- .debug_macro   0x0001140f       0x23 ./SDK/startup/startup_mk64f12.o
- .debug_macro   0x00011432       0x80 ./SDK/CMSIS/system_MK64F12.o
+.debug_macro    0x00000000    0x114bc
+ .debug_macro   0x00000000       0x6a ./source/App.o
+ .debug_macro   0x0000006a      0xa5a ./source/App.o
+ .debug_macro   0x00000ac4      0x34e ./source/App.o
+ .debug_macro   0x00000e12       0x22 ./source/App.o
+ .debug_macro   0x00000e34       0x3a ./source/App.o
+ .debug_macro   0x00000e6e       0x4c ./source/App.o
+ .debug_macro   0x00000eba       0x22 ./source/App.o
+ .debug_macro   0x00000edc       0x98 ./source/gpio.o
+ .debug_macro   0x00000f74       0x5c ./source/gpio.o
+ .debug_macro   0x00000fd0       0x1c ./source/gpio.o
+ .debug_macro   0x00000fec       0x22 ./source/gpio.o
+ .debug_macro   0x0000100e       0xdf ./source/gpio.o
+ .debug_macro   0x000010ed      0xecf ./source/gpio.o
+ .debug_macro   0x00001fbc       0x48 ./source/gpio.o
+ .debug_macro   0x00002004     0xe07b ./source/gpio.o
+ .debug_macro   0x0001007f       0x9c ./SDK/startup/hardware.o
+ .debug_macro   0x0001011b       0x10 ./SDK/startup/hardware.o
+ .debug_macro   0x0001012b     0x122b ./SDK/startup/hardware.o
+ .debug_macro   0x00011356       0x16 ./SDK/startup/hardware.o
+ .debug_macro   0x0001136c       0x9c ./SDK/startup/main.o
+ .debug_macro   0x00011408       0x11 ./SDK/startup/semihost_hardfault.o
+ .debug_macro   0x00011419       0x23 ./SDK/startup/startup_mk64f12.o
+ .debug_macro   0x0001143c       0x80 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_line     0x00000000      0xfa2
- .debug_line    0x00000000      0x111 ./source/App.o
- .debug_line    0x00000111      0x267 ./source/gpio.o
- .debug_line    0x00000378      0x1ed ./SDK/startup/hardware.o
- .debug_line    0x00000565      0x175 ./SDK/startup/main.o
- .debug_line    0x000006da       0x55 ./SDK/startup/semihost_hardfault.o
- .debug_line    0x0000072f      0x680 ./SDK/startup/startup_mk64f12.o
- .debug_line    0x00000daf      0x1f3 ./SDK/CMSIS/system_MK64F12.o
+.debug_line     0x00000000      0xfaf
+ .debug_line    0x00000000      0x11e ./source/App.o
+ .debug_line    0x0000011e      0x267 ./source/gpio.o
+ .debug_line    0x00000385      0x1ed ./SDK/startup/hardware.o
+ .debug_line    0x00000572      0x175 ./SDK/startup/main.o
+ .debug_line    0x000006e7       0x55 ./SDK/startup/semihost_hardfault.o
+ .debug_line    0x0000073c      0x680 ./SDK/startup/startup_mk64f12.o
+ .debug_line    0x00000dbc      0x1f3 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_str      0x00000000    0x77dca
- .debug_str     0x00000000     0x399a ./source/App.o
-                               0x3b08 (size before relaxing)
- .debug_str     0x0000399a    0x6cdf0 ./source/gpio.o
+.debug_str      0x00000000    0x77dd6
+ .debug_str     0x00000000     0x39a6 ./source/App.o
+                               0x3b14 (size before relaxing)
+ .debug_str     0x000039a6    0x6cdf0 ./source/gpio.o
                               0x706fb (size before relaxing)
- .debug_str     0x0007078a     0x6d62 ./SDK/startup/hardware.o
+ .debug_str     0x00070796     0x6d62 ./SDK/startup/hardware.o
                               0x7721a (size before relaxing)
- .debug_str     0x000774ec       0x1b ./SDK/startup/main.o
+ .debug_str     0x000774f8       0x1b ./SDK/startup/main.o
                               0x77030 (size before relaxing)
- .debug_str     0x00077507       0x36 ./SDK/startup/semihost_hardfault.o
+ .debug_str     0x00077513       0x36 ./SDK/startup/semihost_hardfault.o
                                0x2d54 (size before relaxing)
- .debug_str     0x0007753d      0x836 ./SDK/startup/startup_mk64f12.o
+ .debug_str     0x00077549      0x836 ./SDK/startup/startup_mk64f12.o
                                0x35c3 (size before relaxing)
- .debug_str     0x00077d73       0x57 ./SDK/CMSIS/system_MK64F12.o
+ .debug_str     0x00077d7f       0x57 ./SDK/CMSIS/system_MK64F12.o
                               0x77129 (size before relaxing)
 
 .comment        0x00000000       0x7e

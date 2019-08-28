@@ -11,6 +11,7 @@
 #include "board.h"
 #include "gpio.h"
 #include "FSM.h"
+#include "display.h"
 
 #define DELAY_BASE 900000UL
 #define DELAY_LIMIT_CONST 10
