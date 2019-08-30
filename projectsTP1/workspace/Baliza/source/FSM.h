@@ -18,7 +18,7 @@
 typedef enum {INACTIVITY, DISPLAY, NUM_TIMERS}timer_name; //Timers utilizados
 typedef enum {WAITING_ID, RECEIVING_ID, RECEIVING_PIN, ACCESS_GRANTED, ADMIN_MODE, ADDING_USER,
 			REMOVING_USER, CHANGING_PIN, NUM_STATES}state_name; //Estados posibles de la FSM
-typedef enum {INPUT_EV, TIMER_EV, KEYCARD_EV, NUM_EVENTS}ev_name;
+typedef enum {ENCODER_EV, TIMER_EV, KEYCARD_EV, NUM_EVENTS}ev_name;
 
 
 //UserData contiene toda la informacion necesaria que necesita una rutina para manejar
@@ -42,5 +42,10 @@ typedef struct state{
 	state_name name;
    StateRoutinePtr_t Routines[NUM_EVENTS]; //La cantidad de rutinas es igual a la cantidad de eventos posibles.
 }state_t;
+
+typedef struct FSM{
+	state_t current_state;
+	bool exit;
+}FSM_t;
 
 #endif /* FSM_H_ */
