@@ -1,35 +1,44 @@
 /***************************************************************************//**
-  @file     App.c
-  @brief    Application functions
-  @author   Nicolás Magliola
+  @file     magnetCardDecode.c
+  @brief    Magnet card decoding functions
+  @author   G5
  ******************************************************************************/
 
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
 
-#include "board.h"
-#include "gpio.h"
-#include "SysTick.h"
+#include "magnetCardDecode.h"
 
-#define BALIZA_FREQ_HZ 15U
 
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 
+#define NUMBER_OF_CHARS_TRACK1 79
+#define NUMBER_OF_CHARS_TRACK2 40
+#define NUMBER_OF_CHARS_TRACK3 107
+
+#define SIZE_OF_CHARS_TRACK1 7
+#define SIZE_OF_CHARS_TRACK2 5
+#define SIZE_OF_CHARS_TRACK3 5
+
+#define NUMBER_OF_BITS_TRACK1 (SIZE_OF_CHARS_TRACK1 * NUMBER_OF_CHARS_TRACK1)
+#define NUMBER_OF_BITS_TRACK2 (SIZE_OF_CHARS_TRACK2 * NUMBER_OF_CHARS_TRACK2)
+#define NUMBER_OF_BITS_TRACK3 (SIZE_OF_CHARS_TRACK3 * NUMBER_OF_CHARS_TRACK3)
+
+
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
+void decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut, uint8_t bitCounter);
 
-_Bool buttonLastState = false;
-_Bool isBalizaOn = false;
-//_Bool rebote = false;
+void decodeTrack1(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut);
+void decodeTrack2(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut);
+void decodeTrack3(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut);
 
-void sysTickCallback(void);
-void switchCallback(void);
 
 /*******************************************************************************
  *******************************************************************************
@@ -37,28 +46,6 @@ void switchCallback(void);
  *******************************************************************************
  ******************************************************************************/
 
-/* Función que se llama 1 vez, al comienzo del programa */
-void App_Init (void)
-{
-    gpioMode(PIN_LED_RED, OUTPUT);
-    //gpioMode(PIN_LED_BLUE, OUTPUT);
-    gpioMode(PIN_SW3 , SW_INPUT_TYPE);
-    //gpioMode(PIN_SW2 , SW_INPUT_TYPE);
-    gpioMode(PIN_LED_EXTERNAL , EXTERNAL_LED_TYPE);
-    //gpioMode(PIN_SWITCH_EXTERNAL , EXTERNAL_SW_TYPE);
-    gpioWrite(PIN_LED_RED, HIGH);
-
-    gpioIRQ (PIN_SW3, GPIO_IRQ_MODE_FALLING_EDGE, switchCallback);
-    SysTick_Init(&sysTickCallback);
-
-}
-
-/* Función que se llama constantemente en un ciclo infinito */
-void App_Run (void)
-{
-
-	//espero interrupciones y realizo ISRs.
-}
 
 
 /*******************************************************************************
@@ -67,47 +54,6 @@ void App_Run (void)
  *******************************************************************************
  ******************************************************************************/
 
-
-
-void sysTickCallback(void)
-{
-	static uint32_t counter = 0;
-	if(isBalizaOn)
-	{
-		if(counter == (SYSTICK_ISR_FREQ_HZ/BALIZA_FREQ_HZ))
-		{
-			gpioToggle(PIN_LED_EXTERNAL);
-			counter = 0;
-		}
-		else
-		{
-			counter++;
-		}
-
-	}
-	else
-	{
-		counter = 0;
-	}
-}
-
-void switchCallback(void)
-{
-	//if(!rebote)
-	//{
-		isBalizaOn = !isBalizaOn;
-		gpioToggle(PIN_LED_RED);
-		if (isBalizaOn)
-		{
-			gpioWrite(PIN_LED_EXTERNAL, HIGH); //que la baliza arranque prendida
-		}
-		else
-		{
-			gpioWrite(PIN_LED_EXTERNAL, LOW); //que la baliza se apague inmediatamente
-		}
-	//}
-
-}
 
 /*******************************************************************************
  ******************************************************************************/

@@ -41,7 +41,7 @@
 
 
 #define SW_ACTIVE       LOW// ???
-#define SW_INPUT_TYPE   INPUT// ???
+#define SW_INPUT_TYPE   INPUT_PULLUP// ???
 
 
 /*******************************************************************************
