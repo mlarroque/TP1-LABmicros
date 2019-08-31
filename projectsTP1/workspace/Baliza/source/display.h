@@ -8,6 +8,7 @@
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 #include <stdbool.h>
+
 //Borra el contenido del display
 void ClearDisplay(void);
 
