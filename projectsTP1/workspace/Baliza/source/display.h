@@ -2,7 +2,7 @@
  * display.h
  *
  *  Created on: Aug 28, 2019
- *      Author: Ezequiel Vijande
+ *      Author: G5
  */
 
 #ifndef DISPLAY_H_

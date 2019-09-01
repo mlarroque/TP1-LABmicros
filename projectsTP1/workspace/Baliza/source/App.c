@@ -12,24 +12,27 @@
 #include "gpio.h"
 #include "FSM.h"
 #include "display.h"
+#include "SysTick.h"
+#include "timer.h"
 
 #define DELAY_BASE 900000UL
 #define DELAY_LIMIT_CONST 10
-
+unsigned int timers_on_array = 0;
+timer_t timers[NUM_TIMERS];
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
+//Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
+#define TIME_TO_PULSES(t) (t*SYSTICK_ISR_FREQ_HZ)
 
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-
-static void delayLoop(uint32_t veces);
-_Bool buttonLastState = false;
-_Bool isBalizaOn = false;
-int delayLimit = DELAY_LIMIT_CONST;
+void sysTickCallback(void);
+void RED_LED_callback(void);
+void GREEN_LED_callback(void);
 
 /*******************************************************************************
  *******************************************************************************
@@ -41,44 +44,19 @@ int delayLimit = DELAY_LIMIT_CONST;
 void App_Init (void)
 {
     gpioMode(PIN_LED_RED, OUTPUT);
-    //gpioMode(PIN_LED_BLUE, OUTPUT);
-    gpioMode(PIN_SW3 , SW_INPUT_TYPE);
-    //gpioMode(PIN_SW2 , SW_INPUT_TYPE);
-    gpioMode(PIN_LED_EXTERNAL , EXTERNAL_LED_TYPE);
-    //gpioMode(PIN_SWITCH_EXTERNAL , EXTERNAL_SW_TYPE);
-    gpioWrite(PIN_LED_RED, HIGH);
+    gpioMode(PIN_LED_GREEN, OUTPUT);
+    gpioWrite(PIN_LED_RED, LOW);
+    gpioWrite(PIN_LED_GREEN,HIGH );
+    SysTick_Init(&sysTickCallback);
+    unsigned int desired_time = 2; //Tiempo en segundos entre toggle de LED.
+    SetTimer(TIME_TO_PULSES(desired_time), &RED_LED_callback);
+    SetTimer(TIME_TO_PULSES(desired_time), &GREEN_LED_callback);
 }
 
 /* Función que se llama constantemente en un ciclo infinito */
 void App_Run (void)
 {
 
-	_Bool buttonResult = !gpioRead(PIN_SW3); //SW3 es  activo bajo, esta presionado cuando se lee cero lógico
-	if((buttonResult != (buttonLastState)) && (buttonResult) ) //Se ingresa al bloque si se presionó el botón.
-	{
-		isBalizaOn = !isBalizaOn;
-		gpioToggle(PIN_LED_RED);
-		if (isBalizaOn)
-		{
-			gpioWrite(PIN_LED_EXTERNAL, HIGH); //que la baliza arranque prendida
-		}
-		else
-		{
-			gpioWrite(PIN_LED_EXTERNAL, LOW); //que la baliza se apague inmediatamente
-		}
-	}
-	buttonLastState = buttonResult;
-	if (isBalizaOn)
-	{
-
-		delayLoop(DELAY_BASE);
-		if (!(delayLimit--))
-		{
-			gpioToggle(PIN_LED_EXTERNAL);
-			delayLimit = DELAY_LIMIT_CONST;
-		}
-
-	}
 }
 
 
@@ -88,9 +66,28 @@ void App_Run (void)
  *******************************************************************************
  ******************************************************************************/
 
-static void delayLoop(uint32_t veces)
+
+void sysTickCallback(void)
 {
-    while ((veces--)) asm("nop");
+	int i;
+	for(i=0; i < timers_on_array; i++)
+	{
+		if( ++( (timers+i)->counter ) >= ( (timers+i)->timeout ) )
+		{
+			(timers+i)->counter = 0; //Si el contador excede el timeout lo reinicio
+			((timers+i)->func)();		// y llamo al callback correspondiente al timer.
+		}
+	}
+}
+
+void RED_LED_callback(void)
+{
+	gpioToggle(PIN_LED_RED);
+}
+
+void GREEN_LED_callback(void)
+{
+	gpioToggle(PIN_LED_GREEN);
 }
 
 

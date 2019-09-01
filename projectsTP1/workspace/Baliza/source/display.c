@@ -2,7 +2,7 @@
  * display.c
  *
  *  Created on: Aug 31, 2019
- *      Author: Ezequiel Vijande
+ *      Author: G5
  */
 #include "display.h"
 
@@ -49,7 +49,7 @@ void PrintMessage(const char* string, bool moving_string)
 {
 	ClearDisplay();
 
-	if(!moving_String) //Solo muestro los ultimos caracteres que entran
+	if(!moving_string) //Solo muestro los ultimos caracteres que entran
 	{
 		moving_message = false;
 		unsigned int size = GetStringSize(string);

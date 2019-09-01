@@ -10,6 +10,7 @@
 
 #ifndef FSM_H_
 #define FSM_H_
+#include <stdbool.h>
 
 //Definicion de constantes y parametros
 #define ID_LENGTH 8 //Longitud maxima del ID del usuario.

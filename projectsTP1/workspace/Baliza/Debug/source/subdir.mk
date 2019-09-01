@@ -5,15 +5,24 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../source/App.c \
-../source/gpio.c 
+../source/SysTick.c \
+../source/display.c \
+../source/gpio.c \
+../source/timer.c 
 
 OBJS += \
 ./source/App.o \
-./source/gpio.o 
+./source/SysTick.o \
+./source/display.o \
+./source/gpio.o \
+./source/timer.o 
 
 C_DEPS += \
 ./source/App.d \
-./source/gpio.d 
+./source/SysTick.d \
+./source/display.d \
+./source/gpio.d \
+./source/timer.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
