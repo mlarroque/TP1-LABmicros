@@ -9,6 +9,13 @@
 #define TIMER_H_
 
 #include "FSM.h"
+/*******************************************************************************************
+ * 										MACROS
+ *******************************************************************************************/
+
+//Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
+#define TIME_TO_PULSES(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000 ) //Asume que recibe el t en milisegundos.
+
 /******************************************************************************************
  *  				TIPOS DE DATOS, CONSTANTES Y VARIABLES GLOBALES
  ******************************************************************************************/

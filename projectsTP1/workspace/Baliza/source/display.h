@@ -8,6 +8,11 @@
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 #include <stdbool.h>
+#include <stdint.h>
+#include "timer.h"
+#include "7SegmentDisplay.h"
+
+#define DISPLAY_SIZE 4
 
 //Borra el contenido del display
 void ClearDisplay(void);
@@ -19,6 +24,9 @@ void PrintMessage(const char* string, bool moving_string);
 
 //Borra el ultimo caracter impreso en el display
 void ClearLast(void);
+
+//desplaza todos los caracteres una posicion hacia la izquierda y agrega c.
+void ShiftLeft(void);
 
 //Actualiza el contenido del diplay.
 void UpdateDisplay(void);

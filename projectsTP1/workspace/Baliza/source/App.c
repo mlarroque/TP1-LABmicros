@@ -23,8 +23,7 @@ timer_t timers[NUM_TIMERS];
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-//Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
-#define TIME_TO_PULSES(t) (t*SYSTICK_ISR_FREQ_HZ)
+
 
 
 /*******************************************************************************
