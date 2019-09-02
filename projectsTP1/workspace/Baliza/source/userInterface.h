@@ -5,8 +5,8 @@
  *      Author: Lu
  */
 
-#ifndef INPUTINTERFACE_H_
-#define INPUTINTERFACE_H_
+#ifndef USERINTERFACE_H_
+#define USERINTERFACE_H_
 
 #include "encoder.h"
 
@@ -21,4 +21,4 @@ typedef struct{
 }input_t;
 
 
-#endif /* INPUTINTERFACE_H_ */
+#endif /* USERINTERFACE_H_ */
