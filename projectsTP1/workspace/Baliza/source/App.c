@@ -47,9 +47,9 @@ void App_Init (void)
     gpioWrite(PIN_LED_RED, LOW);
     gpioWrite(PIN_LED_GREEN,HIGH );
     SysTick_Init(&sysTickCallback);
-    unsigned int desired_time = 2; //Tiempo en segundos entre toggle de LED.
-    SetTimer(TIME_TO_PULSES(desired_time), &RED_LED_callback);
-    SetTimer(TIME_TO_PULSES(desired_time), &GREEN_LED_callback);
+    unsigned int desired_time = 2000; //Tiempo en segundos entre toggle de LED.
+    SetTimer(INACTIVITY,TIME_TO_PULSES(desired_time), &RED_LED_callback);
+    SetTimer(DISPLAY,TIME_TO_PULSES(desired_time), &GREEN_LED_callback);
 }
 
 /* Función que se llama constantemente en un ciclo infinito */
@@ -69,13 +69,17 @@ void App_Run (void)
 void sysTickCallback(void)
 {
 	int i;
-	for(i=0; i < timers_on_array; i++)
+	for(i=0; i < NUM_TIMERS; i++)
 	{
-		if( ++( (timers+i)->counter ) >= ( (timers+i)->timeout ) )
+		if( (timers+i)->enabled )
 		{
-			(timers+i)->counter = 0; //Si el contador excede el timeout lo reinicio
-			((timers+i)->func)();		// y llamo al callback correspondiente al timer.
+			if( ++( (timers+i)->counter ) >= ( (timers+i)->timeout ) )
+					{
+						(timers+i)->counter = 0; //Si el contador excede el timeout lo reinicio
+						((timers+i)->func)();		// y llamo al callback correspondiente al timer.
+					}
 		}
+
 	}
 }
 

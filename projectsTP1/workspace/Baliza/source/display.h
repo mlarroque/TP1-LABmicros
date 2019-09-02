@@ -9,8 +9,8 @@
 #define DISPLAY_H_
 #include <stdbool.h>
 #include <stdint.h>
+#include "SegmentDisplay.h"
 #include "timer.h"
-#include "7SegmentDisplay.h"
 
 #define DISPLAY_SIZE 4
 

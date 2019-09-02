@@ -6,7 +6,7 @@
  */
 
 
-#include "7SegmentDisplay.h"
+#include "SegmentDisplay.h"
 #define NUMBER_OF_DIGITS 4
 /**************************************************************************
  * VARIABLES Y DEFINICIONES

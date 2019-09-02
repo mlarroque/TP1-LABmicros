@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../source/App.c \
+../source/SegmentDisplay.c \
 ../source/SysTick.c \
 ../source/display.c \
 ../source/gpio.c \
@@ -12,6 +13,7 @@ C_SRCS += \
 
 OBJS += \
 ./source/App.o \
+./source/SegmentDisplay.o \
 ./source/SysTick.o \
 ./source/display.o \
 ./source/gpio.o \
@@ -19,6 +21,7 @@ OBJS += \
 
 C_DEPS += \
 ./source/App.d \
+./source/SegmentDisplay.d \
 ./source/SysTick.d \
 ./source/display.d \
 ./source/gpio.d \

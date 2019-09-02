@@ -48,7 +48,7 @@ void PrintMessage(const char* string, bool moving_string)
 	{
 		//Deshabilito el timer
 		string_size = GetStringSize(string);
-		if(size > DISPLAY_SIZE)
+		if(string_size > DISPLAY_SIZE)
 		{
 			current_string = string +(string_size - DISPLAY_SIZE);
 		}
@@ -62,7 +62,7 @@ void PrintMessage(const char* string, bool moving_string)
 	}
 	else
 	{
-		SetTimer(TIME_TO_PULSES(STRING_TIME), &GenerateUpdateDisplayEv);//Setteo el timer con la velocidad de movimiento del string.
+		SetTimer(MESSAGE,TIME_TO_PULSES(STRING_TIME), &GenerateUpdateDisplayEv);//Setteo el timer con la velocidad de movimiento del string.
 		current_string = string;
 		string_position = 0;
 		display_position = DISPLAY_SIZE-1; //El mensaje se mueve de derecha a izquierda.
@@ -78,18 +78,18 @@ void UpdateDisplay(void)
 {
 	if(string_position < 0)
 	{
-		PrintChar(" ",display_position); //Imprimo espacio en blanco
+		PrintChar(' ',display_position); //Imprimo espacio en blanco
 	}
 	else
 	{
 		if(string_position > string_size)
 		{
-			PrintChar(" ",display_position);
+			PrintChar(' ',display_position);
 		}
 		else if(current_string[string_position] == '\0')
 		{
 			string_size = string_position;
-			PrintChar(" ",display_position);
+			PrintChar(' ',display_position);
 		}
 		else
 		{
