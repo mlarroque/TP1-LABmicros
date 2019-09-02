@@ -49,7 +49,7 @@ void App_Init (void)
     SysTick_Init(&sysTickCallback);
     unsigned int desired_time = 2000; //Tiempo en segundos entre toggle de LED.
     SetTimer(INACTIVITY,TIME_TO_PULSES(desired_time), &RED_LED_callback);
-    SetTimer(DISPLAY,TIME_TO_PULSES(desired_time), &GREEN_LED_callback);
+    SetTimer(DISPLAY,TIME_TO_PULSES(6000), &GREEN_LED_callback);
 }
 
 /* Función que se llama constantemente en un ciclo infinito */
@@ -91,6 +91,7 @@ void RED_LED_callback(void)
 void GREEN_LED_callback(void)
 {
 	gpioToggle(PIN_LED_GREEN);
+	DisableTimer(INACTIVITY);
 }
 
 
