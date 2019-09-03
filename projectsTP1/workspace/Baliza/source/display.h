@@ -2,12 +2,17 @@
  * display.h
  *
  *  Created on: Aug 28, 2019
- *      Author: Ezequiel Vijande
+ *      Author: G5
  */
 
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 #include <stdbool.h>
+#include <stdint.h>
+#define DISPLAY_SIZE 4
+
+//Inicializa los recursos necesrios para utilizar el display
+void InitializeDisplay(void);
 
 //Borra el contenido del display
 void ClearDisplay(void);
@@ -19,6 +24,9 @@ void PrintMessage(const char* string, bool moving_string);
 
 //Borra el ultimo caracter impreso en el display
 void ClearLast(void);
+
+//desplaza todos los caracteres una posicion hacia la izquierda y agrega c.
+void ShiftLeft(void);
 
 //Actualiza el contenido del diplay.
 void UpdateDisplay(void);

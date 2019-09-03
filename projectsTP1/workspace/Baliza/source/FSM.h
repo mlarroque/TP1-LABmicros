@@ -10,12 +10,13 @@
 
 #ifndef FSM_H_
 #define FSM_H_
+#include <stdbool.h>
+#include "timer.h"
 
 //Definicion de constantes y parametros
 #define ID_LENGTH 8 //Longitud maxima del ID del usuario.
 #define PIN_LENGTH 5 //Longitud maxima del PIN del usuario.
 
-typedef enum {INACTIVITY, DISPLAY, NUM_TIMERS}timer_name; //Timers utilizados
 typedef enum {WAITING_ID, RECEIVING_ID, RECEIVING_PIN, ACCESS_GRANTED, ADMIN_MODE, ADDING_USER,
 			REMOVING_USER, CHANGING_PIN, NUM_STATES}state_name; //Estados posibles de la FSM
 typedef enum {ENCODER_EV, TIMER_EV, KEYCARD_EV, NUM_EVENTS}ev_name;
