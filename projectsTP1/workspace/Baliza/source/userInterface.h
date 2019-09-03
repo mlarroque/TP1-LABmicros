@@ -20,5 +20,7 @@ typedef struct{
 	   bool curr_encoder_data[ENC_SIGNAL_COUNT]; //estados de las señales en el instante actual para el encoder
 }input_t;
 
+void SetCancelAttemptTimer();
+
 
 #endif /* USERINTERFACE_H_ */

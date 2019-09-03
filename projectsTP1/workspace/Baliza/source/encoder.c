@@ -5,13 +5,20 @@
  *      Author: Lu
  */
 
+_Bool IsClockwise(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT]);
 _Bool IsValid(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT]);
 _Bool WasThereChange(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT]);
 
-_Bool CheckEnter(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
+_Bool CheckEnterRisingEdge(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
 {
   //true si se presionó el ENTER (flanco ascendente)
 	return (prev_data[C]==LOW) && (curr_data[C]==HIGH);
+}
+
+_Bool CheckEnterFallingEdge(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
+{
+  //true si se dejó de presionar el ENTER (flanco descendente)
+	return (prev_data[C]==HIGH) && (curr_data[C]==LOW);
 }
 
 counter_type ReadInput(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
@@ -24,7 +31,7 @@ counter_type ReadInput(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SI
 		{
 			if(IsClockwise(prev_data, curr_data))
 				status = COUNT_UP;
-			else if(IsCounterClockwise(prev_data, curr_data))
+			else
 				status = COUNT_DOWN;
 		}
 		else
@@ -40,15 +47,24 @@ counter_type ReadInput(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SI
 
 _Bool IsClockwise(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
 {
-	//si A adelanta a B, es clockwise
-	if (IsValid(curr_data));
+	bool clockwise = false;
+	//si A adelanta a B, es clockwise //CHEQUEAR
+	if(prev_data[A] != curr_data[A])
+	{
+		if(curr_data[B] != curr_data[A])
+			clockwise = true;
+		else
+			clockwise = false;
+	}
+	else
+	{
+		if(curr_data[B] == curr_data[A])
+			clockwise = true;
+		else
+			clockwise = false;
+	}
 
-
-}
-
-_Bool IsCounterClockwise(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
-{
-
+	return clockwise;
 }
 
 
@@ -58,8 +74,22 @@ _Bool IsValid(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUN
 	//los únicos cambios válidos son los del código de Gray de 2 bits
 	// A	0	1	1	0
 	// B	0	0	1	1
-	//   ------------------>tiempo
+	// -------------------->tiempo
 
+
+	if((prev_data[A] == LOW) && (prev_data[B] == LOW))		//si paso de A,B = 0,0 a A,B = 1,0; es válido
+		if((curr_data[A] == HIGH) && (curr_data[B] == LOW))
+			status = true;
+	else if((prev_data[A] == HIGH) && (prev_data[B] == LOW))		//si paso de A,B = 1,0 a A,B = 1,1; es válido
+		if((curr_data[A] == HIGH) && (curr_data[B] == HIGH))
+			status = true;
+	else if((prev_data[A] == HIGH) && (prev_data[B] == HIGH))		//si paso de A,B = 1,1 a A,B = 1,0; es válido
+		if((curr_data[A] == LOW) && (curr_data[B] == HIGH))
+			status = true;
+	else if((prev_data[A] == HIGH) && (prev_data[B] == HIGH))		//si paso de A,B = 1,0 a A,B = 0,0; es válido
+		if((curr_data[A] == LOW) && (curr_data[B] == LOW))
+			status = true;
+	else;
 
 	return status;
 }
