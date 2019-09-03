@@ -9,10 +9,10 @@
 #define DISPLAY_H_
 #include <stdbool.h>
 #include <stdint.h>
-#include "SegmentDisplay.h"
-#include "timer.h"
-
 #define DISPLAY_SIZE 4
+
+//Inicializa los recursos necesrios para utilizar el display
+void InitializeDisplay(void);
 
 //Borra el contenido del display
 void ClearDisplay(void);

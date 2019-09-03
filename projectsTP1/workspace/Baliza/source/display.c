@@ -5,7 +5,11 @@
  *      Author: G5
  */
 #include "display.h"
+#include "SegmentDisplay.h"
+#include "timer.h"
 #define STRING_TIME 375 //Delay en ms entre cada shifteo hacia la izquierda.
+#define FPS 60 //Frames per second
+#define MS_BETWEEN_SYMBOLS ( (1000/FPS)/(DISPLAY_SIZE) )
 /******************************************************************************
  *
  * 							VARIABLES GLOBALES
@@ -15,22 +19,35 @@ static const char* current_string;
 static unsigned int string_position;
 static unsigned int display_position;
 static unsigned int string_size;
+static bool initialized = false;
 
 /*******************************************************************************
  *
  * 							FUNCIONES LOCALES
  *
  *******************************************************************************/
-
-void PrintChar(const char c,unsigned int pos);
 unsigned int GetStringSize(const char* str);
-void GenerateUpdateDisplayEv(void);
+void GenerateDisplayEv(void);
 
 /******************************************************************************
  *
  *							FUNCIONES DEL HEADER
  *
  ******************************************************************************/
+
+void InitializeDisplay(void)
+{
+	if(!initialized)
+	{
+		InitializeSegmentDisplay();
+		InitializeTimers();
+		ClearDisplay();
+		SetTimer(DISPLAY, MS_BETWEEN_SYMBOLS, &GenerateDisplayEv);
+		SetTimer(MESSAGE,STRING_TIME, &ShiftLeft);//Setteo el timer con la velocidad de movimiento del string.
+		DisableTimer(MESSAGE); //Por default asumo que se desea un mensaje que nose mueva a traves del display.
+		initialized = true;
+	}
+}
 void ClearDisplay(void)
 {
 	current_string = "";
@@ -46,7 +63,7 @@ void PrintMessage(const char* string, bool moving_string)
 
 	if(!moving_string) //Solo muestro los ultimos caracteres que entran
 	{
-		//Deshabilito el timer
+		DisableTimer(MESSAGE);//Deshabilito el timer
 		string_size = GetStringSize(string);
 		if(string_size > DISPLAY_SIZE)
 		{
@@ -62,10 +79,10 @@ void PrintMessage(const char* string, bool moving_string)
 	}
 	else
 	{
-		SetTimer(MESSAGE,TIME_TO_PULSES(STRING_TIME), &GenerateUpdateDisplayEv);//Setteo el timer con la velocidad de movimiento del string.
 		current_string = string;
 		string_position = 0;
 		display_position = DISPLAY_SIZE-1; //El mensaje se mueve de derecha a izquierda.
+		EnableTimer(MESSAGE);
 	}
 }
 
@@ -117,3 +134,9 @@ unsigned int GetStringSize(const char* str)
 	while (str[size++] != '\0');
 	return --size;
 }
+
+void GenerateDisplayEv(void)
+{
+
+}
+

@@ -5,12 +5,14 @@
  *      Author: G5
  */
 
-
+/**************************************************************************
+ * 							HEADERS INCLUIDOS
+ **************************************************************************/
 #include "SegmentDisplay.h"
 #include "gpio.h"
-#define NUMBER_OF_DIGITS 4
+#include <stdbool.h>
 /**************************************************************************
- * VARIABLES Y DEFINICIONES
+ * 						VARIABLES Y DEFINICIONES
  **************************************************************************/
 
 //Arreglo que guarda que segmentos prender para los numeros del 0-9.
@@ -28,6 +30,8 @@ static const unsigned char letters_segment_array[]=
 		//U		V	 W		X	 Y		Z
 		0x3E, 0x1C, 0x76, 0x76, 0x66, 0x5B
 };
+static bool initialized = false;
+
 #define CSEGA PORTNUM2PIN(PC,3)// PTC3
 #define CSEGB PORTNUM2PIN(PC,2)// PTC2
 #define CSEGC PORTNUM2PIN(PA,2)// PTA2
@@ -38,6 +42,8 @@ static const unsigned char letters_segment_array[]=
 #define CSEGDP PORTNUM2PIN(PC,16)// PTC16
 #define SEL1 PORTNUM2PIN(PC,4)// PTC4
 #define SEL2 PORTNUM2PIN(PA,0)// PTA0
+
+enum {FIRST_DIGIT,SECOND_DIGIT,THIRD_DIGIT, FOURTH_DIGIT, NUMBER_OF_DIGITS};
 
 /**************************************************************************
  * 								MASCARAS
@@ -62,24 +68,53 @@ static const unsigned char letters_segment_array[]=
 	//dp	g	f	e	d	c	b	a
 void SetDigit(const unsigned char value,unsigned int select_line);
 
+//Funcion que prende y apaga los pins correspondientes a la linea
+//de seleccion deseada
+void SelectDigit(unsigned int sel_line);
+
+void InitializeSegmentDisplay(void);
+
 /**************************************************************************
  * 							FUNCIONES DEL HEADER
  **************************************************************************/
+void InitializeSegmentDisplay(void)
+{
+	if(!initialized)
+	{
+		//Inicializo pins correspondientes a los segmentos
+		gpioMode(CSEGA, OUTPUT);
+		gpioMode(CSEGB, OUTPUT);
+		gpioMode(CSEGC, OUTPUT);
+		gpioMode(CSEGD, OUTPUT);
+		gpioMode(CSEGE, OUTPUT);
+		gpioMode(CSEGF, OUTPUT);
+		gpioMode(CSEGG, OUTPUT);
+		gpioMode(CSEGDP, OUTPUT);
+		//Inicializo pins correspondientes a la linea de seleccion
+		//que ellije el digito que se desea utilizar.
+		gpioMode(SEL1, OUTPUT);
+		gpioMode(SEL2, OUTPUT);
+
+		initialized = true;
+	}
+
+}
 void PrintChar(const char c,unsigned int pos)
 {
 	if( pos< NUMBER_OF_DIGITS )
 	{
-		if( (c >= '0') && (c <= '9') )
-		{
+		if( (c >= '0') && (c <= '9') ) //Se desea imprimir un numero
 			SetDigit(number_segment_array[c-'0'],pos);
-		}
-		else if( (c >= 'A') && (c <= 'Z') )
+		else if( (c >= 'A') && (c <= 'Z') ) //Se desea imprimir una letra
+			SetDigit(letters_segment_array[c-'A'],pos);
+		else if( (c >= 'a') && (c <= 'z') ) //Se desea imprimir una letra
+			SetDigit(letters_segment_array[c-'a'],pos);
+		else //Casos especiales
 		{
-			SetDigit(number_segment_array[c-'A'],pos);
-		}
-		else if( (c >= 'a') && (c <= 'z') )
-		{
-			SetDigit(number_segment_array[c-'a'],pos);
+			if(c == ' ') //Espacio en blanco
+				SetDigit(0x00,pos);
+			else if(c == '-') //Guion
+				SetDigit(0x40,pos);
 		}
 	}
 }
@@ -157,7 +192,36 @@ void SetDigit(const unsigned char value,unsigned int select_line)
 			gpioWrite(CSEGA, LOW);
 		}
 	//Selecciono el digito del display a escribir
+		SelectDigit(select_line);
 
+}
+
+void SelectDigit(unsigned int sel_line)
+{
+	switch(select_line) //Traduzco el valor de la linea de seleccion
+			{					//a los bits correspondientes.
+				case FIRST_DIGIT:
+					gpioWrite(SEL1, LOW);
+					gpioWrite(SEL2, LOW);
+					break;
+				case SECOND_DIGIT:
+					gpioWrite(SEL1, HIGH);
+					gpioWrite(SEL2, LOW);
+					break;
+				case THIRD_DIGIT:
+					gpioWrite(SEL1, LOW);
+					gpioWrite(SEL2, HIGH);
+					break;
+				case FOURTH_DIGIT:
+					gpioWrite(SEL1, HIGH);
+					gpioWrite(SEL2, HIGH);
+					break;
+				default:
+					//Entrada invalida
+					break;
+
+
+			}
 }
 
 
