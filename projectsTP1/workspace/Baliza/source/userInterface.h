@@ -1,6 +1,9 @@
 /*
  * inputInterface.h
+ *
  * interrupciones para A, B, C en flancos
+ * La capa que separa la app del hal encoder
+ *
  *  Created on: Sep 1, 2019
  *      Author: Lu
  */
