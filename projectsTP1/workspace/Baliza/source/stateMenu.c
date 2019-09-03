@@ -12,7 +12,7 @@ state_t MinputEvHandler(UserData_t * ud)
 {
 	//TERMINAR
 	state_t nextState;
-	switch(ud->input)
+	switch(ud->encoderUd->input)
 	{
 		case INTENSITY: // user wants to change intensity
 			nextState.name = CHANGE_INTENSITY;
@@ -34,7 +34,7 @@ state_t MinputEvHandler(UserData_t * ud)
 
 state_t MtimerEvHandler(UserData_t * ud)
 {
-	if(ud->timers[DISPLAY])
+	if(ud->timerUd.timers[DISPLAY])
 	{
 		UpdateDisplay();
 	}
@@ -42,5 +42,5 @@ state_t MtimerEvHandler(UserData_t * ud)
 
 state_t MkeycardEvHandler(UserData_t * ud)
 {
-
+	char cardID[]
 }

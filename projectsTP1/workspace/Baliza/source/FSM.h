@@ -10,42 +10,41 @@
 
 #ifndef FSM_H_
 #define FSM_H_
-#include <stdbool.h>
-#include "timer.h"
 
-//Definicion de constantes y parametros
-#define ID_LENGTH 8 //Longitud maxima del ID del usuario.
-#define PIN_LENGTH 5 //Longitud maxima del PIN del usuario.
+#include "states.h"
+#include "display.h"
 
-typedef enum {WAITING_ID, RECEIVING_ID, RECEIVING_PIN, ACCESS_GRANTED, ADMIN_MODE, ADDING_USER,
-			REMOVING_USER, CHANGING_PIN, NUM_STATES}state_name; //Estados posibles de la FSM
-typedef enum {ENCODER_EV, TIMER_EV, KEYCARD_EV, NUM_EVENTS}ev_name;
+void organizeEvents(void);
+
+
+typedef enum {MENU, CHANGE_INTENSITY, RECEIVING_ID, RECEIVING_PIN, ACCESS_GRANTED, ADMIN_MODE, ADDING_USER,
+			REMOVING_USER, CHANGING_PIN, BLOCKED, NUM_STATES}state_name; //Estados posibles de la FSM
+typedef enum {INTENSITY,CHANGE_PIN,ACCESS,ADMIN_MENU,ADD_USER,REMOVE_USER,ENCODER_ID}input_name;
 
 
 //UserData contiene toda la informacion necesaria que necesita una rutina para manejar
 //un evento que se saco de la cola.
 typedef struct{
-   char received_ID[ID_LENGTH]; //String con el ID recibido del usuario.
-   char received_PIN[PIN_LENGTH]; //String con el PIN recibido del usuario.
-   bool timers[NUM_TIMERS]; //Arreglo que indica que timers expiraron.
+   //char received_ID[ID_LENGTH]; //String con el ID recibido del usuario.
+   //char received_PIN[PIN_MAX_LENGTH]; //String con el PIN recibido del usuario.
+   //char category;
+   //char input; // Si usuario emitio un pedido
+   //bool timers[NUM_TIMERS]; //Arreglo que indica que timers expiraron.
+	timerUd_t timerUd;
+	magnetLectorUd_t magnetLectorUd;
+	encoderUd_t encoderUd;
 }UserData_t;
-
-//Tipo de datos que se almacena en la cola de eventos.
-typedef struct{
-	ev_name name; //Tipo de evento recibido.
-   UserData_t * data; //Informacion necesaria para atender el evento.
-}event_t;
 
 struct state;
 typedef struct state (*StateRoutinePtr_t)(UserData_t *);
 
 typedef struct state{
 	state_name name;
-   StateRoutinePtr_t Routines[NUM_EVENTS]; //La cantidad de rutinas es igual a la cantidad de eventos posibles.
+	StateRoutinePtr_t routines[NUM_EVENTS]; //La cantidad de rutinas es igual a la cantidad de eventos posibles.
 }state_t;
 
-typedef struct FSM{
-	state_t current_state;
+typedef struct{
+	state_t currentState;
 	bool exit;
 }FSM_t;
 

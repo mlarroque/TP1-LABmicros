@@ -30,9 +30,9 @@ typedef struct{
 	int top;
 }dataBase_t;
 
-void addUser(user_t newUser, dataBase_t * dataBase);
+status addUser(user_t newUser, dataBase_t * dataBase);
 
-bool removeUser(user_t userToDelete, dataBase_t * dataBase);
+status removeUser(user_t userToDelete, dataBase_t * dataBase);
 
 bool verifyID(char usersID[ID_LENGTH], dataBase_t * dataBase);
 

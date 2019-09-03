@@ -34,3 +34,8 @@ void pushEvent(queue_t * queue, event_t ev)
 	return;
 }
 
+void organizeEvents(queue_t * queue, dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue)
+{
+	//TERMINARR
+}
+
