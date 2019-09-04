@@ -1,7 +1,7 @@
 /***************************************************************************//**
   @file     gpio.h
   @brief    Simple GPIO Pin services, similar to Arduino
-  @author   Nicolás Magliola
+  @author   Nicol�s Magliola
  ******************************************************************************/
 
 #ifndef _GPIO_H_
@@ -13,6 +13,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+
 
 
 /*******************************************************************************
@@ -46,11 +47,24 @@ enum { PA, PB, PC, PD, PE };
 #endif // LOW
 
 
+// IRQ modes
+enum {
+    GPIO_IRQ_MODE_DISABLE = 0,
+    GPIO_IRQ_MODE_RISING_EDGE = 9,
+    GPIO_IRQ_MODE_FALLING_EDGE = 10,
+    GPIO_IRQ_MODE_BOTH_EDGES = 11,
+
+    GPIO_IRQ_CANT_MODES = 4
+};
+
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
 typedef uint8_t pin_t;
+
+typedef void (*pinIrqFun_t)(void);
 
 
 /*******************************************************************************
@@ -67,6 +81,15 @@ typedef uint8_t pin_t;
  * @param mode INPUT, OUTPUT, INPUT_PULLUP or INPUT_PULLDOWN.
  */
 void gpioMode (pin_t pin, uint8_t mode);
+
+/**
+ * @brief Configures how the pin reacts when an IRQ event ocurrs
+ * @param pin the pin whose IRQ mode you wish to set (according PORTNUM2PIN)
+ * @param irqMode disable, risingEdge, fallingEdge or bothEdges
+ * @param irqFun function to call on pin event
+ * @return Registration succeed
+ */
+_Bool gpioIRQ (pin_t pin, uint8_t irqMode, pinIrqFun_t irqFun);
 
 /**
  * @brief Write a HIGH or a LOW value to a digital pin

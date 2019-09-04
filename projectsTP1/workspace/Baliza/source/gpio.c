@@ -7,6 +7,13 @@
 
 #include "gpio.h"
 #include "MK64F12.h"
+//#include "core_cm4.h"
+
+//Caracteristicas de los puertos
+#ifndef NUMBER_OF_PORTS
+#define NUMBER_OF_PORTS 5
+#define NUMBER_OF_PINS_PORT 32
+#endif //NUMBER_OF_PORTS
 
 // Mux consts
 #ifndef GPIO_MUX
@@ -18,6 +25,15 @@
 #define GPIO_STRUCT 1
 #define PORT_STRUCT 2
 #endif //GPIO_STRUCT
+
+//#define NO_IRQ_PIN -1
+
+//Globals
+pinIrqFun_t p2irqFunctions[NUMBER_OF_PORTS][NUMBER_OF_PINS_PORT];
+//uint8_t pinsIRQenable[NUMBER_OF_PORTS][NUMBERS_OF_PINS_PORT];
+//_Bool arraysInitialize = false;
+
+//void initializeGPIOirq(void);
 
 _Bool isPinValid(pin_t pin);
 
@@ -31,6 +47,8 @@ void setPCRpullDown(PORT_Type * portPointer, uint8_t numPin);
 
 void setGPIOdataOut(GPIO_Type * gpioPortPointer, uint8_t numPin, _Bool value);
 
+void setPCRirqc(PORT_Type * p2port, uint8_t numPin, uint8_t irqMode);
+
 void setGPIOddr(GPIO_Type * p2port, uint8_t numPin, uint32_t mode);
 
 void gpioMode (pin_t pin, uint8_t mode);
@@ -41,6 +59,92 @@ void gpioToggle (pin_t pin);
 
 
 _Bool gpioRead (pin_t pin);
+
+void clockGating(uint8_t port, uint8_t numPin);
+
+//void add2PinsIRQenable(uint8_t port, uint8_t numPin);
+
+//void removeFromPinsIRQenable(uint8_t port, uint8_t numPin);
+
+_Bool gpioIRQ (pin_t pin, uint8_t irqMode, pinIrqFun_t irqFun);
+
+void PORTX_IRQHandler(uint8_t port);
+//Sobrescritura de Handler para la interrupción generada por el puerto A.
+void PORTA_IRQHandler(void);
+
+void PORTB_IRQHandler(void);
+void PORTC_IRQHandler(void);
+void PORTD_IRQHandler(void);
+void PORTE_IRQHandler(void);
+
+
+_Bool gpioIRQ (pin_t pin, uint8_t irqMode, pinIrqFun_t irqFun)
+{
+	_Bool succeed = false;
+	uint8_t port;
+	uint8_t numPin;
+	IRQn_Type p2portsIRQ[] = PORT_IRQS;
+	PORT_Type * portPointer[] = PORT_BASE_PTRS;
+	if(isPinValid(pin))
+	{
+
+		port = PIN2PORT(pin);
+		numPin = PIN2NUM(pin);
+
+
+		if (irqMode != GPIO_IRQ_CANT_MODES)
+		{
+			setPCRirqc(portPointer[port], numPin, irqMode);
+			p2irqFunctions[port][numPin] = irqFun;
+
+			succeed = true;
+		}
+		//NVIC_EnableIRQ(p2portsIRQ[port]);
+		NVIC_EnableIRQ(p2portsIRQ[port]);
+	}
+
+	return succeed;
+}
+
+void PORTX_IRQHandler(uint8_t port)
+{
+	_Bool irqFounded = false;
+	int i;
+	uint32_t actualPCR; //variable auxiliar
+	PORT_Type * portPointer[] = PORT_BASE_PTRS;
+	for(i = 0; (i < NUMBER_OF_PINS_PORT) && (!irqFounded); i++)
+	{
+		if( ((portPointer[port])->PCR[i]) & PORT_PCR_ISF_MASK )  //si i es el numero de pin a atender, procedo a atenderlo
+		{
+			irqFounded = true;
+			p2irqFunctions[port][i]();   //Realizo la rutina preparada por el programador
+			//a continuación escribo "1 to clear" (w1c).
+			actualPCR = portPointer[port]->PCR[i]; //obtengo el antiguo PCR para luego actualizarlo
+			actualPCR = actualPCR & (~PORT_PCR_ISF_MASK);
+			portPointer[port]->PCR[i] = actualPCR | PORT_PCR_ISF(HIGH); //write 1 (HIGH) to clear.
+		}
+	}
+}
+void PORTA_IRQHandler(void)
+{
+	PORTX_IRQHandler(PA);
+}
+void PORTB_IRQHandler(void)
+{
+	PORTX_IRQHandler(PB);
+}
+void PORTC_IRQHandler(void)
+{
+	PORTX_IRQHandler(PC);
+}
+void PORTD_IRQHandler(void)
+{
+	PORTX_IRQHandler(PD);
+}
+void PORTE_IRQHandler(void)
+{
+	PORTX_IRQHandler(PE);
+}
 
 
 
@@ -58,8 +162,7 @@ void gpioMode (pin_t pin, uint8_t mode)
 	GPIO_Type * gpioPortPointer[] = GPIO_BASE_PTRS;
 	if (isPinValid(pin))  //procedo a configurar el pin siempre que este pertenezca a algunos de los puertos A,B,C,D o E
 	{
-		//portPointer = (PORT_Type *)getStructAccess(PORT_STRUCT, port);
-		//gpioPortPointer = (GPIO_Type *)getStructAccess(GPIO_STRUCT, port);
+		//clockGating(port, numPin);
 
 		setPCRmux(portPointer[port], numPin, GPIO_MUX); //configuro el pin como GPIO modificando el mux del PCR
 
@@ -78,7 +181,32 @@ void gpioMode (pin_t pin, uint8_t mode)
 
 		}
 		setGPIOddr(gpioPortPointer[port], numPin, (uint32_t) mode); //configuro el pin como entrada o salida modificando el data direction register (ddr)
+		//clockGating(port, numPin);
+	}
+}
 
+
+void clockGating(uint8_t port, uint8_t numPin)
+{
+
+	SIM_Type * sim = SIM;
+	switch(port)
+	{
+		case PA:
+			sim->SCGC5 |= SIM_SCGC5_PORTA(numPin<<1);
+			break;
+		case PB:
+			sim->SCGC5 |= SIM_SCGC5_PORTB(numPin<<1);
+			break;
+		case PC:
+			sim->SCGC5 |= SIM_SCGC5_PORTC(numPin<<1);
+			break;
+		case PD:
+			sim->SCGC5 |= SIM_SCGC5_PORTD(numPin<<1);
+			break;
+		case PE:
+			sim->SCGC5 |= SIM_SCGC5_PORTE(numPin<<1);
+			break;
 	}
 }
 
@@ -186,74 +314,70 @@ void setGPIOdataOut(GPIO_Type * gpioPortPointer, uint8_t numPin, _Bool value)
 	gpioPortPointer->PDOR = (gpioPortPointer->PDOR & mask2delete);
 	gpioPortPointer->PDOR = (gpioPortPointer->PDOR | maskDataOut);
 }
+
+void setPCRirqc(PORT_Type * p2port, uint8_t numPin, uint8_t irqMode)
+{
+	uint32_t actualPCR = (p2port->PCR)[numPin]; //obtengo el antiguo PCR para luego actualizarlo
+	actualPCR = actualPCR & (~PORT_PCR_IRQC_MASK);
+	actualPCR = actualPCR | PORT_PCR_IRQC(irqMode);
+	(p2port->PCR)[numPin] = actualPCR; //finalmente actualizo el PCR
+}
+
 /*
-void * getStructAccess(int structType, uint8_t port)
+ *
+ * void initializeGPIOirq(void)
+{
+	int i, j;
+	for(i = 0; i < NUMBER_OF_PORTS; i++)
+	{
+		for(j = 0; j < NUMBER_OF_PINS_PORT; j++)
+		{
+			pinsIRQenable[i][j] = NO_IRQ_PIN;  //setting global - se comienza sin ningun pin con irq asignado
+		}
+	}
+
+	arraysInitialize = true; //setting global
+
+}
+ * void add2PinsIRQenable(uint8_t port, uint8_t numPin)
 {
 	int i;
-	void * p2struct = NULL;
-	switch(structType)
+	_Bool pinAdded = false;
+	for(i = 0; (i < NUMBER_OF_PINS_PORT) && (!pinAdded); i++)
 	{
-		case GPIO_STRUCT:
-			p2struct = (void *) (GPIOA + port);
-			break;
-		case PORT_STRUCT:
-			p2struct = (void *) (PORTA + port);;
-			break;
+		if(pinsIRQenable[port][i] == NO_IRQ_PIN)
+		{
+			pinsIRQenable[port][i] = numPin;
+			pinAdded = true;
+		}
 	}
 
-	return p2struct;
-
 }
-
-
-//Las funciones que se presentan a continuación pueden ser reemplazadas por "getStructAccess".
-GPIO_Type * getGPIOaccess(uint8_t port)
+void removeFromPinsIRQenable(uint8_t port, uint8_t numPin)
 {
-	GPIO_Type * gpioPortPointer = GPIOA;
-	switch(port)
+	int i, j;
+	_Bool pinRemoved = false;
+	for(i = 0; (i < NUMBER_OF_PINS_PORT) && (!pinRemoved); i++)
 	{
-		case PA: gpioPortPointer = GPIOA;
-			//portPointer = PORTA;
-			break;
-		case PB: gpioPortPointer = GPIOB;
-			//portPointer = PORTB;
-			break;
-		case PC: gpioPortPointer = GPIOC;
-			//portPointer = PORTC;
-			break;
-		case PD: gpioPortPointer = GPIOD;
-			//portPointer = PORTD;
-			break;
-		case PE: gpioPortPointer = GPIOE;
-			//portPointer = PORTE;
-			break;
+		if(pinsIQRenable[port][i] == numPin)
+		{
+
+
+			for(j = i; (j < (NUMBER_OF_PINS_PORT-1)) && (pinsIRQenable[port][j] != NO_IRQ_PIN); j++)
+			{
+				pinsIRQenable[port][j] = pinsIRQenable[port][j+1];   //Shifteo de los pines habilitados para IRQ a la izquierda
+
+			}
+
+			pinsIRQenable[port][j] = NO_IRQ_PIN; //afirmo que el último pin sea NO_IRQ_PIN (no habilitado)
+			pinRemoved = true;
+		}
 	}
-	return gpioPortPointer;
+
 }
+ *
+ *
+ */
 
 
-GPIO_Type * getPORTaccess(uint8_t port)
-{
-	PORT_Type * portPointer = PORTA;
-	switch(port)
-	{
-		case PA: //gpioPortPointer = GPIOA;
-			portPointer = PORTA;
-			break;
-		case PB: //gpioPortPointer = GPIOB;
-			portPointer = PORTB;
-			break;
-		case PC: //gpioPortPointer = GPIOC;
-			portPointer = PORTC;
-			break;
-		case PD: //gpioPortPointer = GPIOD;
-			portPointer = PORTD;
-			break;
-		case PE: //gpioPortPointer = GPIOE;
-			portPointer = PORTE;
-			break;
-	}
-	return portPointer;
-}
 
-*/
