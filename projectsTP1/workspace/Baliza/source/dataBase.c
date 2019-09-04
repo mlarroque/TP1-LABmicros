@@ -7,7 +7,14 @@
 
 #include "dataBase.h"
 
-status addUser(user_t newUser, dataBase_t * dataBase)
+static dataBase_t dataBase;
+
+void initializeDataBase(void)
+{
+	// TERMINAR
+}
+
+status addUser(user_t newUser)
 {
 	if(dataBase->top == MAX_CANT_USERS-1){ // user overflow
 		return DATABASE_FULL;
@@ -29,7 +36,7 @@ status addUser(user_t newUser, dataBase_t * dataBase)
 	}
 }
 
-status removeUser(user_t userToDelete, dataBase_t * dataBase)
+status removeUser(user_t userToDelete)
 {
 		// checks if ID is on list
 		bool IDfound = false;
@@ -61,7 +68,7 @@ status removeUser(user_t userToDelete, dataBase_t * dataBase)
 		}
 }
 
-bool verifyID(char usersID[ID_LENGTH], dataBase_t * dataBase)
+bool verifyID(char usersID[ID_LENGTH])
 {
 	// checks if ID is on list
 	bool IDfound = false;
@@ -82,7 +89,7 @@ bool verifyID(char usersID[ID_LENGTH], dataBase_t * dataBase)
 	return IDfound;
 }
 
-bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH], dataBase_t * dataBase)
+bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 {
 	// checks if ID is on list
 	bool IDfound = false;
@@ -109,7 +116,7 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH], dataBase_
 	return correctPIN;
 }
 
-char verifyCategory(char usersID[ID_LENGTH], dataBase_t * dataBase)
+char verifyCategory(char usersID[ID_LENGTH])
 {
 	// checks if ID is on list
 	bool IDfound = false;

@@ -19,20 +19,21 @@ void organizeEvents(void);
 
 typedef enum {MENU, CHANGE_INTENSITY, RECEIVING_ID, RECEIVING_PIN, ACCESS_GRANTED, ADMIN_MODE, ADDING_USER,
 			REMOVING_USER, CHANGING_PIN, BLOCKED, NUM_STATES}state_name; //Estados posibles de la FSM
-typedef enum {INTENSITY,CHANGE_PIN,ACCESS,ADMIN_MENU,ADD_USER,REMOVE_USER,ENCODER_ID}input_name;
+typedef enum {INTENSITY,ENTER_ENCODER_ID}option_name;
+typedef enum {UP,DOWN,ENTER,CANCEL}input_name;
 
 
 //UserData contiene toda la informacion necesaria que necesita una rutina para manejar
 //un evento que se saco de la cola.
 typedef struct{
-   //char received_ID[ID_LENGTH]; //String con el ID recibido del usuario.
-   //char received_PIN[PIN_MAX_LENGTH]; //String con el PIN recibido del usuario.
-   //char category;
-   //char input; // Si usuario emitio un pedido
    //bool timers[NUM_TIMERS]; //Arreglo que indica que timers expiraron.
 	timerUd_t timerUd;
 	magnetLectorUd_t magnetLectorUd;
 	encoderUd_t encoderUd;
+	char received_ID[ID_LENGTH]; //String con el ID recibido del usuario.
+	char received_PIN[PIN_MAX_LENGTH]; //String con el PIN recibido del usuario.
+	option_name option; // Si usuario emitio un pedido
+	category_name category;
 }UserData_t;
 
 struct state;
