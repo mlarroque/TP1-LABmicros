@@ -5,23 +5,71 @@
  *      Author: Lu
  */
 
-_Bool IsClockwise(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT]);
-_Bool IsValid(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT]);
-_Bool WasThereChange(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT]);
+#include "encoder.h"
+#include "encoderLow.h"
+#include "timer.h"
+#include "queue.h"
 
-_Bool CheckEnterRisingEdge(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
+/******************************************************************************
+ *									DEFINICIONES
+ ******************************************************************************/
+#define CANCEL_TIMER 2000 //si presiona C (enter) por mas de 2 segundos se cancela el intento, y tiene que ingresar id de nuevo
+
+/*******************************************************************************
+ *								VARIABLES ESTATICAS
+ *******************************************************************************/
+
+static bool initialized_enc = false;
+static bool prev_encoder_data[ENC_SIGNAL_COUNT]; //estados de las señales en el instante anterior para el encoder
+static bool curr_encoder_data[ENC_SIGNAL_COUNT]; //estados de las señales en el instante actual para el encoder
+
+/*******************************************************************************
+ * 								FUNCIONES LOCALES
+ *******************************************************************************/
+//void sysTickCallback(void);
+
+bool isClockwise(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT]);
+bool isValid(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT]);
+bool wasThereChange(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT]);
+
+/********************************************************************************
+ * 							FUNCIONES DEL HEADER
+ ********************************************************************************/
+
+void initializeEncoder(void)
+{
+	if(!initialized_enc)
+	{
+		initializeEncoderLow();
+		InitializeTimers();
+		ClearDisplay();
+		SetTimer(DISPLAY, MS_BETWEEN_SYMBOLS, &GenerateDisplayEv);
+		SetTimer(MESSAGE,STRING_TIME, &ShiftLeft);//Setteo el timer con la velocidad de movimiento del string.
+		initialized_enc = true;
+	}
+}
+
+
+enc_type readInput()
+{
+	//TERMINAR
+	readEncoderSignalX()
+}
+
+
+bool checkEnterRisingEdge(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
 {
   //true si se presionó el ENTER (flanco ascendente)
 	return (prev_data[C]==LOW) && (curr_data[C]==HIGH);
 }
 
-_Bool CheckEnterFallingEdge(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
+bool checkEnterFallingEdge(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
 {
   //true si se dejó de presionar el ENTER (flanco descendente)
 	return (prev_data[C]==HIGH) && (curr_data[C]==LOW);
 }
 
-counter_type ReadInput(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
+counter_type readRotation(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
 {
 	counter_type status = ERROR;
 
@@ -45,7 +93,7 @@ counter_type ReadInput(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SI
 }
 
 
-_Bool IsClockwise(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
+bool isClockwise(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
 {
 	bool clockwise = false;
 	//si A adelanta a B, es clockwise //CHEQUEAR
@@ -68,7 +116,7 @@ _Bool IsClockwise(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_
 }
 
 
-_Bool IsValid(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
+bool isValid(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
 {
 	status = false;
 	//los únicos cambios válidos son los del código de Gray de 2 bits
@@ -94,7 +142,7 @@ _Bool IsValid(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUN
 	return status;
 }
 
-_Bool WasThereChange(_Bool prev_data[ENC_SIGNAL_COUNT], _Bool curr_data[ENC_SIGNAL_COUNT])
+bool wasThereChange(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
 {
 	status = false;
 	int i;
