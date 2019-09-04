@@ -6,6 +6,3 @@
 
 
 void hwLectorInit(void);
-
-
-void getLectorData(void);

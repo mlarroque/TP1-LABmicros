@@ -10,12 +10,18 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-#include "cardStandard.h"
 #include <stdint.h>
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
+#define BITS_CAPACITY 32
+#if BITS_CAPACITY >= 32
+#define UINT_T uint32_t
+#else
+#define UINT_T unit8_t
+#endif
+
 #define DATA_LEN 1024
 #define TERMINATOR_DATA_DECODED '\0'
 

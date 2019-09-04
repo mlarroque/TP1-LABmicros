@@ -13,24 +13,8 @@
 #include <stdbool.h>
 
 /*******************************************************************************
- * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ * typedefs and global consts
  ******************************************************************************/
-#define BITS_CAPACITY 32
-#if BITS_CAPACITY >= 32
-#define UINT_T uint32_t
-#else
-#define UINT_T unit8_t
-#endif
-
-#define MAX_DATA_LEN DATA_LEN
-
-#define NO_TRACK 255
-#define TRACK1 0
-#define TRACK2 1
-#define TRACK3 2
-
-
-
 
 typedef struct{
 
@@ -47,6 +31,53 @@ bufferMagnetDataEncoded_Type asciiOffset;
 
 }trackXdata_t;
 
+const trackXdata_t track1 = {NUMBER_OF_BITS_TRACK1,
+						SIZE_OF_CHARS_TRACK1,
+						NUMBER_OF_CHARS_TRACK1,
+						PARITY_TRACK1,
+						START_SENTINEL_TRACK1,
+						FIELD_SEPARATOR_TRACK1,
+						END_SENTINEL_TRACK1,
+						MIN_VALUE_TRACK1,
+						MAX_VALUE_TRACK1,
+						DATA_OFFSET_ASCII_TRACK1};
+const trackXdata_t track2 = {NUMBER_OF_BITS_TRACK2,
+						SIZE_OF_CHARS_TRACK2,
+						NUMBER_OF_CHARS_TRACK2,
+						PARITY_TRACK2,
+						START_SENTINEL_TRACK2,
+						FIELD_SEPARATOR_TRACK2,
+						END_SENTINEL_TRACK2,
+						MIN_VALUE_TRACK2,
+						MAX_VALUE_TRACK2,
+						DATA_OFFSET_ASCII_TRACK2};
+
+const trackXdata_t track3 = {NUMBER_OF_BITS_TRACK3,
+						SIZE_OF_CHARS_TRACK3,
+						NUMBER_OF_CHARS_TRACK3,
+						PARITY_TRACK3,
+						START_SENTINEL_TRACK3,
+						FIELD_SEPARATOR_TRACK3,
+						END_SENTINEL_TRACK3,
+						MIN_VALUE_TRACK3,
+						MAX_VALUE_TRACK3,
+						DATA_OFFSET_ASCII_TRACK3};
+
+const trackXdata_t  * array2Tracks[] = {&track1, &track2, &track3};
+
+
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+
+
+#define MAX_DATA_LEN DATA_LEN
+
+#define NO_TRACK 255
+#define TRACK1 0
+#define TRACK2 1
+#define TRACK3 2
+
 
 
 /*******************************************************************************
@@ -60,12 +91,8 @@ _Bool identifyCardSymbol(bufferMagnetDataEncoded_Type * bufferDataIn, UINT_T ind
 
 void shapeMagnetTrack(bufferMagnetDataEncoded_Type * bufferDataIn, UINT_T indexStart, UINT_T indexEnd);
 
-void initializeTrackAsTRACK1(trackXdata_t * trackData);
-void initializeTrackAsTRACK2(trackXdata_t * trackData);
-void initializeTrackAsTRACK3(trackXdata_t * trackData);
-
 _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut, 
-                                                                                        trackXdata_t * p2trackData);
+                                                                                        const trackXdata_t * p2trackData);
 
 //
 
@@ -83,32 +110,16 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
  ******************************************************************************/
 _Bool magnetDataParser(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut)
 {
-    _Bool dataErrorReport = false;
+    _Bool successReport = false;
 
-    trackXdata_t trackData;
     int trackNumber = getTrackShaped(bufferDataIn);
 
-    switch(trackNumber)
+    if((trackNumber != NO_TRACK) && (trackNumber < NUMBER_OF_TRACKS_AVAILABLE))
     {
-        case TRACK1:
-            initializeTrackAsTRACK1(&trackData);
-            break;
-        case TRACK2:
-            initializeTrackAsTRACK2(&trackData);
-            break;
-        case TRACK3:
-            initializeTrackAsTRACK3(&trackData);
-            break;
-        default:  //si no es ninguno de los tracks, hay un error en la data ingresada por el lector de banda magnética
-            dataErrorReport = true;
-            break;
-    }
-    if(!dataErrorReport)
-    {
-        dataErrorReport = !decodeTrackX(bufferDataIn, bufferDataOut, &trackData);
+        successReport = decodeTrackX(bufferDataIn, bufferDataOut, array2Tracks[trackNumber]);
     }
 
-    return !dataErrorReport;
+    return successReport;
 }
 
 uint8_t getTrackShaped(bufferMagnetDataEncoded_Type * bufferDataIn)
@@ -122,7 +133,7 @@ uint8_t getTrackShaped(bufferMagnetDataEncoded_Type * bufferDataIn)
         identifyCardSymbol(bufferDataIn, indexStartSentinel, indexStartSentinel + NUMBER_OF_BITS_TRACK2 - 1, END_SENTINEL_TRACK2, SIZE_OF_CHARS_TRACK2, &indexEndSentinel, SIZE_OF_CHARS_TRACK2))
     {  //si se indentifica ss y espara track2
         ntrackFounded = TRACK2;
-        indexFinalBit = indexEndSentinel + (2*SIZE_OF_CHARS_TRACK2) - 1; //desde el inicio de es, se debe sumar el tamaño de
+        indexFinalBit = indexEndSentinel + (2*SIZE_OF_CHARS_TRACK2); //desde el inicio de es, se debe sumar el tamaño de
                                                                         //es y el tamaño de LRC.
     }
     else if(identifyCardSymbol(bufferDataIn, 0, MAX_DATA_LEN/2, START_SENTINEL_TRACK1, SIZE_OF_CHARS_TRACK1, &indexStartSentinel, 1) &&
@@ -130,14 +141,14 @@ uint8_t getTrackShaped(bufferMagnetDataEncoded_Type * bufferDataIn)
     {  //si se identifica ss  es para track1
         
         ntrackFounded = TRACK1;
-        indexFinalBit = indexEndSentinel + (2*SIZE_OF_CHARS_TRACK1) - 1; //desde el inicio de es, se debe sumar el tamaño de
+        indexFinalBit = indexEndSentinel + (2*SIZE_OF_CHARS_TRACK1); //desde el inicio de es, se debe sumar el tamaño de
                                                               //es y el tamaño de LRC.
     }
     else if(identifyCardSymbol(bufferDataIn, 0, MAX_DATA_LEN/2, START_SENTINEL_TRACK3, SIZE_OF_CHARS_TRACK3, &indexStartSentinel, 1) &&
             identifyCardSymbol(bufferDataIn, indexStartSentinel, indexStartSentinel + NUMBER_OF_BITS_TRACK3 - 1, END_SENTINEL_TRACK3, SIZE_OF_CHARS_TRACK3, &indexEndSentinel, SIZE_OF_CHARS_TRACK3))
     {   //si se identifica ss y es para track3
         ntrackFounded = TRACK3;
-        indexFinalBit = indexEndSentinel + (2*SIZE_OF_CHARS_TRACK1) - 1; //desde el inicio de es, se debe sumar el tamaño de
+        indexFinalBit = indexEndSentinel + (2*SIZE_OF_CHARS_TRACK1); //desde el inicio de es, se debe sumar el tamaño de endSentinel y de LRC
         
     }
 
@@ -188,7 +199,7 @@ void shapeMagnetTrack(bufferMagnetDataEncoded_Type * bufferDataIn, UINT_T indexS
 }
 
 
-_Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut, trackXdata_t * p2trackData)
+_Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut, const trackXdata_t * p2trackData)
 {
     UINT_T i, j, charCounter = 0;
     bufferMagnetDataEncoded_Type controlParity, value;
@@ -205,10 +216,11 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
     {
         controlLRC += (p2trackData->parity << k); //armo el controlLRC para realizar XOR más adelante
     }
+    controlLRC ^= controlLRC; //LRC tiene paridad contraria
 
     for(i = 0; (i < p2trackData->nBits) && !dataFailed && !messageHasFinished; i += p2trackData->nBitsPerChar)
     {
-        value = 0;  //inicializo el valor en cero antes de leer cada caracter
+        value = 0;  //inicializo el valor en cero antes de leer cada character
         controlParity = p2trackData->parity;  //inicializo el control de paridad antes de leer cada caracter
         for(j = 0; j < (p2trackData->nBitsPerChar)-1; j++) //recorro el i-esimo caracter, sin contar el bit de paridad
         {
@@ -242,9 +254,9 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
                 data2saveFlag = false;
                 messageHasFinished = true;
             }
-            else if((value >= p2trackData->minValue) && (value <= p2trackData->maxValue))
+            else if((indicatorsCounter != 0) && (indicatorsCounter != 3) && (value >= p2trackData->minValue) && (value <= p2trackData->maxValue))
             {
-                data2saveFlag = true;
+            	data2saveFlag = true;
             }
             else
             {
@@ -275,57 +287,12 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
         }
     }
 
+    bufferDataOut[charCounter] = TERMINATOR_DATA_DECODED;
+
     if(!messageHasFinished)  //si el mensaje aun no ha terminado (por que no se validaron todos los indicadores), la salida es erróonea.
     {
-        dataFailed = true;
-    }
-
-    bufferDataOut[charCounter] = TERMINATOR_DATA_DECODED;
+    	dataFailed = true;
+     }
 
     return !dataFailed;
 }
-
-
-void initializeTrackAsTRACK1(trackXdata_t * trackData)
-{
-    trackData->nBits = NUMBER_OF_BITS_TRACK1;
-    trackData->nBitsPerChar = SIZE_OF_CHARS_TRACK1;
-    trackData->nChars = NUMBER_OF_CHARS_TRACK1;
-    trackData->parity = PARITY_TRACK1;
-    trackData->ssSymbol = START_SENTINEL_TRACK1;
-    trackData->fsSymbol = FIELD_SEPARATOR_TRACK1;
-    trackData->esSymbol = END_SENTINEL_TRACK1;
-    trackData->minValue = MIN_VALUE_TRACK1;
-    trackData->maxValue = MAX_VALUE_TRACK1;
-    trackData->asciiOffset = DATA_OFFSET_ASCII_TRACK1;
-}
-
-void initializeTrackAsTRACK2(trackXdata_t * trackData)
-{
-    trackData->nBits = NUMBER_OF_BITS_TRACK2;
-    trackData->nBitsPerChar = SIZE_OF_CHARS_TRACK2;
-    trackData->nChars = NUMBER_OF_CHARS_TRACK2;
-    trackData->parity = PARITY_TRACK2;
-    trackData->ssSymbol = START_SENTINEL_TRACK2;
-    trackData->fsSymbol = FIELD_SEPARATOR_TRACK2;
-    trackData->esSymbol = END_SENTINEL_TRACK2;
-    trackData->minValue = MIN_VALUE_TRACK2;
-    trackData->maxValue = MAX_VALUE_TRACK2;
-    trackData->asciiOffset = DATA_OFFSET_ASCII_TRACK2;
-}
-
-void initializeTrackAsTRACK3(trackXdata_t * trackData)
-{
-    trackData->nBits = NUMBER_OF_BITS_TRACK3;
-    trackData->nBitsPerChar = SIZE_OF_CHARS_TRACK3;
-    trackData->nChars = NUMBER_OF_CHARS_TRACK3;
-    trackData->parity = PARITY_TRACK3;
-    trackData->ssSymbol = START_SENTINEL_TRACK3;
-    trackData->fsSymbol = FIELD_SEPARATOR_TRACK3;
-    trackData->esSymbol = END_SENTINEL_TRACK3;
-    trackData->minValue = MIN_VALUE_TRACK3;
-    trackData->maxValue = MAX_VALUE_TRACK3;
-    trackData->asciiOffset = DATA_OFFSET_ASCII_TRACK3; 
-}
-/*******************************************************************************
- ******************************************************************************/
