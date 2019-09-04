@@ -7,7 +7,14 @@
 
 #include "queue.h"
 
-event_t popEvent(queue_t * queue)
+queue_t queue;
+
+void initializeQueue(void)
+{
+	queue.top = -1;
+}
+
+event_t popEvent(void)
 {
 	event_t poppedEvent;
 	if(queue->top == -1){ // queue empty -> top = -1
@@ -21,7 +28,7 @@ event_t popEvent(queue_t * queue)
 	}
 }
 
-void pushEvent(queue_t * queue, event_t ev)
+void pushEvent(event_t ev)
 {
 	if(queue->top == MAX_EVENTS-1){ // event overflow
 		queue->top = 0;
@@ -34,7 +41,7 @@ void pushEvent(queue_t * queue, event_t ev)
 	return;
 }
 
-void organizeEvents(queue_t * queue, dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue)
+void organizeEvents(dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue)
 {
 	//TERMINARR
 }

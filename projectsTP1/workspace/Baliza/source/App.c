@@ -29,9 +29,6 @@ state_t nextState;
 UserData_t userData;
 // queue.h
 event_t newEvent;
-queue_t queue;
-// dataBase.h
-dataBase_t users;
 // App.c
 bool chaningState = false;
 // queues
@@ -57,25 +54,40 @@ void App_Init (void)
     nextState.routines[TIMER_EV] = &MtimerEvHandler;
     nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
     fsm.currentState = nextState;
-    queue.top = -1;
+    initializeDataBase();
+    initializeQueue();
+
+    // User Data init
+    userData.input = EMPTY;
+    userData.category = NONE;
+    int i;
+    for(i=0;i<ID_LENGTH;++i){
+    	userData.received_ID[i] = -1;
+    }
+    for(i=0;i<PIN_MAX_LENGTH;++i){
+    	userData.received_PIN[i] = -1;
+    }
 }
 
 /* Función que se llama constantemente en un ciclo infinito */
 void App_Run (void)
 {
-	organizeEvents(&queue, &timerQueue, &magnetLectorQueue, &encoderQueue);
-	newEvent = popEvent(&queue);
-	switch(newEvent.name){
+	organizeEvents( &timerQueue, &magnetLectorQueue, &encoderQueue); // organize events of all queues
+	newEvent = popEvent(); // get new event
+	switch(newEvent.name){ // which type of event?
 		case INPUT_EV:
-			newState = (fsm.currentState.routines[INPUT_EV])(&userData);
+			userData.encoderUd = newEvent.data.encoderUd; // get specific data for that event
+			newState = (fsm.currentState.routines[INPUT_EV])(&userData); // action routine
 			changingState = true;
 			break;
 		case TIMER_EV:
-			newState = (fsm.currentState.routines[TIMER_EV])(&userData);
+			userData.timerUd = newEvent.data.timerUd; // get specific data for that event
+			newState = (fsm.currentState.routines[TIMER_EV])(&userData); // action routine
 			changingState = true;
 			break;
 		case KEYCARD_EV:
-			newState = (fsm.currentState.routines[KEYCARD_EV])(&userData);
+			userData.keycardUd = newEvent.data.keycardUd; // get specific data for that event
+			newState = (fsm.currentState.routines[KEYCARD_EV])(&userData); // action routine
 			changingState = true;
 			break;
 		default:

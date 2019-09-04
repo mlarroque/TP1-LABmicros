@@ -28,10 +28,12 @@ typedef struct{
 	event_t events[MAX_EVENTS]; //arreglo con los eventos en la cola
 }queue_t;
 
-event_t popEvent(queue_t * queue);
+void initializeQueue(void);
 
-void pushEvent(queue_t * queue, event_t ev);
+event_t popEvent(void);
 
-void organizeEvents(queue_t * queue, dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue);
+void pushEvent(event_t ev);
+
+void organizeEvents(dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue);
 
 #endif /* QUEUE_H_ */
