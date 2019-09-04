@@ -31,5 +31,5 @@ void ShiftLeft(void);
 //Actualiza el contenido del diplay.
 void UpdateDisplay(void);
 
-bool GetNeedUpdate(void); //Solo para debuggeo
 #endif /* DISPLAY_H_ */
+
