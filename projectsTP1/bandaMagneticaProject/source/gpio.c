@@ -60,6 +60,8 @@ void gpioToggle (pin_t pin);
 
 _Bool gpioRead (pin_t pin);
 
+void clockGating(uint8_t port, uint8_t numPin);
+
 //void add2PinsIRQenable(uint8_t port, uint8_t numPin);
 
 //void removeFromPinsIRQenable(uint8_t port, uint8_t numPin);
@@ -81,7 +83,7 @@ _Bool gpioIRQ (pin_t pin, uint8_t irqMode, pinIrqFun_t irqFun)
 	_Bool succeed = false;
 	uint8_t port;
 	uint8_t numPin;
-	IRQn_Type * p2portsIRQ = PORT_IRQS;
+	IRQn_Type p2portsIRQ[] = PORT_IRQS;
 	PORT_Type * portPointer[] = PORT_BASE_PTRS;
 	if(isPinValid(pin))
 	{
@@ -98,7 +100,7 @@ _Bool gpioIRQ (pin_t pin, uint8_t irqMode, pinIrqFun_t irqFun)
 			succeed = true;
 		}
 		//NVIC_EnableIRQ(p2portsIRQ[port]);
-		NVIC_EnableIRQ(PORTA_IRQn + port);
+		NVIC_EnableIRQ(p2portsIRQ[port]);
 	}
 
 	return succeed;
@@ -115,7 +117,7 @@ void PORTX_IRQHandler(uint8_t port)
 		if( ((portPointer[port])->PCR[i]) & PORT_PCR_ISF_MASK )  //si i es el numero de pin a atender, procedo a atenderlo
 		{
 			irqFounded = true;
-			p2irqFunctions[PA][i]();   //Realizo la rutina preparada por el programador
+			p2irqFunctions[port][i]();   //Realizo la rutina preparada por el programador
 			//a continuación escribo "1 to clear" (w1c).
 			actualPCR = portPointer[port]->PCR[i]; //obtengo el antiguo PCR para luego actualizarlo
 			actualPCR = actualPCR & (~PORT_PCR_ISF_MASK);
@@ -160,8 +162,7 @@ void gpioMode (pin_t pin, uint8_t mode)
 	GPIO_Type * gpioPortPointer[] = GPIO_BASE_PTRS;
 	if (isPinValid(pin))  //procedo a configurar el pin siempre que este pertenezca a algunos de los puertos A,B,C,D o E
 	{
-		//portPointer = (PORT_Type *)getStructAccess(PORT_STRUCT, port);
-		//gpioPortPointer = (GPIO_Type *)getStructAccess(GPIO_STRUCT, port);
+		//clockGating(port, numPin);
 
 		setPCRmux(portPointer[port], numPin, GPIO_MUX); //configuro el pin como GPIO modificando el mux del PCR
 
@@ -180,7 +181,32 @@ void gpioMode (pin_t pin, uint8_t mode)
 
 		}
 		setGPIOddr(gpioPortPointer[port], numPin, (uint32_t) mode); //configuro el pin como entrada o salida modificando el data direction register (ddr)
+		//clockGating(port, numPin);
+	}
+}
 
+
+void clockGating(uint8_t port, uint8_t numPin)
+{
+
+	SIM_Type * sim = SIM;
+	switch(port)
+	{
+		case PA:
+			sim->SCGC5 |= SIM_SCGC5_PORTA(numPin<<1);
+			break;
+		case PB:
+			sim->SCGC5 |= SIM_SCGC5_PORTB(numPin<<1);
+			break;
+		case PC:
+			sim->SCGC5 |= SIM_SCGC5_PORTC(numPin<<1);
+			break;
+		case PD:
+			sim->SCGC5 |= SIM_SCGC5_PORTD(numPin<<1);
+			break;
+		case PE:
+			sim->SCGC5 |= SIM_SCGC5_PORTE(numPin<<1);
+			break;
 	}
 }
 

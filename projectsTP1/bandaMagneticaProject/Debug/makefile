@@ -25,25 +25,25 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: Baliza.axf
+all: BandaMagnetica.axf
 
 # Tool invocations
-Baliza.axf: $(OBJS) $(USER_OBJS)
+BandaMagnetica.axf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU Linker'
-	arm-none-eabi-gcc -nostdlib -Xlinker -Map="Baliza.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -T "Blink_Debug.ld" -o "Baliza.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -nostdlib -Xlinker -Map="BandaMagnetica.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -T "Baliza_Debug.ld" -o "BandaMagnetica.axf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) Baliza.axf
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) BandaMagnetica.axf
 	-@echo ' '
 
 post-build:
 	-@echo 'Performing post-build steps'
-	-arm-none-eabi-size "Baliza.axf"; # arm-none-eabi-objcopy -v -O binary "Baliza.axf" "Baliza.bin" ; # checksum -p MK64FN1M0xxx12 -d "Baliza.bin";
+	-arm-none-eabi-size "BandaMagnetica.axf"; # arm-none-eabi-objcopy -v -O binary "BandaMagnetica.axf" "BandaMagnetica.bin" ; # checksum -p MK64FN1M0xxx12 -d "BandaMagnetica.bin";
 	-@echo ' '
 
 .PHONY: all clean dependents post-build

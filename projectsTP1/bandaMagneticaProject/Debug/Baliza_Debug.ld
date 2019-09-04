@@ -5,11 +5,11 @@
  * Generated linker script file for MK64FN1M0xxx12
  * Created from linkscript.ldt by FMCreateLinkLibraries
  * Using Freemarker v2.3.23
- * MCUXpresso IDE v10.2.0 [Build 759] [2018-05-15]  on 4-Sep-2019 11:03:36 AM
+ * MCUXpresso IDE v10.2.0 [Build 759] [2018-05-15]  on 04/09/2019 13:08:16
  */
 
-INCLUDE "Blink_Debug_library.ld"
-INCLUDE "Blink_Debug_memory.ld"
+INCLUDE "Baliza_Debug_library.ld"
+INCLUDE "Baliza_Debug_memory.ld"
 
 ENTRY(ResetISR)
 

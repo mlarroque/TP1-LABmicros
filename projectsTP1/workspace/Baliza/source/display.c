@@ -7,7 +7,6 @@
 #include "display.h"
 #include "SegmentDisplay.h"
 #include "timer.h"
-#include "queue.h"
 
 #define STRING_TIME 375 //Delay en ms entre cada shifteo hacia la izquierda.
 #define FPS 60 //Frames per second
@@ -22,7 +21,6 @@ static unsigned int string_position;
 static unsigned int display_position;
 static unsigned int string_size;
 static bool initialized = false;
-static bool need_update; //FLAG DE DEBUGGEO
 
 /*******************************************************************************
  *
@@ -48,7 +46,6 @@ void InitializeDisplay(void)
 		SetTimer(DISPLAY, MS_BETWEEN_SYMBOLS, &GenerateDisplayEv);
 		SetTimer(MESSAGE,STRING_TIME, &ShiftLeft);//Setteo el timer con la velocidad de movimiento del string.
 		DisableTimer(MESSAGE); //Por default asumo que se desea un mensaje que nose mueva a traves del display.
-		need_update = false; //SOLO PARA DEBUGGEO
 		initialized = true;
 	}
 }
@@ -124,13 +121,8 @@ void UpdateDisplay(void)
 		string_position -= DISPLAY_SIZE;
 		display_position -= DISPLAY_SIZE;
 	}
-	need_update = false; //SOLO PARA DEBUGGEOOOOO
 }
 
-bool GetNeedUpdate(void)
-{
-	return need_update;
-}
 
 /*******************************************************************************
  *
@@ -147,6 +139,6 @@ unsigned int GetStringSize(const char* str)
 
 void GenerateDisplayEv(void)
 {
-	need_update = true;
+
 }
 

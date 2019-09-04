@@ -2,12 +2,12 @@
 
 void hwLectorInit(void)
 {
-
+    
 }
 
 void getLectorData(void)
 {
-    
+
 }
 
 //////sobre las interrupciones:

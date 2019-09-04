@@ -79,7 +79,7 @@
 									<listOptionValue builtIn="false" value="../SDK/startup"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.1307364996" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false"/>
-								<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.292857257" name="Optimization Level" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.c.optimization.level.more" valueType="enumerated"/>
+								<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.292857257" name="Optimization Level" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.c.optimization.level.optimize" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.optimization.flags.574805170" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" useByScannerDiscovery="false" value="-fno-common" valueType="string"/>
 								<option id="com.crt.advproject.gcc.exe.debug.option.debugging.level.1242649234" name="Debug Level" superClass="com.crt.advproject.gcc.exe.debug.option.debugging.level" useByScannerDiscovery="false"/>
 								<option id="gnu.c.compiler.option.debugging.other.118082745" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" useByScannerDiscovery="false"/>
@@ -233,6 +233,19 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.crt.advproject.config.exe.debug.1284265667.2101587426" name="main.c" rcbsApplicability="disable" resourcePath="SDK/startup/main.c" toolsToInvoke="com.crt.advproject.gcc.exe.debug.1546198014.1899133910">
+						<tool id="com.crt.advproject.gcc.exe.debug.1546198014.1899133910" name="MCU C Compiler" superClass="com.crt.advproject.gcc.exe.debug.1546198014">
+							<option id="com.crt.advproject.gcc.exe.debug.option.debugging.level.266709864" name="Debug Level" superClass="com.crt.advproject.gcc.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+							<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.1348921367" name="Optimization Level" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.c.optimization.level.optimize" valueType="enumerated"/>
+							<inputType id="com.crt.advproject.compiler.input.280985144" superClass="com.crt.advproject.compiler.input"/>
+						</tool>
+					</fileInfo>
+					<fileInfo id="com.crt.advproject.config.exe.debug.1284265667.1940104318" name="magnetCardDecode.c" rcbsApplicability="disable" resourcePath="source/magnetCardDecode.c" toolsToInvoke="com.crt.advproject.gcc.exe.debug.1546198014.1794288136">
+						<tool id="com.crt.advproject.gcc.exe.debug.1546198014.1794288136" name="MCU C Compiler" superClass="com.crt.advproject.gcc.exe.debug.1546198014">
+							<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.1295823949" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.c.optimization.level.none" valueType="enumerated"/>
+							<inputType id="com.crt.advproject.compiler.input.1612777930" superClass="com.crt.advproject.compiler.input"/>
+						</tool>
+					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="SDK"/>
 						<entry flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="source"/>
