@@ -32,7 +32,7 @@
 typedef uint8_t bufferMagnetDataEncoded_Type;
 typedef char bufferMagnetDataDecoded_Type;
 
-_Bool magnetDataParser(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut);
+_Bool magnetDataParser(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut, int * trackFounded);
 
 
 #endif //_MAGNETCARDDECODE_H_

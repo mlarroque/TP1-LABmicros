@@ -28,6 +28,8 @@ bufferMagnetDataEncoded_Type esSymbol;
 bufferMagnetDataEncoded_Type minValue;
 bufferMagnetDataEncoded_Type maxValue;
 bufferMagnetDataEncoded_Type asciiOffset;
+uint8_t nFieldSeparators;
+uint8_t nFormatCode;
 
 }trackXdata_t;
 
@@ -40,7 +42,10 @@ const trackXdata_t track1 = {NUMBER_OF_BITS_TRACK1,
 						END_SENTINEL_TRACK1,
 						MIN_VALUE_TRACK1,
 						MAX_VALUE_TRACK1,
-						DATA_OFFSET_ASCII_TRACK1};
+						DATA_OFFSET_ASCII_TRACK1,
+						N_OF_FIELDS_SEPARATORS_TRACK1,
+						N_OF_FORMAT_CODE_TRACK1};
+
 const trackXdata_t track2 = {NUMBER_OF_BITS_TRACK2,
 						SIZE_OF_CHARS_TRACK2,
 						NUMBER_OF_CHARS_TRACK2,
@@ -50,7 +55,9 @@ const trackXdata_t track2 = {NUMBER_OF_BITS_TRACK2,
 						END_SENTINEL_TRACK2,
 						MIN_VALUE_TRACK2,
 						MAX_VALUE_TRACK2,
-						DATA_OFFSET_ASCII_TRACK2};
+						DATA_OFFSET_ASCII_TRACK2,
+						N_OF_FIELDS_SEPARATORS_TRACK2,
+						N_OF_FORMAT_CODE_TRACK2};
 
 const trackXdata_t track3 = {NUMBER_OF_BITS_TRACK3,
 						SIZE_OF_CHARS_TRACK3,
@@ -61,7 +68,9 @@ const trackXdata_t track3 = {NUMBER_OF_BITS_TRACK3,
 						END_SENTINEL_TRACK3,
 						MIN_VALUE_TRACK3,
 						MAX_VALUE_TRACK3,
-						DATA_OFFSET_ASCII_TRACK3};
+						DATA_OFFSET_ASCII_TRACK3,
+						N_OF_FIELDS_SEPARATORS_TRACK3,
+						N_OF_FORMAT_CODE_TRACK3};
 
 const trackXdata_t  * array2Tracks[] = {&track1, &track2, &track3};
 
@@ -77,6 +86,8 @@ const trackXdata_t  * array2Tracks[] = {&track1, &track2, &track3};
 #define TRACK1 0
 #define TRACK2 1
 #define TRACK3 2
+
+#define SEPARATOR_CHAR '/'
 
 
 
@@ -108,7 +119,7 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-_Bool magnetDataParser(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut)
+_Bool magnetDataParser(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut, int * trackFounded)
 {
     _Bool successReport = false;
 
@@ -118,6 +129,7 @@ _Bool magnetDataParser(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnet
     {
         successReport = decodeTrackX(bufferDataIn, bufferDataOut, array2Tracks[trackNumber]);
     }
+    *trackFounded = trackNumber;
 
     return successReport;
 }
@@ -201,13 +213,25 @@ void shapeMagnetTrack(bufferMagnetDataEncoded_Type * bufferDataIn, UINT_T indexS
 
 _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut, const trackXdata_t * p2trackData)
 {
+	//orden de los campos: start sentinel
+	//-> (inmediatamente despues) codigo de formato (longitud variable segun track)
+	//->data (con bit de paridad) y campos de separacion (longitud de data variable, numero de campos variable segun track
+	//->end sentinel
+	//->(inmediatamente despues) LRC
     UINT_T i, j, charCounter = 0;
     bufferMagnetDataEncoded_Type controlParity, value;
     bufferMagnetDataEncoded_Type controlLRC;
     uint8_t k, indicatorsCounter = 0;  //vale 0 si no llego ningun counter, cambia a 1 cuando llega ss,
                                 //cambia 2 si llega fs, a 3 si llega  es (da lugar a corroborar LRC).
+
+    uint8_t nCodeFormat = (p2trackData->nFormatCode);
+    uint8_t nFS = (p2trackData->nFieldSeparators);
+    uint8_t endSentinelCount = nCodeFormat + nFs + 1;
+    uint8_t LRCcount = endSentinelCount + 1;
+
     _Bool dataFailed = false;
     _Bool data2saveFlag = false;
+    _Bool fieldSeparatorArrived = false;
     _Bool messageHasFinished = false;
 
     //inicializo controLRC
@@ -222,6 +246,8 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
     {
         value = 0;  //inicializo el valor en cero antes de leer cada character
         controlParity = p2trackData->parity;  //inicializo el control de paridad antes de leer cada caracter
+        fieldSeparatorArrived = false;
+
         for(j = 0; j < (p2trackData->nBitsPerChar)-1; j++) //recorro el i-esimo caracter, sin contar el bit de paridad
         {
             value += (bufferDataIn[i+j] << j);  //sumo las j-esimas potencias de 2 (primero se envían los bits más significativos).
@@ -234,28 +260,38 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
         }
         else //si paso el control del bit de paridad, se corroboran los indicadores especiales en caso de ser necesario
         {
-            if((value == p2trackData->ssSymbol) && (indicatorsCounter == 0) && (i == 0)) //el primer caracter debe ser el start sentinel 
-            {                                                                       //(ademas de ser el primer indicador)
-                indicatorsCounter++;  //se da lugar a que venga el field separator
+            if((i == 0) && (value == p2trackData->ssSymbol) && (indicatorsCounter == 0))
+            {																		//el primer caracter debe ser el start sentinel
+                                                                                   //(ademas de ser el primer indicador)
+                indicatorsCounter++;  //se da lugar a que venga el field separator o codigo de formato
                 data2saveFlag = false; //vino un sentinel entonces no se guarda en el arreglo de salida
             }
-            else if((value == p2trackData->fsSymbol) && (indicatorsCounter == 1)) //si llega field separator luego de que llego start sentinel
+            else if((indicatorsCounter > 0) && (indicatorsCounter <= nCodeFormat))
             {
+            	indicatorsCounter++;  //se da lugar a que venga el field separator
+            	data2saveFlag = true; //vino un codigo de formato que debe guardarse en el arreglo de salida
+            }
+            else if((value == p2trackData->fsSymbol) && (indicatorsCounter > nCodeFormat)
+            				&& (indicatorsCounter <= (nCodeFormat + nFS)))
+            {																	//si llega field separator luego de que llego
+            															//format codes y/o start sentinel
                 indicatorsCounter++;  //se da lugar al end sentinel
-                data2saveFlag = false;  //no se guarda el separador en el arreglo de salida
+                data2saveFlag = true;  //se guarda el separador del sentinela
+                fieldSeparatorArrived = true;
             } 
-            else if((value == p2trackData->esSymbol) && (indicatorsCounter == 2))
+            else if((value == p2trackData->esSymbol) && (indicatorsCounter == endSentinelCount))
             {
                 indicatorsCounter++; //se da lugar a que se pueda corroborar el LRC 
                 data2saveFlag = false; //no se guarda el end sentinel en el arreglo de salida
             }
-            else if((indicatorsCounter == 3) && (controlLRC == value)) //si se cumple el control longitudinal, justo despues del end sentinel
+            else if((indicatorsCounter == LRCcount) && (controlLRC == value)) //si se cumple el control longitudinal, justo despues del end sentinel
             {
                 data2saveFlag = false;
                 messageHasFinished = true;
             }
-            else if((indicatorsCounter != 0) && (indicatorsCounter != 3) && (value >= p2trackData->minValue) && (value <= p2trackData->maxValue))
+            else if((indicatorsCounter >  nCodeFormat) && (indicatorsCounter < endSentinelCount) && (value >= p2trackData->minValue) && (value <= p2trackData->maxValue))
             {
+
             	data2saveFlag = true;
             }
             else
@@ -273,9 +309,16 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
                 // si value no se va de rango, y si el caracter que vino no corresponde a un separador.
                 if(data2saveFlag)
                 {
-                    bufferDataOut[charCounter] = (bufferMagnetDataDecoded_Type)(value + p2trackData->asciiOffset);  //escribo, teniendo en cuenta el derivado 
-                                                                        //del ascii utilizado en la codificación
-                charCounter++;
+                	if(fieldSeparatorArrived)
+                	{
+                		bufferDataOut[charCounter] = SEPARATOR_CHAR;
+                	}
+                	else
+                	{
+                		bufferDataOut[charCounter] = (bufferMagnetDataDecoded_Type)(value + p2trackData->asciiOffset);  //escribo, teniendo en cuenta el derivado
+                	}	                                                                        //del ascii utilizado en la codificación
+
+                    charCounter++;
                 }
                 
             }
@@ -289,10 +332,10 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
 
     bufferDataOut[charCounter] = TERMINATOR_DATA_DECODED;
 
-    if(!messageHasFinished)  //si el mensaje aun no ha terminado (por que no se validaron todos los indicadores), la salida es erróonea.
-    {
+    if(!messageHasFinished)
+    {					//si el mensaje aun no ha terminado (por que no se validaron todos los indicadores), la salida es erróonea.
     	dataFailed = true;
-     }
+    }
 
     return !dataFailed;
 }
