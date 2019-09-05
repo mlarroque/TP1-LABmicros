@@ -53,12 +53,12 @@ void initializeEncoder(void)
 		uint8_t i;
 		initializeEncoderHAL();		//setea gpio y timer count
 		setEncCallbacks();			//setea callbacks para señal
-		initializeQueue();			//inicializo queue de encoder
+		initializeEncoderQueue();			//inicializo queue de encoder
 
 		for(i=0;i<ENC_SIGNAL_COUNT;i++)
 			initData(readEncoderSignalX(i), i);				//inicializo estructura encoder_t con las señales en el instante actual y el anterior
 
-		encoderData.input = CANCEL;
+		//encoderData.input = CANCEL;??
 		initialized_enc = true;
 	}
 }
