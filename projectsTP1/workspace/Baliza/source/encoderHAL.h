@@ -1,12 +1,12 @@
 /*
- * encoderDRV.h
+ * encoderLow.h
  *
  *  Created on: Sep 3, 2019
  *      Author: Lu
  */
 
-#ifndef ENCODERLOW_H_
-#define ENCODERLOW_H_
+#ifndef ENCODERHAL_H_
+#define ENCODERHAL_H_
 
 #include <stdbool.h>
 
@@ -21,7 +21,12 @@ typedef void (*callback_ptr)(void);
  * 										FUNCIONES
  ********************************************************************************************/
 void initializeEncoderLow(void);
+void setSignalCallback (void (*funcallback)(void), encoder_signal);
 bool readEncoderSignalX(encoder_signal);
+void resetEncoderTimerCount(void);
+//void setEnterCallback(void (*funcallback)(void));
+//void setBackCallback(void (*funcallback)(void));
+//void setCancelCallback(void (*funcallback)(void));
 
-#endif /* ENCODERLOW_H_ */
+#endif /* ENCODERHAL_H_ */
 

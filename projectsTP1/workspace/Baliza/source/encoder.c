@@ -6,31 +6,41 @@
  */
 
 #include "encoder.h"
-#include "encoderLow.h"
-#include "timer.h"
-#include "queue.h"
+#include "encoderDecoder.h"
+#include "encoderHAL.h"
+#include "encoderQueue.h"
 
 /******************************************************************************
  *									DEFINICIONES
  ******************************************************************************/
-#define CANCEL_TIMER 2000 //si presiona C (enter) por mas de 2 segundos se cancela el intento, y tiene que ingresar id de nuevo
+
+//typedef struct{
+//	bool enterTimerFinished;
+//	bool backTimerFinished;
+//	bool cancelTimerFinished;
+//}encTimers_t;
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
  *******************************************************************************/
 
 static bool initialized_enc = false;
-static bool prev_encoder_data[ENC_SIGNAL_COUNT]; //estados de las señales en el instante anterior para el encoder
-static bool curr_encoder_data[ENC_SIGNAL_COUNT]; //estados de las señales en el instante actual para el encoder
+static encoderUd_t encoderData;
+//static encTimers_t encoderTimers;
 
 /*******************************************************************************
  * 								FUNCIONES LOCALES
  *******************************************************************************/
-//void sysTickCallback(void);
 
-bool isClockwise(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT]);
-bool isValid(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT]);
-bool wasThereChange(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT]);
+void setEncCallbacks(void);
+
+void signalACallback(void);
+void signalBCallback(void);
+void signalCCallback(void);
+//void enterCallback(void);
+//void backCallback(void);
+//void cancelCallback(void);
+
 
 /********************************************************************************
  * 							FUNCIONES DEL HEADER
@@ -40,120 +50,61 @@ void initializeEncoder(void)
 {
 	if(!initialized_enc)
 	{
-		initializeEncoderLow();
-		InitializeTimers();
-		ClearDisplay();
-		SetTimer(DISPLAY, MS_BETWEEN_SYMBOLS, &GenerateDisplayEv);
-		SetTimer(MESSAGE,STRING_TIME, &ShiftLeft);//Setteo el timer con la velocidad de movimiento del string.
+		uint8_t i;
+		initializeEncoderLow();		//setea gpio y timer count
+		setEncCallbacks();			//setea callbacks para señal
+		initializeQueue();			//inicializo queue de encoder
+
+		for(i=0;i<ENC_SIGNAL_COUNT;i++)
+			initData(readEncoderSignalX(i), i);				//inicializo estructura encoder_t con las señales en el instante actual y el anterior
+
+//		encoderTimers.enterTimerFinished = false; //no arrancó ningun timer
+//		encoderTimers.backTimerFinished = false;
+//		encoderTimers.cancelTimerFinished = false;
+		encoderData.input = CANCEL;
 		initialized_enc = true;
 	}
 }
 
-
-enc_type readInput()
+void setEncCallbacks(void)
 {
-	//TERMINAR
-	readEncoderSignalX()
+	setSignalCallback(signalACallback, A);
+	setSignalCallback(signalBCallback, B);
+	setSignalCallback(signalCCallback, C);
+	//setCancelCallback(cancelCallback);
 }
 
-
-bool checkEnterRisingEdge(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
+void signalACallback(void)
 {
-  //true si se presionó el ENTER (flanco ascendente)
-	return (prev_data[C]==LOW) && (curr_data[C]==HIGH);
-}
-
-bool checkEnterFallingEdge(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
-{
-  //true si se dejó de presionar el ENTER (flanco descendente)
-	return (prev_data[C]==HIGH) && (curr_data[C]==LOW);
-}
-
-counter_type readRotation(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
-{
-	counter_type status = ERROR;
-
-	if(WasThereChange(prev_data, curr_data))
+	counter_type event = decodeEncoder(readEncoderSignalX(A), A);
+	if(event == COUNT_UP)
+		encoderData.input = UP;
+	else if(event == COUNT_DOWN)
+		encoderData.input = DOWN;
+	else if(event == NO_CHANGE);	//si no hay cambio no hago nada
+	else if(event == ERROR)			//si hay un error, e.g. se movió muy rápido el encoder, leo de nuevo las señales
 	{
-		if(IsValid(prev_data, curr_data))
-		{
-			if(IsClockwise(prev_data, curr_data))
-				status = COUNT_UP;
-			else
-				status = COUNT_DOWN;
-		}
-		else
-			status = ERROR;
-	}
-	else
-		status = NO_CHANGE;
-
-	return status;
-
-}
-
-
-bool isClockwise(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
-{
-	bool clockwise = false;
-	//si A adelanta a B, es clockwise //CHEQUEAR
-	if(prev_data[A] != curr_data[A])
-	{
-		if(curr_data[B] != curr_data[A])
-			clockwise = true;
-		else
-			clockwise = false;
-	}
-	else
-	{
-		if(curr_data[B] == curr_data[A])
-			clockwise = true;
-		else
-			clockwise = false;
+		for(i=0;i<ENC_SIGNAL_COUNT;i++)
+			initData(readEncoderSignalX(i), i);
 	}
 
-	return clockwise;
+	push(encoderQueue)
+
 }
-
-
-bool isValid(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
+void signalBCallback(void)
 {
-	status = false;
-	//los únicos cambios válidos son los del código de Gray de 2 bits
-	// A	0	1	1	0
-	// B	0	0	1	1
-	// -------------------->tiempo
 
-
-	if((prev_data[A] == LOW) && (prev_data[B] == LOW))		//si paso de A,B = 0,0 a A,B = 1,0; es válido
-		if((curr_data[A] == HIGH) && (curr_data[B] == LOW))
-			status = true;
-	else if((prev_data[A] == HIGH) && (prev_data[B] == LOW))		//si paso de A,B = 1,0 a A,B = 1,1; es válido
-		if((curr_data[A] == HIGH) && (curr_data[B] == HIGH))
-			status = true;
-	else if((prev_data[A] == HIGH) && (prev_data[B] == HIGH))		//si paso de A,B = 1,1 a A,B = 1,0; es válido
-		if((curr_data[A] == LOW) && (curr_data[B] == HIGH))
-			status = true;
-	else if((prev_data[A] == HIGH) && (prev_data[B] == HIGH))		//si paso de A,B = 1,0 a A,B = 0,0; es válido
-		if((curr_data[A] == LOW) && (curr_data[B] == LOW))
-			status = true;
-	else;
-
-	return status;
 }
-
-bool wasThereChange(bool prev_data[ENC_SIGNAL_COUNT], bool curr_data[ENC_SIGNAL_COUNT])
+void signalCCallback(void)
 {
-	status = false;
-	int i;
-	for (i=0; i<ENC_SIGNAL_COUNT; i++)
-	{
-		if(prev_data[i] != curr_data[i])
-		{
-			status = true;
-			break;
-		}
-		else;
-	}
-	return status;
+	resetEncoderTimerCount();
 }
+
+encoderQueue_t getEncoderEvent(void)
+{
+	//llama al encoderqueue.c
+	return encoderQueue;
+}
+
+
+
