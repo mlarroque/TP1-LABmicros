@@ -8,30 +8,69 @@
 #include "stateMenu.h"
 #include "display.h"
 #include "dataBase.h"
+#include "stateChangeIntensity.h"
+#include "stateReceivingID.h"
+#include "stateReceivingPIN.h"
+
+#define MENU_OPTIONS	2
+#define INCREMENT	1
+#define INITIAL	0
+
+typedef enum {ENTER_ENCODER_ID, INTENSITY}option_name;
+const char * menuStrings[MENU_OPTIONS] = {"ID","GLOW"};
+
 
 state_t MinputEvHandler(UserData_t * ud)
 {
-	//TERMINAR
 	state_t nextState;
 	switch(ud->encoderUd->input)
 	{
 		case UP: // change current option
-			nextState.name = CHANGE_INTENSITY;
-			nextState.routines[INPUT_EV] = &CIinputEvHandler;
-			nextState.routines[TIMER_EV] = &CItimerEvHandler;
-			nextState.routines[KEYCARD_EV] = &CIkeycardEvHandler;
+			if(ud->option < MENU_OPTIONS){
+				ud->option += INCREMENT;
+			}
+			else{
+				ud->option = INITIAL;
+			}
+			// show option to user
+			PrintMessage(menuStrings[ud->option], false);
+			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
-			nextState.name = RECEIVING_ID;
-			nextState.routines[INPUT_EV] = &RIinputEvHandler;
-			nextState.routines[TIMER_EV] = &RItimerEvHandler;
-			nextState.routines[KEYCARD_EV] = &RIkeycardEvHandler;
+			if(ud->option > INITIAL){
+				ud->option -= INCREMENT;
+			}
+			else{
+				ud->option = MENU_OPTIONS;
+			}
+			// show option to user
+			PrintMessage(menuStrings[ud->option], false);
+			nextState.name = STAY;
+			break;
 		case ENTER: // Selects current option
-			switch(ud->encoderUd)
+			switch(ud->option)
+			{
+				case ENTER_ENCODER_ID:
+					ud->option = -1;
+					nextState.name = RECEIVING_ID;
+					nextState.routines[INPUT_EV] = &RIinputEvHandler;
+					nextState.routines[TIMER_EV] = &RItimerEvHandler;
+					nextState.routines[KEYCARD_EV] = &RIkeycardEvHandler;
+					break;
+				case INTENSITY:
+					ud->option = -1;
+					nextState.name = CHANGE_INTENSITY;
+					nextState.routines[INPUT_EV] = &CIinputEvHandler;
+					nextState.routines[TIMER_EV] = &CItimerEvHandler;
+					nextState.routines[KEYCARD_EV] = &CIkeycardEvHandler;
+					break;
+			}
 			break;
 		case CANCEL:
+			nextState.name = STAY;
 			break; // Cancel does nothing in menu state
 		default:
+			nextState.name = STAY;
 			break;
 	}
 	return nextState;
@@ -40,10 +79,11 @@ state_t MinputEvHandler(UserData_t * ud)
 state_t MtimerEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	if(ud->timerUd.timers[DISPLAY])
-	{
+	nextState.name = STAY;
+	if(ud->timerUd.timers[DISPLAY]){
 		UpdateDisplay();
 	}
+	return nextState;
 }
 
 state_t MkeycardEvHandler(UserData_t * ud)
@@ -57,15 +97,18 @@ state_t MkeycardEvHandler(UserData_t * ud)
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
-		//TERMINAR
+		PrintMessage("VALID ID - ENTER PIN", true);
+		ud->received_ID = ud->magnetLectorUd.id;
+		ud->option = -1;
 		nextState.name = RECEIVING_PIN;
-		nextState.routines[INPUT_EV] = &RIinputEvHandler;
-		nextState.routines[TIMER_EV] = &RItimerEvHandler;
-		nextState.routines[KEYCARD_EV] = &RIkeycardEvHandler;
+		nextState.routines[INPUT_EV] = &RPinputEvHandler;
+		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
+		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
 	}
 	else{
 		// show message in display
-		//TERMINAR
+		PrintMessage("INVALID ID", true);
+		nextState.name = STAY;
 	}
-
+	return nextState;
 }
