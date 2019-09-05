@@ -1,7 +1,7 @@
 /***************************************************************************//**
-  @file     gpio.h
-  @brief    Simple GPIO Pin services, similar to Arduino
-  @author   Nicolás Magliola
+  @file     magnetCardDecode.h
+  @brief
+  @author   G5
  ******************************************************************************/
 
 #ifndef _MAGNETCARDDECODE_H_

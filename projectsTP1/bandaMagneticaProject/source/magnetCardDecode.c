@@ -226,7 +226,7 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
 
     uint8_t nCodeFormat = (p2trackData->nFormatCode);
     uint8_t nFS = (p2trackData->nFieldSeparators);
-    uint8_t endSentinelCount = nCodeFormat + nFs + 1;
+    uint8_t endSentinelCount = nCodeFormat + nFS + 1;
     uint8_t LRCcount = endSentinelCount + 1;
 
     _Bool dataFailed = false;
@@ -289,7 +289,7 @@ _Bool decodeTrackX(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetData
                 data2saveFlag = false;
                 messageHasFinished = true;
             }
-            else if((indicatorsCounter >  nCodeFormat) && (indicatorsCounter < endSentinelCount) && (value >= p2trackData->minValue) && (value <= p2trackData->maxValue))
+            else if((indicatorsCounter >  nCodeFormat) && (indicatorsCounter <= endSentinelCount) && (value >= p2trackData->minValue) && (value <= p2trackData->maxValue))
             {
 
             	data2saveFlag = true;

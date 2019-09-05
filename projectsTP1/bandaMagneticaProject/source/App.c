@@ -9,6 +9,7 @@
  ******************************************************************************/
 
 #include "magnetLectorDriver.h"
+#include "doorManagement.h"
 
 
 
@@ -28,17 +29,28 @@
  *******************************************************************************
  ******************************************************************************/
 
+magnetLectorData_t dataLector;
+
 /* Función que se llama 1 vez, al comienzo del programa */
 void App_Init (void)
 {
 	hwLectorInit();
-
+	doorInit();
 }
 
 /* Función que se llama constantemente en un ciclo infinito */
 void App_Run (void)
 {
-
+	int delayTime = 1000000UL;
+	while(delayTime--);
+	if(isEventinLectorQueue())
+	{
+		dataLector = getLectureEvent();
+		if(dataLector.isValid)
+		{
+			toggleDoor();
+		}
+	}
 	//espero interrupciones y realizo ISRs.
 }
 

@@ -1,22 +1,31 @@
 //magnetLectorDriver.c
 
-#include "gpio.h"
+#include "magnetLectorDriver.h"
+//#include "gpio.h"
 #include "magnetCardDecode.h"
 
 //DEBUG
-//#include "board.h"
+#include "board.h"
 //////////
 
 #define CLOCK_PIN PORTNUM2PIN(PC, 9) //cable verde
 #define DATA_PIN PORTNUM2PIN(PC, 7)  //cable azul
 #define ENABLE_PIN PORTNUM2PIN(PC, 5) //cable amarillo
-#define MAX_ITEMS_LECTOR_QUEUE 5
+
+typedef struct{
+	int top;
+	magnetLectorData_t magnetLectorDataQueue[MAX_ITEMS_LECTOR_QUEUE];
+	_Bool isEmpty;
+}magnetLectorQueue_t;
+
 
 void clockRoutine(void);
 
 void enableRoutine(void);
 
 void debugSwitchRoutine(void);
+
+void initEvents(void);
 
 
 _Bool hwLectorIsInit = false;
@@ -27,7 +36,7 @@ uint32_t counterDataIn = 0;
 
 bufferMagnetDataEncoded_Type bufferDataEncoded[DATA_LEN];
 
-lectorQueue_t queue;
+magnetLectorQueue_t queue;
 
 
 
@@ -52,6 +61,8 @@ void hwLectorInit(void)
 		gpioWrite(PIN_LED_RED, HIGH); //el led arranca apagado (es activo bajo)
 		gpioWrite(PIN_LED_GREEN, HIGH); //el led arranca apagado (es activo bajo)
 		gpioWrite(PIN_LED_BLUE, HIGH);*/
+
+		initEvents();
 	}
 
 }
@@ -82,13 +93,13 @@ void enableRoutine(void)
 		gpioIRQ(CLOCK_PIN, GPIO_IRQ_MODE_DISABLE, (pinIrqFun_t) clockRoutine);
 
 
-		if(magnetDataParser(bufferDataEncoded, queue.magnetLectorDataQueue[queue.top], &(queue.magnetLectorDataQueue[queue.top].trackNum)))  //si los datos ingresados son correctos
+		if(magnetDataParser(bufferDataEncoded, (queue.magnetLectorDataQueue[queue.top]).trackString, &(queue.magnetLectorDataQueue[queue.top].trackNum)))  //si los datos ingresados son correctos
 		{  ///ACA SE PUSHEA UN TRACK
-			(queue.magnetLectorDataQueue[queue.top]).validLecture = true;
+			(queue.magnetLectorDataQueue[queue.top]).isValid = true;
 			queue.isEmpty = false;
-			if(top < (MAX_ITEMS_LECTOR_QUEUE - 1))
+			if(queue.top < (MAX_ITEMS_LECTOR_QUEUE - 1))
 			{
-				top++;
+				queue.top++;
 			}
 			//DEBUG
 			//gpioToggle(PIN_LED_GREEN); //se prende el led (es activo alto)
@@ -104,7 +115,7 @@ magnetLectorData_t getLectureEvent(void)
 	}
 	else
 	{
-		poppedEvent = queue.events[queue.top]; //popEvent
+		ret = queue.magnetLectorDataQueue[queue.top]; //popEvent
 		if(queue.top == 0)
 		{
 			queue.isEmpty = true;
@@ -117,7 +128,24 @@ magnetLectorData_t getLectureEvent(void)
 	return ret;
 }
 
-/*void debugSwitchRoutine(void)
+_Bool isEventinLectorQueue(void)
+{
+	return !queue.isEmpty;
+}
+
+void initEvents(void)
+{
+	uint8_t i;
+	for(i = 0; i < MAX_ITEMS_LECTOR_QUEUE; i++)
+	{
+		queue.magnetLectorDataQueue[i].isValid = false;
+	}
+	queue.isEmpty = true;
+	queue.top = 0;
+
+}
+/*
+void debugSwitchRoutine(void)
 {
 	gpioToggle(PIN_LED_BLUE);
 }*/
