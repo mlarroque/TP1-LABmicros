@@ -58,7 +58,7 @@ void App_Init (void)
     initializeQueue();
 
     // User Data init
-    userData.input = EMPTY;
+    userData.option = -1;
     userData.category = NONE;
     int i;
     for(i=0;i<ID_LENGTH;++i){
@@ -67,6 +67,7 @@ void App_Init (void)
     for(i=0;i<PIN_MAX_LENGTH;++i){
     	userData.received_PIN[i] = -1;
     }
+
 }
 
 /* Función que se llama constantemente en un ciclo infinito */
@@ -77,24 +78,30 @@ void App_Run (void)
 	switch(newEvent.name){ // which type of event?
 		case INPUT_EV:
 			userData.encoderUd = newEvent.data.encoderUd; // get specific data for that event
-			newState = (fsm.currentState.routines[INPUT_EV])(&userData); // action routine
-			changingState = true;
+			nextState = (fsm.currentState.routines[INPUT_EV])(&userData); // action routine
+			if(nextState.name != STAY){ // if state changes
+				changingState = true;
+			}
 			break;
 		case TIMER_EV:
 			userData.timerUd = newEvent.data.timerUd; // get specific data for that event
-			newState = (fsm.currentState.routines[TIMER_EV])(&userData); // action routine
-			changingState = true;
+			nextState = (fsm.currentState.routines[TIMER_EV])(&userData); // action routine
+			if(nextState.name != STAY){ // if state changes
+				changingState = true;
+			}
 			break;
 		case KEYCARD_EV:
 			userData.keycardUd = newEvent.data.keycardUd; // get specific data for that event
-			newState = (fsm.currentState.routines[KEYCARD_EV])(&userData); // action routine
-			changingState = true;
+			nextState = (fsm.currentState.routines[KEYCARD_EV])(&userData); // action routine
+			if(nextState.name != STAY){ // if state changes
+				changingState = true;
+			}
 			break;
 		default:
 			break;
 	}
 	if(changingState){
-		fsm.currentState = newState;
+		fsm.currentState = nextState;
 		changingState = false;
 	}
 }

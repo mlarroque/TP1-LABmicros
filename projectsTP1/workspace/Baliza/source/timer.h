@@ -15,7 +15,7 @@
 /******************************************************************************************
  *  				TIPOS DE DATOS, CONSTANTES Y VARIABLES GLOBALES
  ******************************************************************************************/
-typedef enum {INACTIVITY, DISPLAY, MESSAGE, ENCODER_TIMER, NUM_TIMERS}timer_name; //Timers utilizados
+typedef enum {INACTIVITY, DISPLAY, MESSAGE, DISPLAY_INTENSITY,ENCODER_TIMER, NUM_TIMERS}timer_name; //Timers utilizados
 typedef void (*callback_ptr)(void);
 
 
@@ -27,5 +27,8 @@ void InitializeTimers(void);
 void SetTimer(unsigned char index,unsigned int timeout, callback_ptr func);
 void DisableTimer(unsigned char index);
 void EnableTimer(unsigned char index);
+void RestartTimer(unsigned char index);
+unsigned int GetTimerCount(unsigned char index); //Devuelve cuanto tiempo, en us, paso desde que se
+												//setteo el timer recibido
 
 #endif /* TIMER_H_ */

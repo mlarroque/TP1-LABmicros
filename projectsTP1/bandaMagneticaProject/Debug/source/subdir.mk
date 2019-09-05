@@ -6,6 +6,7 @@
 C_SRCS += \
 ../source/App.c \
 ../source/SysTick.c \
+../source/doorManagement.c \
 ../source/gpio.c \
 ../source/magnetCardDecode.c \
 ../source/magnetLectorDriver.c 
@@ -13,6 +14,7 @@ C_SRCS += \
 OBJS += \
 ./source/App.o \
 ./source/SysTick.o \
+./source/doorManagement.o \
 ./source/gpio.o \
 ./source/magnetCardDecode.o \
 ./source/magnetLectorDriver.o 
@@ -20,6 +22,7 @@ OBJS += \
 C_DEPS += \
 ./source/App.d \
 ./source/SysTick.d \
+./source/doorManagement.d \
 ./source/gpio.d \
 ./source/magnetCardDecode.d \
 ./source/magnetLectorDriver.d 

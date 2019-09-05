@@ -9,7 +9,22 @@
 #define DISPLAY_H_
 #include <stdbool.h>
 #include <stdint.h>
+#include "queue.h"
+
+/*********************************************************************************************************
+ * 										DEFINCIONES Y TIPOS DE DATOS
+ ********************************************************************************************************/
 #define DISPLAY_SIZE 4
+#define MAX_NUMBER_OF_EVS 10
+typedef struct
+{
+	event_t display_ev_array[MAX_NUMBER_OF_EVS];
+	unsigned char curr_ev; //Indice que indica el ultimo evento de la cola
+}dispalyQueue_t ;
+
+/**********************************************************************************************************
+ * 										DECLARACION DE FUNCIONES
+ **********************************************************************************************************/
 
 //Inicializa los recursos necesrios para utilizar el display
 void InitializeDisplay(void);
@@ -24,6 +39,10 @@ void PrintMessage(const char* string, bool moving_string);
 
 //Borra el ultimo caracter impreso en el display
 void ClearLast(void);
+
+//Cambia la luminosidad del display, recibe un numero de 1 a 10,
+//donde 1 simboliza 10% de intensidad y 10 simboliza 100%.
+void SetBrightness(unsigned char brightness_factor);
 
 //desplaza todos los caracteres una posicion hacia la izquierda y agrega c.
 void ShiftLeft(void);
