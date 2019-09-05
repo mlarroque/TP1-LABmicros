@@ -5,8 +5,9 @@
  *      Author: Manuel Mollon
  */
 
+#include <stateAddingUser.h>
+
 #include "stateAccessGranted.h"
-#include "stateAddingUser.h"
 #include "stateAdminMode.h"
 #include "stateBlocked.h"
 #include "stateChangeIntensity.h"

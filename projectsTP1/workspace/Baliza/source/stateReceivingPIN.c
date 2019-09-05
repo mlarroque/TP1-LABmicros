@@ -10,10 +10,12 @@
 #include "stateMenu.h"
 //#include "stateUserApproved.h"
 #include "dataBase.h"
+#include <stdbool.h>
 
 #define PIN_OPTIONS	12
 #define INCREMENT	1
 #define INITIAL	0
+#define MAX_TRIES	3
 
 typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
 const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
@@ -23,6 +25,8 @@ char * createString(UserData_t * ud);
 char * createString(UserData_t * ud){
 	//TERMINAR
 }
+
+char tryNro = 0;
 
 state_t RPinputEvHandler(UserData_t * ud)
 {
@@ -66,20 +70,59 @@ state_t RPinputEvHandler(UserData_t * ud)
 					{
 						ud->received_PIN[j-1] = -1;
 					}
+					string = createString(ud);
+					PrintMessage(string, false);
+					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
-					int j = 0;
-					while(ud->received_PIN[j] != -1){
-						ud->received_PIN[j] = -1;
-						j += 1;
+					int i = 0;
+					while(ud->received_PIN[i] != -1){
+						ud->received_PIN[i] = -1;
+						i += 1;
 					}
+					string = createString(ud);
+					PrintMessage(string, false);
+					nextState.name = STAY;
 					break;
 				default: // number
 					ud->received_PIN[j] = ud->option;
+					bool validPIN = false;
+					if(j == PIN_MAX_LENGTH){ // check if pin valid
+						validPIN = verifyPIN(ud->received_ID, ud->received_PIN);
+						if(validPIN){
+							PrintMessage("USER APPROVED", true);
+							nextState.name = USER_APPROVED;
+							tryNro = 0;
+							nextState.routines[INPUT_EV] = &UAinputEvHandler;
+							nextState.routines[TIMER_EV] = &UAtimerEvHandler;
+							nextState.routines[KEYCARD_EV] = &UAkeycardEvHandler;
+						}
+						else
+						{
+							PrintMessage("INCORRECT PIN", true);
+						    for(i=0;i<PIN_MAX_LENGTH;++i){
+						    	userData.received_PIN[i] = -1;
+						    } // clean user PIN
+						    tryNro += 1;
+						    if(tryNro < MAX_TRIES){
+						    	nextState.name = STAY;
+						    }
+						    else{
+								PrintMessage("USER BLOCKED", true);
+								nextState.name = BLOCKED;
+								nextState.routines[INPUT_EV] = &BinputEvHandler;
+								nextState.routines[TIMER_EV] = &BtimerEvHandler;
+								nextState.routines[KEYCARD_EV] = &BkeycardEvHandler;
+						    }
+						}
+					}
+					else{
+						string = createString(ud);
+						PrintMessage(string, false);
+						nextState.name = STAY;
+					}
 					break;
 			}
-			string = createString(ud);
-			PrintMessage(string, false);
 			ud->option = -1;
 			break;
 		case CANCEL:
@@ -91,6 +134,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 		    for(i=0;i<ID_LENGTH;++i){
 		    	userData.received_ID[i] = -1;
 		    } // clean user ID
+		    tryNro = 0;
 			nextState.name = MENU;
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;
@@ -129,6 +173,7 @@ state_t RPkeycardEvHandler(UserData_t * ud)
 	    	userData.received_PID[i] = -1;
 	    } // clean user PIN
 		ud->option = -1;
+		tryNro = 0;
 	}
 	else{
 		// show message in display
