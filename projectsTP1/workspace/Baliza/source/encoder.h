@@ -26,7 +26,7 @@ typedef struct{
 }encoderUd_t;
 
 typedef struct{
-	int top; //contador de eventos
+	int top; 			//contador de eventos
 	encoderUd_t event;
 }encoderQueue_t;
 
@@ -34,8 +34,10 @@ typedef struct{
  *							FUNCIONES DEL HEADER
  ******************************************************************************/
 void initializeEncoder(void);
-encoderQueue_t getEncoderQueue(void);
 
+
+encoderQueue_t popEvent(void);
+encoderQueue_t getEncoderQueue(void);
 
 
 

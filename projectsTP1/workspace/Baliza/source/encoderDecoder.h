@@ -27,6 +27,7 @@ typedef struct{
 
 void initData(bool value, int signal);
 counter_type decodeEncoder(bool value, int signal);
+void updateButtonState(bool value);
 
 //Devuelve si se movió en sentido horario (COUNT_UP), antihorario (COUNT_DOWN), si no hubo cambio, o si se movió muy rápido el encoder, generando ERROR
 counter_type readRotation(void);

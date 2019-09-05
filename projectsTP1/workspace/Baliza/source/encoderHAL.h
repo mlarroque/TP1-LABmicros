@@ -9,6 +9,7 @@
 #define ENCODERHAL_H_
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /******************************************************************************************
  *  				TIPOS DE DATOS, CONSTANTES Y VARIABLES GLOBALES
@@ -24,9 +25,7 @@ void initializeEncoderHAL(void);
 void setSignalCallback (void (*funcallback)(void), encoder_signal);
 bool readEncoderSignalX(encoder_signal);
 void resetEncoderTimerCount(void);
-//void setEnterCallback(void (*funcallback)(void));
-//void setBackCallback(void (*funcallback)(void));
-//void setCancelCallback(void (*funcallback)(void));
+uint8_t getEncTimerCount(void);
 
 #endif /* ENCODERHAL_H_ */
 

@@ -6,7 +6,6 @@
  */
 
 #include "encoderDecoder.h"
-//#include "encoderHAL.h"
 
 typedef enum {A, B, C, ENC_SIGNAL_COUNT}encoder_signal;
 
@@ -31,6 +30,13 @@ counter_type decodeEncoder(bool value, int signal)
 	counter_type event = readRotation();
 	return event;
 
+}
+
+void updateButtonState(bool value)
+{
+	bool temp = encoder.curr_data[C];			//guardo valor actual, que pasará a ser valor anterior
+	encoder.curr_data[C] = value;  //leo valor actual
+	encoder.prev_data[C] = temp;				//actualizo valor anterior
 }
 
 bool checkEnterRisingEdge(void)

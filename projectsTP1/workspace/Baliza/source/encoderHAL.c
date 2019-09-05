@@ -18,7 +18,7 @@
 #define SIGNAL_C_PIN PORTNUM2PIN(PA,2)// PTA2
 
 
-#define ENCODER_TIME 	500000 		// 0.5 segundos
+#define ENCODER_TIME 	200000 		// 200 milisegundos
 
 
 typedef void (*callback_t)(void);
@@ -35,11 +35,6 @@ static uint8_t encoder_timer_count = 0;
  *******************************************************************************/
 
 void encTimerRoutine(void);
-
-//void signalARoutine(void);
-//void signalBRoutine(void);
-//void signalCRoutine(void);
-
 
 /*******************************************************************************
  *									FUNCIONES
@@ -59,9 +54,11 @@ void initializeEncoderHAL(void)
 	}
 }
 
+
 void encTimerRoutine(void)
 {
-	encoder_timer_count++;
+	if(gpioRead(SIGNAL_C_PIN))		//si el botón está presionado aumento el contador
+		encoder_timer_count++;
 }
 
 void resetEncoderTimerCount(void)
@@ -83,38 +80,6 @@ bool readEncoderSignalX (encoder_signal signal)
 	return lecture;
 }
 
-/*
-void signalARoutine(void)
-{
-	bool temp = encoder.curr_data[A];			//guardo valor actual, que pasará a ser valor anterior
-	encoder.curr_data[A] = gpioRead(SIGNAL_A_PIN);  //leo valor actual
-	encoder.prev_data[A] = temp;				//actualizo valor anterior
-}
-
-void signalBRoutine(void)
-{
-
-}
-
-void signalCRoutine(void)
-{
-	bool temp = encoder.curr_data[C];					//guardo valor actual para reemplazar al prev value
-	encoder.curr_data[C] = gpioRead(SIGNAL_C_PIN);		//leo valor actual
-	encoder.prev_data[C] = temp;						//actualizo valor anterior
-
-	if(checkEnterRisingEdge())		//si es flanco ascendente, seteo los timers para ver si es enter, back o cancel
-	{
-		SetTimer(ENTER_TIMER, ENTER_TIME, enterTimerRoutine);
-		SetTimer(BACK_TIMER, BACK_TIME, backTimerRoutine);
-		SetTimer(CANCEL_TIMER, CANCEL_TIME, cancelTimerRoutine);
-	}
-	if(checkEnterFallingEdge())
-	{
-;
-	}
-
-}*/
-
 void setSignalCallback(void (*funcallback)(void), encoder_signal signal)
 {
 	switch (signal)
@@ -133,24 +98,8 @@ void setSignalCallback(void (*funcallback)(void), encoder_signal signal)
 	}
 }
 
-/*void setTimerCallback(void (*funcallback)(void))
+uint8_t getEncTimerCount(void)
 {
-	SetTimer(CANCEL_TIMER, CANCEL_TIME, funcallback);		//un timer genérico
-	DisableTimer(CANCEL_TIMER);
-}*/
-
-//void setEnterCallback(void (*funcallback)(void))
-//{
-//	SetTimer(ENTER_TIMER, ENTER_TIME, funcallback);
-//	DisableTimer(ENTER_TIMER);
-//}
-//void setBackCallback(void (*funcallback)(void))
-//{
-//	SetTimer(BACK_TIMER, BACK_TIME, funcallback);
-//	DisableTimer(BACK_TIMER);
-//}
-
-
-
-
+	return encoder_timer_count;
+}
 
