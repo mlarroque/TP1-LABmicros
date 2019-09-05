@@ -12,6 +12,7 @@ void initializeQueue(void);
 encoderQueue_t popEvent(void);
 void pushEvent(encoderQueue_t ev);
 
+encoderQueue_t getEncoderQueue(void);
 
 
 #endif /* ENCODERQUEUE_H_ */

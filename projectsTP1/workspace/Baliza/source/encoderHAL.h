@@ -20,7 +20,7 @@ typedef void (*callback_ptr)(void);
 /********************************************************************************************
  * 										FUNCIONES
  ********************************************************************************************/
-void initializeEncoderLow(void);
+void initializeEncoderHAL(void);
 void setSignalCallback (void (*funcallback)(void), encoder_signal);
 bool readEncoderSignalX(encoder_signal);
 void resetEncoderTimerCount(void);

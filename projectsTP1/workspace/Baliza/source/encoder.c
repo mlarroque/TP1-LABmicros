@@ -51,7 +51,7 @@ void initializeEncoder(void)
 	if(!initialized_enc)
 	{
 		uint8_t i;
-		initializeEncoderLow();		//setea gpio y timer count
+		initializeEncoderHAL();		//setea gpio y timer count
 		setEncCallbacks();			//setea callbacks para señal
 		initializeQueue();			//inicializo queue de encoder
 
@@ -76,27 +76,45 @@ void setEncCallbacks(void)
 
 void signalACallback(void)
 {
+	uint8_t i;
+	encoderQueue_t eventForQueue;
 	counter_type event = decodeEncoder(readEncoderSignalX(A), A);
 	if(event == COUNT_UP)
-		encoderData.input = UP;
+		eventForQueue.event.input = UP;
 	else if(event == COUNT_DOWN)
-		encoderData.input = DOWN;
+		eventForQueue.event.input = DOWN;
 	else if(event == NO_CHANGE);	//si no hay cambio no hago nada
 	else if(event == ERROR)			//si hay un error, e.g. se movió muy rápido el encoder, leo de nuevo las señales
 	{
 		for(i=0;i<ENC_SIGNAL_COUNT;i++)
 			initData(readEncoderSignalX(i), i);
 	}
-
-	push(encoderQueue)
-
+	pushEvent(eventForQueue);
 }
 void signalBCallback(void)
 {
-
+	uint8_t i;
+	encoderQueue_t eventForQueue;
+	counter_type event = decodeEncoder(readEncoderSignalX(B), B);
+	if(event == COUNT_UP)
+		eventForQueue.event.input = UP;
+	else if(event == COUNT_DOWN)
+		eventForQueue.event.input = DOWN;
+	else if(event == NO_CHANGE);	//si no hay cambio no hago nada
+	else if(event == ERROR)			//si hay un error, e.g. se movió muy rápido el encoder, leo de nuevo las señales
+	{
+		for(i=0;i<ENC_SIGNAL_COUNT;i++)
+			initData(readEncoderSignalX(i), i);
+	}
+	pushEvent(eventForQueue);
 }
+
 void signalCCallback(void)
 {
+	uint8_t i;
+	encoderQueue_t eventForQueue;
+	counter_type event = decodeEncoder(readEncoderSignalX(B), B);
+	//terminar
 	resetEncoderTimerCount();
 }
 

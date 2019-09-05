@@ -26,6 +26,7 @@ typedef void (*callback_t)(void);
 /*******************************************************************************
  *								VARIABLES ESTATICAS
  *******************************************************************************/
+
 static bool initialized_enc_low = false;
 static uint8_t encoder_timer_count = 0;
 
@@ -33,21 +34,18 @@ static uint8_t encoder_timer_count = 0;
  *								FUNCIONES LOCALES
  *******************************************************************************/
 
-/*******************************************************************************
- *									PROTOTIPOS
- *******************************************************************************/
-
+void encTimerRoutine(void);
 
 //void signalARoutine(void);
 //void signalBRoutine(void);
 //void signalCRoutine(void);
-void encTimerRoutine(void);
+
 
 /*******************************************************************************
  *									FUNCIONES
  *******************************************************************************/
 
-void initializeEncoderLow(void)
+void initializeEncoderHAL(void)
 {
 	if(!initialized_enc_low)
 	{
@@ -59,6 +57,11 @@ void initializeEncoderLow(void)
 
 		initialized_enc_low = true;
 	}
+}
+
+void encTimerRoutine(void)
+{
+	encoder_timer_count++;
 }
 
 void resetEncoderTimerCount(void)
@@ -80,7 +83,7 @@ bool readEncoderSignalX (encoder_signal signal)
 	return lecture;
 }
 
-
+/*
 void signalARoutine(void)
 {
 	bool temp = encoder.curr_data[A];			//guardo valor actual, que pasará a ser valor anterior
@@ -110,7 +113,7 @@ void signalCRoutine(void)
 ;
 	}
 
-}
+}*/
 
 void setSignalCallback(void (*funcallback)(void), encoder_signal signal)
 {
@@ -130,11 +133,11 @@ void setSignalCallback(void (*funcallback)(void), encoder_signal signal)
 	}
 }
 
-void setTimerCallback(void (*funcallback)(void))
+/*void setTimerCallback(void (*funcallback)(void))
 {
 	SetTimer(CANCEL_TIMER, CANCEL_TIME, funcallback);		//un timer genérico
 	DisableTimer(CANCEL_TIMER);
-}
+}*/
 
 //void setEnterCallback(void (*funcallback)(void))
 //{
