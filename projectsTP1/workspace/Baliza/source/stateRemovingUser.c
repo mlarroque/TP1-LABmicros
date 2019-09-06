@@ -7,6 +7,9 @@
 
 #include "stateRemovingUser.c"
 
+#include "display.h"
+#include "encoder.h"
+
 state_t RUinputEvHandler(UserData_t * ud)
 {
 

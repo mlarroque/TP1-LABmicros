@@ -14,6 +14,11 @@ void initializeDataBase(void)
 	// TERMINAR
 }
 
+void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH])
+{
+	// TERMINAR
+}
+
 status addUser(user_t newUser)
 {
 	if(dataBase->top == MAX_CANT_USERS-1){ // user overflow

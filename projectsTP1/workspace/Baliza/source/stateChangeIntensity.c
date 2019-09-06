@@ -9,6 +9,9 @@
 #include "stateMenu.h"
 #include "stateReceivingPIN.h"
 
+#include "display.h"
+#include "encoder.h"
+
 #define INTENSITY_OPTIONS	10
 #define INCREMENT	1
 #define INITIAL	1
@@ -53,7 +56,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 			{
 				changeIntensity(ud->option);
 				PrintMessage("INTENSITY CHANGED", true);
-				ud->option = -1;
+				userDataReset(false, false, false, true, ud);
 				nextState.name = MENU;
 				nextState.routines[INPUT_EV] = &MinputEvHandler;
 				nextState.routines[TIMER_EV] = &MtimerEvHandler;
@@ -61,7 +64,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 			}
 			break;
 		case CANCEL:
-			ud->option = -1;
+			userDataReset(false, false, false, true, ud);
 			nextState.name = MENU;
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;
@@ -94,7 +97,7 @@ state_t CIkeycardEvHandler(UserData_t * ud)
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
 		ud->received_ID = ud->magnetLectorUd.id;
-		ud->option = -1;
+		userDataReset(false, false, false, true, ud);
 		nextState.name = RECEIVING_PIN;
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;

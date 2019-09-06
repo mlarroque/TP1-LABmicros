@@ -47,6 +47,9 @@ void App_Init (void)
 {
 	// IO Initialization
     InitializeTimers();
+    initializeEncoder();
+    InitializeDisplay();
+
 
     // FSM/Queue Initialization
     nextState.name = MENU;

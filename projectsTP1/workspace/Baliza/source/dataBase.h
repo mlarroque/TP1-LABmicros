@@ -42,7 +42,6 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH]);
 
 char verifyCategory(char usersID[ID_LENGTH]);
 
-
-
+void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH]);
 
 #endif /* DATABASE_H_ */

@@ -7,6 +7,9 @@
 
 #include "stateChangingPIN.h"
 
+#include "display.h"
+#include "encoder.h"
+
 state_t CPinputEvHandler(UserData_t * ud)
 {
 

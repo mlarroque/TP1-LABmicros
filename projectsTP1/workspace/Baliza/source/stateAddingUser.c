@@ -7,6 +7,9 @@
 
 #include "stateAddingUser.h"
 
+#include "display.h"
+#include "encoder.h"
+
 state_t AUinputEvHandler(UserData_t * ud)
 {
 

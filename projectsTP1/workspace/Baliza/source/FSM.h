@@ -18,7 +18,6 @@ void organizeEvents(void);
 
 typedef enum {MENU, CHANGE_INTENSITY, RECEIVING_ID, RECEIVING_PIN, ADMIN_MODE, ADDING_USER,
 			REMOVING_USER, CHANGING_PIN,USER_APPROVED, BLOCKED, NUM_STATES,STAY}state_name; //Estados posibles de la FSM
-typedef enum {UP,DOWN,ENTER,CANCEL,EMPTY}input_name;
 
 
 //UserData contiene toda la informacion necesaria que necesita una rutina para manejar
@@ -33,6 +32,29 @@ typedef struct{
 	char option; // Si usuario emitio un pedido
 	category_name category;
 }UserData_t;
+
+void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOption, UserData_t * ud);
+
+void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOption, UserData_t * ud)
+{
+	int i;
+	if(resetID){
+	    for(i=0;i<ID_LENGTH;++i){
+	    	ud->received_ID[i] = -1;
+	    } // clean user ID
+	}
+	if(resetPIN){
+	    for(i=0;i<PIN_MAX_LENGTH;++i){
+	    	ud->received_PIN[i] = -1;
+	    } // clean user PIN
+	}
+	if(resetCategory){
+		ud->category = -1;
+	}
+	if(resetOption){
+		ud->option = -1;
+	}
+}
 
 struct state;
 typedef struct state (*StateRoutinePtr_t)(UserData_t *);
