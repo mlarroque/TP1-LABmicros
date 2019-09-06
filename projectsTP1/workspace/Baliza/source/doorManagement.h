@@ -8,10 +8,12 @@
 #ifndef DOORMANAGEMENT_H_
 #define DOORMANAGEMENT_H_
 
+#define TIME_OUT_DOOR 5000000
 
 void doorInit(void);
 void openDoor(void);
 void closeDoor(void);
 void toggleDoor(void);
+void openDoorTemporally(void);
 
 #endif /* DOORMANAGEMENT_H_ */
