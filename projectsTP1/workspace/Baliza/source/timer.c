@@ -22,7 +22,7 @@ typedef struct{
  * 										MACROS
  *******************************************************************************************/
 //Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
-#define MS_TO_PULSES(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000 ) //Asume que recibe el t en milisegundos.
+#define US_TO_PULSES(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en milisegundos.
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
@@ -73,6 +73,15 @@ void DisableTimer(unsigned char index)
 	(timers+index)->enabled = false;
 }
 
+void RestartTimer(unsigned char index)
+{
+	(timers+index)->counter = 0;
+}
+
+unsigned int GetTimerCount(unsigned char index)
+{
+	return (timers+index)->counter;
+}
 /*******************************************************************************
  * 								FUNCIONES LOCALES
  *******************************************************************************/

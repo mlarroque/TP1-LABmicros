@@ -6,18 +6,104 @@
  */
 
 #include "stateChangeIntensity.h"
+#include "stateMenu.h"
+#include "stateReceivingPIN.h"
+
+#define INTENSITY_OPTIONS	10
+#define INCREMENT	1
+#define INITIAL	1
+
+const char * intStrings[INTENSITY_OPTIONS] = {"10","20","30","40","50","60","70","80","90","100"};
+
 
 state_t CIinputEvHandler(UserData_t * ud)
 {
-
+	state_t nextState;
+	switch(ud->encoderUd->input)
+	{
+		case UP: // change current option
+			if(ud->option < INTENSITY_OPTIONS){
+				ud->option += INCREMENT;
+			}
+			else{
+				ud->option = INITIAL;
+			}
+			// show option to user
+			PrintMessage(intStrings[ud->option], false);
+			nextState.name = STAY;
+			break;
+		case DOWN: // change current option
+			if(ud->option > INITIAL){
+				ud->option -= INCREMENT;
+			}
+			else{
+				ud->option = INTENSITY_OPTIONS;
+			}
+			// show option to user
+			PrintMessage(intStrings[ud->option], false);
+			nextState.name = STAY;
+			break;
+		case ENTER: // Selects current option
+			if(ud->option < INITIAL)
+			{
+				PrintMessage("PLEASE SELECT INTENSITY FIRST", true);
+				nextState.name = STAY;
+			}
+			else
+			{
+				changeIntensity(ud->option);
+				PrintMessage("INTENSITY CHANGED", true);
+				ud->option = -1;
+				nextState.name = MENU;
+				nextState.routines[INPUT_EV] = &MinputEvHandler;
+				nextState.routines[TIMER_EV] = &MtimerEvHandler;
+				nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+			}
+			break;
+		case CANCEL:
+			ud->option = -1;
+			nextState.name = MENU;
+			nextState.routines[INPUT_EV] = &MinputEvHandler;
+			nextState.routines[TIMER_EV] = &MtimerEvHandler;
+			nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+			break; // Cancels selection and back to menu
+	}
+	return nextState;
 }
 
 state_t CItimerEvHandler(UserData_t * ud)
 {
-
+	state_t nextState;
+	if(ud->timerUd.timers[DISPLAY]){
+		UpdateDisplay();
+	}
+	nextState.name = STAY;
+	return nextState;
 }
 
 state_t CIkeycardEvHandler(UserData_t * ud)
 {
-
+	state_t nextState;
+	char cardID[ID_LENGTH];
+	int i;
+	for(i=0;i<ID_LENGTH;++i){
+		cardID[i] = ud->magnetLectorUd.id[i];
+	}
+	bool IDExists = verifyID(cardID);
+	if(IDExists){
+		// show message in display
+		PrintMessage("VALID ID - ENTER PIN", true);
+		ud->received_ID = ud->magnetLectorUd.id;
+		ud->option = -1;
+		nextState.name = RECEIVING_PIN;
+		nextState.routines[INPUT_EV] = &RPinputEvHandler;
+		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
+		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
+	}
+	else{
+		// show message in display
+		PrintMessage("INVALID ID", true);
+		nextState.name = STAY;
+	}
+	return nextState;
 }
