@@ -8,7 +8,7 @@
 #ifndef CHANGING_PIN_H_
 #define CHANGING_PIN_H_
 
-#include "FSM.h"
+#include "userData.h"
 
 state_t CPinputEvHandler(UserData_t * ud);
 

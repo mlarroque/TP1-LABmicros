@@ -1,7 +1,7 @@
 /***************************************************************************//**
   @file     App.c
   @brief    Application functions
-  @author   Nicolás Magliola
+  @author   Grupo 5
  ******************************************************************************/
 
 /*******************************************************************************
@@ -12,6 +12,13 @@
 #include "FSM.h"
 #include "queue.h"
 #include "dataBase.h"
+
+
+//IO
+#include "display.h"
+#include "encoder.h"
+#include "magnetCardLector.h"
+#include "timer.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -31,10 +38,6 @@ UserData_t userData;
 event_t newEvent;
 // App.c
 bool chaningState = false;
-// queues
-timerQueue_t timerQueue;
-magnetLectorQueue_t magnetLectorQueue;
-encoderQueue_t encoderQueue;
 
 /*******************************************************************************
  *******************************************************************************
@@ -49,27 +52,16 @@ void App_Init (void)
     InitializeTimers();
     initializeEncoder();
     InitializeDisplay();
+    initMagnetCardLector();
 
 
     // FSM/Queue Initialization
-    nextState.name = MENU;
-    nextState.routines[INPUT_EV] = &MinputEvHandler;
-    nextState.routines[TIMER_EV] = &MtimerEvHandler;
-    nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
-    fsm.currentState = nextState;
+    initFSM(fsm);
     initializeDataBase();
     initializeQueue();
 
     // User Data init
-    userData.option = -1;
-    userData.category = NONE;
-    int i;
-    for(i=0;i<ID_LENGTH;++i){
-    	userData.received_ID[i] = -1;
-    }
-    for(i=0;i<PIN_MAX_LENGTH;++i){
-    	userData.received_PIN[i] = -1;
-    }
+    userDataReset(true, true, true, true, ud);
 
 }
 

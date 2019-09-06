@@ -11,50 +11,8 @@
 #ifndef FSM_H_
 #define FSM_H_
 
-#include "display.h"
-
-void organizeEvents(void);
-
-
 typedef enum {MENU, CHANGE_INTENSITY, RECEIVING_ID, RECEIVING_PIN, ADMIN_MODE, ADDING_USER,
 			REMOVING_USER, CHANGING_PIN,USER_APPROVED, BLOCKED, NUM_STATES,STAY}state_name; //Estados posibles de la FSM
-
-
-//UserData contiene toda la informacion necesaria que necesita una rutina para manejar
-//un evento que se saco de la cola.
-typedef struct{
-   //bool timers[NUM_TIMERS]; //Arreglo que indica que timers expiraron.
-	timerUd_t timerUd;
-	magnetLectorUd_t magnetLectorUd;
-	encoderUd_t encoderUd;
-	char received_ID[ID_LENGTH]; //String con el ID recibido del usuario.
-	char received_PIN[PIN_MAX_LENGTH]; //String con el PIN recibido del usuario.
-	char option; // Si usuario emitio un pedido
-	category_name category;
-}UserData_t;
-
-void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOption, UserData_t * ud);
-
-void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOption, UserData_t * ud)
-{
-	int i;
-	if(resetID){
-	    for(i=0;i<ID_LENGTH;++i){
-	    	ud->received_ID[i] = -1;
-	    } // clean user ID
-	}
-	if(resetPIN){
-	    for(i=0;i<PIN_MAX_LENGTH;++i){
-	    	ud->received_PIN[i] = -1;
-	    } // clean user PIN
-	}
-	if(resetCategory){
-		ud->category = -1;
-	}
-	if(resetOption){
-		ud->option = -1;
-	}
-}
 
 struct state;
 typedef struct state (*StateRoutinePtr_t)(UserData_t *);
@@ -68,5 +26,7 @@ typedef struct{
 	state_t currentState;
 	bool exit;
 }FSM_t;
+
+void initFSM(FSM_t * fsm);
 
 #endif /* FSM_H_ */

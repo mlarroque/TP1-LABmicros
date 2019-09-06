@@ -43,6 +43,27 @@ void pushEvent(event_t ev)
 
 void organizeEvents(dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue)
 {
-	//TERMINARR
+	//TERMINAR
+}
+
+void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOption, UserData_t * ud)
+{
+	int i;
+	if(resetID){
+	    for(i=0;i<ID_LENGTH;++i){
+	    	ud->received_ID[i] = -1;
+	    } // clean user ID
+	}
+	if(resetPIN){
+	    for(i=0;i<PIN_MAX_LENGTH;++i){
+	    	ud->received_PIN[i] = -1;
+	    } // clean user PIN
+	}
+	if(resetCategory){
+		ud->category = -1;
+	}
+	if(resetOption){
+		ud->option = -1;
+	}
 }
 

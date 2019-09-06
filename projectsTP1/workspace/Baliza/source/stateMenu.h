@@ -8,7 +8,7 @@
 #ifndef MENU_H_
 #define MENU_H_
 
-#include "FSM.h"
+#include "userData.h"
 
 state_t MinputEvHandler(UserData_t * ud);
 
