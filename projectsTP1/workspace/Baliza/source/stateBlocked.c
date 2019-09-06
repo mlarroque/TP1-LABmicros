@@ -7,6 +7,9 @@
 
 #include "stateBlocked.h"
 
+#include "display.h"
+#include "encoder.h"
+
 state_t BinputEvHandler(UserData_t * ud)
 {
 

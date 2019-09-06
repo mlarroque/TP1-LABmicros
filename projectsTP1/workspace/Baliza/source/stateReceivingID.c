@@ -8,8 +8,10 @@
 #include "stateReceivingID.h"
 #include "stateReceivingPIN.h"
 #include "stateMenu.h"
-#include "dataBase.h"
 
+#include "dataBase.h"
+#include "display.h"
+#include "encoder.h"
 
 #define ID_OPTIONS	12
 #define INCREMENT	1
@@ -80,14 +82,10 @@ state_t RIinputEvHandler(UserData_t * ud)
 			}
 			string = createString(ud);
 			PrintMessage(string, false);
-			ud->option = -1;
+			userDataReset(false ,false ,false ,true ,ud);
 			break;
 		case CANCEL:
-			ud->option = -1;
-		    int i;
-		    for(i=0;i<ID_LENGTH;++i){
-		    	userData.received_ID[i] = -1;
-		    } // clean user ID
+			userDataReset(true ,false ,false ,true ,ud);
 			nextState.name = MENU;
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;
@@ -121,7 +119,7 @@ state_t RIkeycardEvHandler(UserData_t * ud)
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
 		ud->received_ID = ud->magnetLectorUd.id;
-		ud->option = -1;
+		userDataReset(false ,false ,false ,true ,ud);
 		nextState.name = RECEIVING_PIN;
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;

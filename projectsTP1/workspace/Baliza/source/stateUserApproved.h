@@ -8,7 +8,7 @@
 #ifndef STATEUSERAPPROVED_H_
 #define STATEUSERAPPROVED_H_
 
-#include "FSM.h"
+#include "userData.h"
 
 state_t UAinputEvHandler(UserData_t * ud);
 

@@ -8,7 +8,7 @@
 #ifndef CHANGE_INTENSITY_H_
 #define CHANGE_INTENSITY_H_
 
-#include "FSM.h"
+#include "userData.h"
 
 state_t CIinputEvHandler(UserData_t * ud);
 

@@ -9,6 +9,9 @@
 #include "stateBlocked.h"
 #include "stateMenu.h"
 //#include "stateUserApproved.h"
+
+#include "display.h"
+#include "encoder.h"
 #include "dataBase.h"
 #include <stdbool.h>
 
@@ -92,6 +95,8 @@ state_t RPinputEvHandler(UserData_t * ud)
 						if(validPIN){
 							PrintMessage("USER APPROVED", true);
 							nextState.name = USER_APPROVED;
+							char cat = verifyCategory(ud->received_ID);
+							ud->category = cat;
 							tryNro = 0;
 							nextState.routines[INPUT_EV] = &UAinputEvHandler;
 							nextState.routines[TIMER_EV] = &UAtimerEvHandler;
@@ -100,9 +105,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 						else
 						{
 							PrintMessage("INCORRECT PIN", true);
-						    for(i=0;i<PIN_MAX_LENGTH;++i){
-						    	userData.received_PIN[i] = -1;
-						    } // clean user PIN
+							userDataReset(false ,true ,false ,false ,ud);
 						    tryNro += 1;
 						    if(tryNro < MAX_TRIES){
 						    	nextState.name = STAY;
@@ -123,17 +126,10 @@ state_t RPinputEvHandler(UserData_t * ud)
 					}
 					break;
 			}
-			ud->option = -1;
+			userDataReset(false ,false ,false ,true ,ud);
 			break;
 		case CANCEL:
-			ud->option = -1;
-		    int i;
-		    for(i=0;i<PIN_MAX_LENGTH;++i){
-		    	userData.received_PIN[i] = -1;
-		    } // clean user PIN
-		    for(i=0;i<ID_LENGTH;++i){
-		    	userData.received_ID[i] = -1;
-		    } // clean user ID
+			userDataReset(true ,true ,false ,true ,ud);
 		    tryNro = 0;
 			nextState.name = MENU;
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
@@ -168,11 +164,7 @@ state_t RPkeycardEvHandler(UserData_t * ud)
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
 		ud->received_ID = ud->magnetLectorUd.id;
-		int i;
-	    for(i=0;i<PIN_MAX_LENGTH;++i){
-	    	userData.received_PID[i] = -1;
-	    } // clean user PIN
-		ud->option = -1;
+		userDataReset(false ,true ,false ,true ,ud);
 		tryNro = 0;
 	}
 	else{

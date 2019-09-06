@@ -11,7 +11,33 @@ static dataBase_t dataBase;
 
 void initializeDataBase(void)
 {
-	// TERMINAR
+	dataBase.top = -1;
+	user_t newUser = {{1,2,3,4,5},{0,1,2,3,4,5,6,7},ADMIN};
+	addUser(newUser);
+}
+
+void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH])
+{
+	// checks if ID is on list
+	bool IDfound = false;
+	int i;
+	for(i=0 ; i< (dataBase->top + 1) ; ++i){
+		int j;
+		bool same = true;
+		for(j=0 ; i<ID_LENGTH ; ++i){
+			if(dataBase->userList[i].usersID[j] != usersID[j]){
+				same = false;
+			}
+		}
+		if(same){
+			IDfound = true;
+			break;
+		}
+	}
+	int j;
+	for(i=0;i<PIN_MAX_LENGTH;++i){
+		dataBase->userList[i].usersPIN[j] = usersNewPIN[j];
+	}
 }
 
 status addUser(user_t newUser)

@@ -6,17 +6,19 @@
  */
 
 #include "stateMenu.h"
-#include "display.h"
-#include "dataBase.h"
 #include "stateChangeIntensity.h"
 #include "stateReceivingID.h"
 #include "stateReceivingPIN.h"
 
-#define MENU_OPTIONS	2
+#include "display.h"
+#include "timer.h"
+#include "encoder.h"
+#include "dataBase.h"
+
 #define INCREMENT	1
 #define INITIAL	0
 
-typedef enum {ENTER_ENCODER_ID, INTENSITY}option_name;
+typedef enum {ENTER_ENCODER_ID, INTENSITY,MENU_OPTIONS}option_name;
 const char * menuStrings[MENU_OPTIONS] = {"ID","GLOW"};
 
 
@@ -51,19 +53,21 @@ state_t MinputEvHandler(UserData_t * ud)
 			switch(ud->option)
 			{
 				case ENTER_ENCODER_ID:
-					ud->option = -1;
+					userDataReset(false, false, false, true, ud);
 					nextState.name = RECEIVING_ID;
 					nextState.routines[INPUT_EV] = &RIinputEvHandler;
 					nextState.routines[TIMER_EV] = &RItimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &RIkeycardEvHandler;
 					break;
 				case INTENSITY:
-					ud->option = -1;
+					userDataReset(false, false, false, true, ud);
 					nextState.name = CHANGE_INTENSITY;
 					nextState.routines[INPUT_EV] = &CIinputEvHandler;
 					nextState.routines[TIMER_EV] = &CItimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &CIkeycardEvHandler;
 					break;
+				default:
+					nextState.name = STAY;
 			}
 			break;
 		case CANCEL:
@@ -80,7 +84,7 @@ state_t MtimerEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	nextState.name = STAY;
-	if(ud->timerUd.timers[DISPLAY]){
+	if(ud->timerUd == DISPLAY){
 		UpdateDisplay();
 	}
 	return nextState;
@@ -100,6 +104,7 @@ state_t MkeycardEvHandler(UserData_t * ud)
 		PrintMessage("VALID ID - ENTER PIN", true);
 		ud->received_ID = ud->magnetLectorUd.id;
 		ud->option = -1;
+		userDataReset(false, false, false, true, ud);
 		nextState.name = RECEIVING_PIN;
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;

@@ -15,7 +15,7 @@
 /******************************************************************************************
  *  				TIPOS DE DATOS, CONSTANTES Y VARIABLES GLOBALES
  ******************************************************************************************/
-typedef enum {INACTIVITY, DISPLAY, MESSAGE, DISPLAY_INTENSITY,ENCODER_TIMER, NUM_TIMERS}timer_name; //Timers utilizados
+typedef enum {INACTIVITY, DISPLAY, MESSAGE, DISPLAY_INTENSITY,ENCODER_TIMER, NUM_TIMERS}timerUd_t; //Timers utilizados
 typedef void (*callback_ptr)(void);
 
 
@@ -23,7 +23,7 @@ typedef void (*callback_ptr)(void);
  * 										FUNCIONES
  ********************************************************************************************/
 void InitializeTimers(void);
-//Recibe el timeout en milisegundos
+//Recibe el timeout en microsegundos
 void SetTimer(unsigned char index,unsigned int timeout, callback_ptr func);
 void DisableTimer(unsigned char index);
 void EnableTimer(unsigned char index);

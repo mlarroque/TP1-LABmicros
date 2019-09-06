@@ -10,9 +10,7 @@
 
 #define MAX_EVENTS 1000
 
-#include "display.h"
-// #include "encoder.h"
-// #include "lector.h"
+#include "userData.h"
 
 typedef enum {INPUT_EV, TIMER_EV, KEYCARD_EV, NUM_EVENTS}ev_name;
 
@@ -34,6 +32,8 @@ event_t popEvent(void);
 
 void pushEvent(event_t ev);
 
-void organizeEvents(dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue);
+void organizeEvents(void);
+
+void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOption, UserData_t * ud);
 
 #endif /* QUEUE_H_ */

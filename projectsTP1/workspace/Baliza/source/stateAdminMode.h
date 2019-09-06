@@ -8,7 +8,7 @@
 #ifndef ADMIN_MODE_H_
 #define ADMIN_MODE_H_
 
-#include "FSM.h"
+#include "userData.h"
 
 state_t AMinputEvHandler(UserData_t * ud);
 

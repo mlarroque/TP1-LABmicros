@@ -9,18 +9,11 @@
 #define DISPLAY_H_
 #include <stdbool.h>
 #include <stdint.h>
-#include "queue.h"
 
 /*********************************************************************************************************
  * 										DEFINCIONES Y TIPOS DE DATOS
  ********************************************************************************************************/
 #define DISPLAY_SIZE 4
-#define MAX_NUMBER_OF_EVS 10
-typedef struct
-{
-	event_t display_ev_array[MAX_NUMBER_OF_EVS];
-	unsigned char curr_ev; //Indice que indica el ultimo evento de la cola
-}dispalyQueue_t ;
 
 /**********************************************************************************************************
  * 										DECLARACION DE FUNCIONES
@@ -51,4 +44,6 @@ void ShiftLeft(void);
 void UpdateDisplay(void);
 
 #endif /* DISPLAY_H_ */
+
+
 

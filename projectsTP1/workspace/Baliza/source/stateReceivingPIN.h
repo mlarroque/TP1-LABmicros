@@ -8,7 +8,7 @@
 #ifndef RECEIVING_PIN_H_
 #define RECEIVING_PIN_H_
 
-#include "FSM.h"
+#include "userData.h"
 
 state_t RPinputEvHandler(UserData_t * ud);
 
