@@ -11,6 +11,7 @@
 #include "stateReceivingPIN.h"
 
 #include "display.h"
+#include "timer.h"
 #include "encoder.h"
 #include "dataBase.h"
 
@@ -65,6 +66,8 @@ state_t MinputEvHandler(UserData_t * ud)
 					nextState.routines[TIMER_EV] = &CItimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &CIkeycardEvHandler;
 					break;
+				default:
+					nextState.name = STAY;
 			}
 			break;
 		case CANCEL:
@@ -81,7 +84,7 @@ state_t MtimerEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	nextState.name = STAY;
-	if(ud->timerUd.timers[DISPLAY]){
+	if(ud->timerUd == DISPLAY){
 		UpdateDisplay();
 	}
 	return nextState;

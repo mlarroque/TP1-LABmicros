@@ -12,10 +12,6 @@
 
 #include "userData.h"
 
-#include "timer.h"
-#include "encoder.h"
-#include "magnetCardLector.h"
-
 typedef enum {INPUT_EV, TIMER_EV, KEYCARD_EV, NUM_EVENTS}ev_name;
 
 //Tipo de datos que se almacena en la cola de eventos.
@@ -36,7 +32,7 @@ event_t popEvent(void);
 
 void pushEvent(event_t ev);
 
-void organizeEvents(dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue);
+void organizeEvents(void);
 
 void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOption, UserData_t * ud);
 

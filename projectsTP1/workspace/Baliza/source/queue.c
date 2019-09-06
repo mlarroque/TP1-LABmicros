@@ -7,6 +7,10 @@
 
 #include "queue.h"
 
+#include "timer.h"
+#include "encoder.h"
+#include "magnetCardLector.h"
+
 queue_t queue;
 
 void initializeQueue(void)
@@ -41,7 +45,7 @@ void pushEvent(event_t ev)
 	return;
 }
 
-void organizeEvents(dispalyQueue_t * dispalyQueue, magnetLectorQueue_t * magnetLectorQueue, encoderQueue_t * encoderQueue)
+void organizeEvents(void)
 {
 	//TERMINAR
 }

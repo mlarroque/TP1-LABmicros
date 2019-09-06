@@ -68,7 +68,7 @@ void App_Init (void)
 /* Función que se llama constantemente en un ciclo infinito */
 void App_Run (void)
 {
-	organizeEvents( &timerQueue, &magnetLectorQueue, &encoderQueue); // organize events of all queues
+	organizeEvents(); // organize events of all queues
 	newEvent = popEvent(); // get new event
 	switch(newEvent.name){ // which type of event?
 		case INPUT_EV:
