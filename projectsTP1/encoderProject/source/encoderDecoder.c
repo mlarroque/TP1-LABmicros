@@ -57,15 +57,15 @@ counter_type readRotation(void)
 
 	if(wasThereChange())
 	{
-		if(isValid())
-		{
+		//if(isValid())
+		//{
 			if(isClockwise())
 				status = COUNT_UP;
 			else
 				status = COUNT_DOWN;
-		}
-		else
-			status = ERROR;
+	//}
+		//else
+		//	status = ERROR;
 	}
 	else
 		status = NO_CHANGE;
