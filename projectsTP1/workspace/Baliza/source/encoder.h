@@ -39,6 +39,7 @@ void initializeEncoder(void);
 
 
 encoderUd_t popEncoderEvent(void);
+bool isEncEventValid(void);
 //encoderQueue_t getEncoderQueue(void);
 
 

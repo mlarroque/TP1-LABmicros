@@ -166,6 +166,10 @@ encoderUd_t popEncoderEvent(void)
 	return poppedEvent;
 }
 
+bool isEncEventValid(void)
+{
+	return encoderQueue[top].event.isValid;
+}
 void pushEncoderEvent(encoderUd_t ev)
 {
 	if(encoderQueue->top == ENCODER_EVENTS-1)
