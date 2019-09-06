@@ -7,6 +7,7 @@
 #include "display.h"
 #include "SegmentDisplay.h"
 #include "timer.h"
+#include "timer_queue.h"
 
 #define STRING_TIME 375000 //Delay en us entre cada shifteo hacia la izquierda.
 #define FPS 60 //Frames per second
@@ -19,13 +20,12 @@
  *
  ******************************************************************************/
 static const char* current_string;
-static unsigned int string_position;
-static unsigned int display_position;
-static unsigned int string_size;
-static unsigned char brigthness;
+static int string_position;
+static int display_position;
+static int string_size;
+static unsigned int brigthness;
 static bool brightness_ev; //Indica que se debe apagar el ultimo simbolo enviado al display
 static bool initialized = false;
-static dispalyQueue_t display_queue;
 
 /*******************************************************************************
  *
@@ -48,13 +48,13 @@ void InitializeDisplay(void)
 	{
 		InitializeSegmentDisplay();
 		InitializeTimers();
+		InitializeTimerQueue();
 		ClearDisplay();
 		SetTimer(DISPLAY, US_BETWEEN_SYMBOLS, &GenerateDisplayEv);
 		SetTimer(MESSAGE,STRING_TIME, &ShiftLeft);//Setteo el timer con la velocidad de movimiento del string.
 		DisableTimer(MESSAGE); //Por default asumo que se desea un mensaje que nose mueva a traves del display.
 		brigthness = MAX_BRIGHTNESS; //Por default comienza con la intensidad del display al maximo.
 		brightness_ev = false;
-		display_queue.curr_ev = 0;
 		initialized = true;
 	}
 }
@@ -112,6 +112,7 @@ void SetBrightness(unsigned char brightness_factor)
 
 void UpdateDisplay(void)
 {
+	unsigned int brightness_delay;
 	if(!brightness_ev) //Escribo el digito que sigue en el display
 	{
 		if(string_position < 0)
@@ -146,7 +147,9 @@ void UpdateDisplay(void)
 				string_position -= DISPLAY_SIZE;
 				display_position -= DISPLAY_SIZE;
 			}
-			SetTimer(DISPLAY_INTENSITY, (brigthness/MAX_BRIGHTNESS)*US_BETWEEN_SYMBOLS, &GenerateBrightnessEv);
+			//CHEQUEAAAAAAAR
+			brightness_delay = (brigthness*US_BETWEEN_SYMBOLS)/(MAX_BRIGHTNESS+1);
+			SetTimer(DISPLAY_INTENSITY, brightness_delay, &GenerateBrightnessEv);
 	}
 	else //Apago el ultimo simbolo enviado
 	{
@@ -161,7 +164,6 @@ void UpdateDisplay(void)
 		brightness_ev = false;
 	}
 }
-
 
 /*******************************************************************************
  *
@@ -178,13 +180,13 @@ unsigned int GetStringSize(const char* str)
 
 void GenerateDisplayEv(void)
 {
-	//event_t new_ev = {TIMER_EV,};
-	//Pongo el evento en la cola
+	PushTimerEv(DISPLAY);
 }
 
 void GenerateBrightnessEv(void)
 {
 	DisableTimer(DISPLAY_INTENSITY);
-	//Pongo evento de display en la cola
-	brightness_ev = true;
+	PushTimerEv(DISPLAY);
 }
+
+
