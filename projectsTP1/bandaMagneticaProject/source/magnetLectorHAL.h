@@ -6,23 +6,16 @@
 #define TRACK2_DATAID 2
 #define TRACK3_DATAID 3
 
-#define MAX_TRACK_LEN 200
 #define MAX_ITEMS_LECTOR_QUEUE 5
+#define DATA_LEN 1024
 
-typedef struct{
-
-	int trackNum;
-	char trackString[MAX_TRACK_LEN];
-	_Bool isValid;
-
-}magnetLectorData_t;
-
-
+#include <stdint.h>
+typedef uint8_t bufferMagnetDataEncoded_Type;
 
 _Bool isEventinLectorQueue(void);
+bufferMagnetDataEncoded_Type * getLectureEvent(void);
+void hwLectorInit(void);
 
-magnetLectorData_t getLectureEvent(void);
-void hwLectorInit();
 
 
 #endif //_MAGNETLECTOR_H_

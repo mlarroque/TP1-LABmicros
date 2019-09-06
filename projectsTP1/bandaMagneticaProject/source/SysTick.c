@@ -15,7 +15,7 @@
 
 
 
-#define FCLK	1000000000U // Hz
+#define FCLK	100000000U // Hz
 
 
 typedef void (*sysTickFun_t)(void);

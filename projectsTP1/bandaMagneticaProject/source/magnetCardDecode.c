@@ -11,6 +11,7 @@
 #include "magnetCardDecode.h"
 #include "cardStandard.h"
 #include <stdbool.h>
+#include <stddef.h>
 
 /*******************************************************************************
  * typedefs and global consts
@@ -123,7 +124,11 @@ _Bool magnetDataParser(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnet
 {
     _Bool successReport = false;
 
-    int trackNumber = getTrackShaped(bufferDataIn);
+    int trackNumber = NO_TRACK;
+    if((bufferDataIn != NULL) && (bufferDataOut != NULL) && (trackFounded != NULL))
+    {
+    	trackNumber = getTrackShaped(bufferDataIn);
+    }
 
     if((trackNumber != NO_TRACK) && (trackNumber < NUMBER_OF_TRACKS_AVAILABLE))
     {

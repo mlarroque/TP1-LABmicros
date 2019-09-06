@@ -8,7 +8,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 
-#include "magnetLectorDriver.h"
+#include <magnetCardLector.h>
 #include "doorManagement.h"
 
 
@@ -34,7 +34,7 @@ magnetLectorData_t dataLector;
 /* Función que se llama 1 vez, al comienzo del programa */
 void App_Init (void)
 {
-	hwLectorInit();
+	initMagnetCardLector();
 	doorInit();
 }
 
@@ -43,12 +43,12 @@ void App_Run (void)
 {
 	int delayTime = 1000000UL;
 	while(delayTime--);
-	if(isEventinLectorQueue())
+	if(someMagnetCard2Read())
 	{
-		dataLector = getLectureEvent();
+		dataLector = getLectureDecoded();
 		if(dataLector.isValid)
 		{
-			toggleDoor();
+			openDoorTemporally();
 		}
 	}
 	//espero interrupciones y realizo ISRs.

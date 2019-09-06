@@ -9,7 +9,9 @@ C_SRCS += \
 ../source/doorManagement.c \
 ../source/gpio.c \
 ../source/magnetCardDecode.c \
-../source/magnetLectorDriver.c 
+../source/magnetCardLector.c \
+../source/magnetLectorHAL.c \
+../source/timer.c 
 
 OBJS += \
 ./source/App.o \
@@ -17,7 +19,9 @@ OBJS += \
 ./source/doorManagement.o \
 ./source/gpio.o \
 ./source/magnetCardDecode.o \
-./source/magnetLectorDriver.o 
+./source/magnetCardLector.o \
+./source/magnetLectorHAL.o \
+./source/timer.o 
 
 C_DEPS += \
 ./source/App.d \
@@ -25,7 +29,9 @@ C_DEPS += \
 ./source/doorManagement.d \
 ./source/gpio.d \
 ./source/magnetCardDecode.d \
-./source/magnetLectorDriver.d 
+./source/magnetCardLector.d \
+./source/magnetLectorHAL.d \
+./source/timer.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

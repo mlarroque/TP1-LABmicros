@@ -23,6 +23,8 @@
 #endif
 
 #define DATA_LEN 1024
+#define MAX_TRACK_LEN 200
+
 #define TERMINATOR_DATA_DECODED '\0'
 
 /*******************************************************************************
@@ -31,6 +33,7 @@
 
 typedef uint8_t bufferMagnetDataEncoded_Type;
 typedef char bufferMagnetDataDecoded_Type;
+
 
 _Bool magnetDataParser(bufferMagnetDataEncoded_Type * bufferDataIn, bufferMagnetDataDecoded_Type * bufferDataOut, int * trackFounded);
 

@@ -1,7 +1,7 @@
 /***************************************************************************//**
   @file     SysTick.h
   @brief    SysTick driver
-  @author   Nicol�s Magliola
+  @author   Nicolas Magliola
  ******************************************************************************/
 
 #ifndef _SYSTICK_H_
@@ -18,7 +18,7 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 
-#define SYSTICK_ISR_FREQ_HZ 1000U
+#define SYSTICK_ISR_FREQ_HZ 100000UL //Clk de periodo 10us
 
 
 
