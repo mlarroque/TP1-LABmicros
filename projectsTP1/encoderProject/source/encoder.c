@@ -157,15 +157,19 @@ encoderUd_t popEncoderEvent(void)
 	else
 	{
 		poppedEvent = encoderQueue[encoderQueue->top].event; //popEvent
-		encoderQueue->top -= 1; // Decrement queue counter
 		poppedEvent.isValid = true;
+		encoderQueue->top -= 1; // Decrement queue counter
+		if(encoderQueue->top == -1)
+		{
+			encoderQueue->isEmpty = true;
+		}
 	}
 	return poppedEvent;
 }
 
 bool isEncEventValid(void)
 {
-	return encoderQueue[encoderQueue->top].event.isValid;
+	return !encoderQueue->isEmpty;
 }
 void pushEncoderEvent(encoderUd_t ev)
 {

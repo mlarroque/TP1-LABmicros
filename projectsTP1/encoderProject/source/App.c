@@ -13,7 +13,6 @@
 #include "encoder.h"
 
 
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
@@ -39,8 +38,6 @@ void App_Init (void)
 	initMagnetCardLector();
 	initializeEncoder();
 
-
-
 	doorInit();
 }
 
@@ -49,6 +46,7 @@ void App_Run (void)
 {
 	int delayTime = 1000000UL;
 	while(delayTime--);
+
 	if(isEncEventValid())
 	{
 		dataEncoder = popEncoderEvent();;

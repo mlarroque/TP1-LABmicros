@@ -45,10 +45,13 @@ void initializeEncoderHAL(void)
 	if(!initialized_enc_low)
 	{
 		gpioMode(SIGNAL_A_PIN, INPUT_PULLUP);
+		//setPassiveFilter(SIGNAL_A_PIN);
 		gpioMode(SIGNAL_B_PIN, INPUT_PULLUP);
+		//setPassiveFilter(SIGNAL_B_PIN);
 		gpioMode(SIGNAL_C_PIN, INPUT_PULLUP);
+		//setPassiveFilter(SIGNAL_C_PIN);
 		SetTimer(ENCODER_TIMER, ENCODER_TIME, encTimerRoutine);
-		DisableTimer(ENCODER_TIMER);		//lo inicializo sólo cuando se presiona el enter
+		//DisableTimer(ENCODER_TIMER);		//lo inicializo sólo cuando se presiona el enter
 
 		initialized_enc_low = true;
 	}
