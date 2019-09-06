@@ -145,32 +145,39 @@ encoderQueue_t getEncoderQueue(void)
 
 void initializeEncoderQueue(void)
 {
-	encoderQueue.top = -1;
+	encoderQueue->top = -1;
+	encoderQueue->isEmpty = true;
 }
 
-encoderQueue_t popEncoderEvent(void)
+encoderUd_t popEncoderEvent(void)
 {
-	encoderQueue_t poppedEvent;
-	if(encoderQueue->top == -1){ // queue empty -> top = -1
-		return NULL;
+	encoderUd_t poppedEvent;
+	if(encoderQueue->top == -1)
+	{ // queue empty -> top = -1
+		encoderQueue->isEmpty = true;
+		poppedEvent.isValid = false;
 	}
 	else
 	{
 		poppedEvent = encoderQueue.events[top]; //popEvent
 		queue->top -= 1; // Decrement queue counter
-		return poppedEvent;
+		poppedEvent = true;
 	}
+	return poppedEvent;
 }
 
-void pushEncoderEvent(encoderQueue_t ev)
+void pushEncoderEvent(encoderUd_t ev)
 {
-	if(encoderQueue->top == ENCODER_EVENTS-1){ // event overflow
+	if(encoderQueue->top == ENCODER_EVENTS-1)
+	{ // event overflow
 		encoderQueue->top = 0;
 		encoderQueue->event[top] = ev;
+		encoderQueue->isEmpty = false;
 	}
 	else{
 		encoderQueue->top += 1;
 		encoderQueue->event[top] = ev;
+		encoderQueue->isEmpty = false;
 	}
 	return;
 }
