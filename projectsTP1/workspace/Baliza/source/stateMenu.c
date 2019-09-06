@@ -94,16 +94,18 @@ state_t MkeycardEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	char cardID[ID_LENGTH];
-	int i;
-	for(i=0;i<ID_LENGTH;++i){
-		cardID[i] = ud->magnetLectorUd.id[i];
-	}
+	//int i;
+	//for(i=0;i<ID_LENGTH;++i){
+	//	cardID[i] = ud->magnetLectorUd.id[i];
+	//}
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
-		ud->received_ID = ud->magnetLectorUd.id;
-		ud->option = -1;
+		int i;
+		for(i=0;i<ID_LENGTH;++i){
+			ud->received_ID[i] = cardID[i];
+		}
 		userDataReset(false, false, false, true, ud);
 		nextState.name = RECEIVING_PIN;
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
