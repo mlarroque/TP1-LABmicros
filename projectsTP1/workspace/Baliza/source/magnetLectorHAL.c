@@ -34,7 +34,7 @@ uint8_t raw2save = 0;
 uint32_t counterDataIn = 0;
 
 
-magnetLectorQueue_t queue;
+static magnetLectorQueue_t queue;
 
 
 void hwLectorInit(void)

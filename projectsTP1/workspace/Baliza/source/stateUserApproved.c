@@ -20,7 +20,7 @@
 #define INITIAL	0
 
 typedef enum {GRANT_ACCESS,CHANGE_PIN,ADMIN_OPTION,MENU_OPTIONS}option_name;
-const char * menuStrings[MENU_OPTIONS] = {"OPEN","PIN","ADM"};
+static const char * menuStrings[MENU_OPTIONS] = {"OPEN","PIN","ADM"};
 
 state_t UAinputEvHandler(UserData_t * ud)
 {

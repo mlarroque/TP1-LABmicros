@@ -20,20 +20,20 @@
 #define TERMINATOR	'\0'
 
 typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
-const char idStrings[ID_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
-char string[STRING_CANT];
+static const char idStrings[ID_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
+static char IDstring[STRING_CANT];
 
-char * createString(UserData_t * ud);
+char * createIDString(UserData_t * ud);
 
-char * createString(UserData_t * ud){
+char * createIDString(UserData_t * ud){
 	int i=0;
 	while(ud->received_ID[i] != -1){
-		string[i] = idStrings[(int)ud->received_ID[i]];
+		IDstring[i] = idStrings[(int)ud->received_ID[i]];
 	}
 	i += 1;
-	string[i] = idStrings[(int)ud->option];
+	IDstring[i] = idStrings[(int)ud->option];
 	i += 1;
-	string[i] = TERMINATOR;
+	IDstring[i] = TERMINATOR;
 }
 
 state_t RIinputEvHandler(UserData_t * ud)
@@ -55,7 +55,7 @@ state_t RIinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			string = createString(ud);
+			string = createIDString(ud);
 			PrintMessage(string, false);
 			nextState.name = STAY;
 			break;
@@ -67,7 +67,7 @@ state_t RIinputEvHandler(UserData_t * ud)
 				ud->option = ID_OPTIONS;
 			}
 			// show option to user
-			string = createString(ud);
+			string = createIDString(ud);
 			PrintMessage(string, false);
 			nextState.name = STAY;
 			break;
@@ -110,7 +110,7 @@ state_t RIinputEvHandler(UserData_t * ud)
 					}
 					break;
 			}
-			string = createString(ud);
+			string = createIDString(ud);
 			PrintMessage(string, false);
 			userDataReset(false ,false ,false ,true ,ud);
 			break;
