@@ -42,8 +42,11 @@ state_t RIinputEvHandler(UserData_t * ud)
 	char * string;
 	int j = 0;
 	int k = 0;
+	bool validID = false;
 	switch(ud->encoderUd.input)
 	{
+		case BACK:
+			break; //AGREGAR SI PINTA
 		case UP: // change current option
 			if(ud->option < ID_OPTIONS){
 				ud->option += INCREMENT;
@@ -104,6 +107,7 @@ state_t RIinputEvHandler(UserData_t * ud)
 							PrintMessage("INVALID ID", true);
 							userDataReset(false ,true ,false ,false ,ud);
 						}
+					}
 					break;
 			}
 			string = createString(ud);

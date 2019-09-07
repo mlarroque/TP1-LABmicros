@@ -8,6 +8,8 @@
 #include "stateUserApproved.h"
 #include "stateAdminMode.h"
 #include "stateChangingPIN.h"
+#include "stateReceivingPIN.h"
+#include "stateMenu.h"
 
 #include "doorManagement.h"
 #include "dataBase.h"
@@ -23,7 +25,8 @@ const char * menuStrings[MENU_OPTIONS] = {"OPEN","PIN","ADM"};
 state_t UAinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	switch(ud->encoderUd->input)
+	char category;
+	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
 			if(ud->option < MENU_OPTIONS){
@@ -33,7 +36,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			PrintMessage(menuStrings[ud->option], false);
+			PrintMessage(menuStrings[(int)ud->option], false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -44,7 +47,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 				ud->option = MENU_OPTIONS;
 			}
 			// show option to user
-			PrintMessage(menuStrings[ud->option], false);
+			PrintMessage(menuStrings[(int)ud->option], false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
@@ -66,8 +69,8 @@ state_t UAinputEvHandler(UserData_t * ud)
 					nextState.routines[KEYCARD_EV] = &CPkeycardEvHandler;
 					break;
 				case ADMIN_OPTION:
-					char categoty = verifyCategory(ud->received_ID);
-					if(categroy == ADMIN){
+					category = verifyCategory(ud->received_ID);
+					if(category == ADMIN){
 						userDataReset(false ,false ,false ,true ,ud);
 						nextState.name = ADMIN_MODE;
 						nextState.routines[INPUT_EV] = &AMinputEvHandler;
@@ -98,11 +101,17 @@ state_t UAinputEvHandler(UserData_t * ud)
 state_t UAtimerEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	if(ud->timerUd.timers[DISPLAY]){
+	nextState.name = STAY;
+	if(ud->timerUd == DISPLAY){
 		UpdateDisplay();
 	}
-	// TERMINAR (agregar el timer de inactividad)
-	nextState.name = STAY;
+	if(ud->timerUd == INACTIVITY){
+		userDataReset(true ,true ,false ,true ,ud);
+		nextState.name = MENU;
+		nextState.routines[INPUT_EV] = &MinputEvHandler;
+		nextState.routines[TIMER_EV] = &MtimerEvHandler;
+		nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+	}
 	return nextState;
 }
 
@@ -112,14 +121,17 @@ state_t UAkeycardEvHandler(UserData_t * ud)
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
-		cardID[i] = ud->magnetLectorUd.id[i];
+		cardID[i] = ud->magnetLectorUd.trackString[i];
 	}
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
-		ud->received_ID = ud->magnetLectorUd.id;
-		userDataReset(false ,true ,true ,true ,ud);
+		int i;
+		for(i=0;i<ID_LENGTH;++i){
+			ud->received_ID[i] = cardID[i];
+		}
+		userDataReset(false, true, false, true, ud);
 		nextState.name = RECEIVING_PIN;
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;

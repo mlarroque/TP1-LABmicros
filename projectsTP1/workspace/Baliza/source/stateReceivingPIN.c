@@ -20,6 +20,7 @@
 #define INITIAL	0
 #define MAX_TRIES	3
 #define TERMINATOR	'\0'
+#define STRING_CANT	(PIN_MAX_LENGTH+1)
 
 typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
 const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
@@ -30,10 +31,10 @@ char * createString(UserData_t * ud);
 char * createString(UserData_t * ud){
 	int i=0;
 	while(ud->received_PIN[i] != -1){
-		string[i] = idStrings[ud->received_PIN[i]];
+		string[i] = pinStrings[(int)ud->received_PIN[i]];
 	}
 	i += 1;
-	string[i] = idStrings[ud->option];
+	string[i] = pinStrings[(int)ud->option];
 	i += 1;
 	string[i] = TERMINATOR;
 }
@@ -44,6 +45,8 @@ state_t RPinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	char * string;
+	int j = 0;
+	int k = 0;
 	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
@@ -71,8 +74,6 @@ state_t RPinputEvHandler(UserData_t * ud)
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
-			int j = 0;
-			int k = 0;
 			while(ud->received_PIN[j] != -1){
 				j += 1;
 			}
