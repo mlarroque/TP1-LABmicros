@@ -9,6 +9,7 @@
 #define ADDING_USER_H_
 
 #include "userData.h"
+#include "FSM.h"
 
 state_t AUinputEvHandler(UserData_t * ud);
 

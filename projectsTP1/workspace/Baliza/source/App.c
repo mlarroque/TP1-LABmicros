@@ -37,7 +37,7 @@ UserData_t userData;
 // queue.h
 event_t newEvent;
 // App.c
-bool chaningState = false;
+bool changingState = false;
 
 /*******************************************************************************
  *******************************************************************************
@@ -56,12 +56,12 @@ void App_Init (void)
 
 
     // FSM/Queue Initialization
-    initFSM(fsm);
+    initFSM(&fsm);
     initializeDataBase();
     initializeQueue();
 
     // User Data init
-    userDataReset(true, true, true, true, ud);
+    userDataReset(true, true, true, true, &userData);
 
 }
 
@@ -86,7 +86,7 @@ void App_Run (void)
 			}
 			break;
 		case KEYCARD_EV:
-			userData.keycardUd = newEvent.data.keycardUd; // get specific data for that event
+			userData.magnetLectorUd = newEvent.data.magnetLectorUd; // get specific data for that event
 			nextState = (fsm.currentState.routines[KEYCARD_EV])(&userData); // action routine
 			if(nextState.name != STAY){ // if state changes
 				changingState = true;

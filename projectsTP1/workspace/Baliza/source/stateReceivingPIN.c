@@ -8,7 +8,7 @@
 #include "stateReceivingPIN.h"
 #include "stateBlocked.h"
 #include "stateMenu.h"
-//#include "stateUserApproved.h"
+#include "stateUserApproved.h"
 
 #include "display.h"
 #include "encoder.h"
@@ -19,14 +19,23 @@
 #define INCREMENT	1
 #define INITIAL	0
 #define MAX_TRIES	3
+#define TERMINATOR	'\0'
 
 typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
 const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
+char string[STRING_CANT];
 
 char * createString(UserData_t * ud);
 
 char * createString(UserData_t * ud){
-	//TERMINAR
+	int i=0;
+	while(ud->received_PIN[i] != -1){
+		string[i] = idStrings[ud->received_PIN[i]];
+	}
+	i += 1;
+	string[i] = idStrings[ud->option];
+	i += 1;
+	string[i] = TERMINATOR;
 }
 
 char tryNro = 0;
@@ -35,7 +44,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	char * string;
-	switch(ud->encoderUd->input)
+	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
 			if(ud->option < PIN_OPTIONS){
@@ -62,12 +71,13 @@ state_t RPinputEvHandler(UserData_t * ud)
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
+			int j = 0;
+			int k = 0;
+			while(ud->received_PIN[j] != -1){
+				j += 1;
+			}
 			switch(ud->option)
 			{
-				int j = 0;
-				while(ud->received_PIN[j] != -1){
-					j += 1;
-				}
 				case ERASE_LAST:
 					if(j>INITIAL)
 					{
@@ -78,10 +88,9 @@ state_t RPinputEvHandler(UserData_t * ud)
 					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
-					int i = 0;
-					while(ud->received_PIN[i] != -1){
-						ud->received_PIN[i] = -1;
-						i += 1;
+					while(ud->received_PIN[k] != -1){
+						ud->received_PIN[k] = -1;
+						k += 1;
 					}
 					string = createString(ud);
 					PrintMessage(string, false);
@@ -95,8 +104,6 @@ state_t RPinputEvHandler(UserData_t * ud)
 						if(validPIN){
 							PrintMessage("USER APPROVED", true);
 							nextState.name = USER_APPROVED;
-							char cat = verifyCategory(ud->received_ID);
-							ud->category = cat;
 							tryNro = 0;
 							nextState.routines[INPUT_EV] = &UAinputEvHandler;
 							nextState.routines[TIMER_EV] = &UAtimerEvHandler;
@@ -143,11 +150,17 @@ state_t RPinputEvHandler(UserData_t * ud)
 state_t RPtimerEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	if(ud->timerUd.timers[DISPLAY]){
+	nextState.name = STAY;
+	if(ud->timerUd == DISPLAY){
 		UpdateDisplay();
 	}
-	// TERMINAR (agregar el timer de inactividad y de bloqueo)
-	nextState.name = STAY;
+	if(ud->timerUd == INACTIVITY){
+		userDataReset(true ,true ,false ,true ,ud);
+		nextState.name = MENU;
+		nextState.routines[INPUT_EV] = &MinputEvHandler;
+		nextState.routines[TIMER_EV] = &MtimerEvHandler;
+		nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+	}
 	return nextState;
 }
 
@@ -157,20 +170,26 @@ state_t RPkeycardEvHandler(UserData_t * ud)
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
-		cardID[i] = ud->magnetLectorUd.id[i];
+		cardID[i] = ud->magnetLectorUd.trackString[i];
 	}
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
-		ud->received_ID = ud->magnetLectorUd.id;
-		userDataReset(false ,true ,false ,true ,ud);
-		tryNro = 0;
+		int i;
+		for(i=0;i<ID_LENGTH;++i){
+			ud->received_ID[i] = cardID[i];
+		}
+		userDataReset(false, true, false, true, ud);
+		nextState.name = RECEIVING_PIN;
+		nextState.routines[INPUT_EV] = &RPinputEvHandler;
+		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
+		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
 	}
 	else{
 		// show message in display
 		PrintMessage("INVALID ID", true);
+		nextState.name = STAY;
 	}
-	nextState.name = STAY;
 	return nextState;
 }

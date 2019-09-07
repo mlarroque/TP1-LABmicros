@@ -11,6 +11,7 @@
 
 #include "display.h"
 #include "encoder.h"
+#include "dataBase.h"
 
 #define INTENSITY_OPTIONS	10
 #define INCREMENT	1
@@ -22,7 +23,7 @@ const char * intStrings[INTENSITY_OPTIONS] = {"10","20","30","40","50","60","70"
 state_t CIinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	switch(ud->encoderUd->input)
+	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
 			if(ud->option < INTENSITY_OPTIONS){
@@ -32,7 +33,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			PrintMessage(intStrings[ud->option], false);
+			PrintMessage(intStrings[(int)ud->option], false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -43,7 +44,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 				ud->option = INTENSITY_OPTIONS;
 			}
 			// show option to user
-			PrintMessage(intStrings[ud->option], false);
+			PrintMessage(intStrings[(int)ud->option], false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
@@ -54,7 +55,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 			}
 			else
 			{
-				changeIntensity(ud->option);
+				SetBrightness((unsigned char) ud->option);
 				PrintMessage("INTENSITY CHANGED", true);
 				userDataReset(false, false, false, true, ud);
 				nextState.name = MENU;
@@ -77,10 +78,10 @@ state_t CIinputEvHandler(UserData_t * ud)
 state_t CItimerEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	if(ud->timerUd.timers[DISPLAY]){
+	nextState.name = STAY;
+	if(ud->timerUd == DISPLAY){
 		UpdateDisplay();
 	}
-	nextState.name = STAY;
 	return nextState;
 }
 
@@ -90,13 +91,16 @@ state_t CIkeycardEvHandler(UserData_t * ud)
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
-		cardID[i] = ud->magnetLectorUd.id[i];
+		cardID[i] = ud->magnetLectorUd.trackString[i];
 	}
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
-		ud->received_ID = ud->magnetLectorUd.id;
+		int i;
+		for(i=0;i<ID_LENGTH;++i){
+			ud->received_ID[i] = cardID[i];
+		}
 		userDataReset(false, false, false, true, ud);
 		nextState.name = RECEIVING_PIN;
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;

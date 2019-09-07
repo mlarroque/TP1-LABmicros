@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-# Add inputs and outputs from these tool invocations to the build variables 
+# Add inputs and outputs from these tool invocations to the build variables
 C_SRCS += \
 ../source/App.c \
 ../source/FSM.c \
@@ -31,7 +31,7 @@ C_SRCS += \
 ../source/stateRemovingUser.c \
 ../source/stateUserApproved.c \
 ../source/timer.c \
-../source/timer_queue.c 
+../source/timer_queue.c
 
 OBJS += \
 ./source/App.o \
@@ -61,7 +61,7 @@ OBJS += \
 ./source/stateRemovingUser.o \
 ./source/stateUserApproved.o \
 ./source/timer.o \
-./source/timer_queue.o 
+./source/timer_queue.o
 
 C_DEPS += \
 ./source/App.d \
@@ -91,7 +91,7 @@ C_DEPS += \
 ./source/stateRemovingUser.d \
 ./source/stateUserApproved.d \
 ./source/timer.d \
-./source/timer_queue.d 
+./source/timer_queue.d
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -101,5 +101,3 @@ source/%.o: ../source/%.c
 	arm-none-eabi-gcc -DCPU_MK64FN1M0VLL12 -D__USE_CMSIS -DDEBUG -I../source -I../ -I../SDK/CMSIS -I../SDK/startup -O2 -fno-common -g3 -Wall -c -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
-
-

@@ -1,4 +1,4 @@
-/*
+ /*
  * stateMenu.h
  *
  *  Created on: Aug 31, 2019
@@ -9,6 +9,7 @@
 #define MENU_H_
 
 #include "userData.h"
+#include "FSM.h"
 
 state_t MinputEvHandler(UserData_t * ud);
 

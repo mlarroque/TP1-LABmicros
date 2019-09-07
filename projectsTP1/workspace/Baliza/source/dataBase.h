@@ -9,13 +9,9 @@
 #define DATABASE_H_
 
 #include <stdbool.h>
+#include "userData.h"
 
 #define MAX_CANT_USERS	10000
-#define ID_LENGTH 8 //Longitud del ID del usuario.
-#define PIN_MAX_LENGTH 5 //Longitud maxima del PIN del usuario.
-#define PIN_MIN_LENGTH 4 //Longitud minima del PIN del usuario
-
-typedef enum {ADMIN,BASIC,NONE}category_name;
 
 typedef enum {SUCCESSFULL,DATABASE_FULL,ID_ALREADY_EXISTS,ID_NOT_FOUND}status;
 
