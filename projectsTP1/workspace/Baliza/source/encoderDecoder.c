@@ -14,18 +14,18 @@ static encoder_t encoder;
 
 
 
-void initData(bool value, int signal)
+void updateData(bool value, int signal)
 {
-	encoder.curr_data[signal] = value;	//seteo el estado actual donde sea que empiece el encoder
 	encoder.prev_data[signal] = encoder.curr_data[signal];	//seteo el estado anterior igual al estado actual
+	encoder.curr_data[signal] = value;	//seteo el estado actual donde sea que empiece el encoder
 
 }
 
-counter_type decodeEncoder(bool value, int signal)
+counter_type decodeEncoder()
 {
-	bool temp = encoder.curr_data[signal];			//guardo valor actual, que pasará a ser valor anterior
-	encoder.curr_data[signal] = value;  //leo valor actual
-	encoder.prev_data[signal] = temp;				//actualizo valor anterior
+	//bool temp = encoder.curr_data[signal];			//guardo valor actual, que pasará a ser valor anterior
+	//encoder.curr_data[signal] = value;  //leo valor actual
+	//encoder.prev_data[signal] = temp;				//actualizo valor anterior
 
 	counter_type event = readRotation();
 	return event;
@@ -34,12 +34,12 @@ counter_type decodeEncoder(bool value, int signal)
 
 void updateButtonState(bool value)
 {
-	bool temp = encoder.curr_data[C];			//guardo valor actual, que pasará a ser valor anterior
-	encoder.curr_data[C] = value;  //leo valor actual
-	encoder.prev_data[C] = temp;				//actualizo valor anterior
+	//bool temp = encoder.curr_data[C];			//guardo valor actual, que pasará a ser valor anterior
+	encoder.curr_data[C] = value;  				//leo valor actual
+	//encoder.prev_data[C] = temp;				//actualizo valor anterior
 }
 
-bool checkEnterRisingEdge(void)
+bool checkEnterRisingEdge()
 {
   //true si se presionó el ENTER (flanco ascendente)
 	return (encoder.prev_data[C]==LOW) && (encoder.curr_data[C]==HIGH);
@@ -53,43 +53,50 @@ bool checkEnterFallingEdge(void)
 
 counter_type readRotation(void)
 {
-	counter_type status = ERROR;
+	counter_type status;// = ERROR;
 
-	if(wasThereChange())
+	if(isClockwise())
 	{
-		if(isValid())
-		{
-			if(isClockwise())
-				status = COUNT_UP;
-			else
-				status = COUNT_DOWN;
-		}
-		else
-			status = ERROR;
+		status = COUNT_UP;
 	}
 	else
-		status = NO_CHANGE;
+		status = COUNT_DOWN;
+	//status = NO_CHANGE;
+
+//	if(wasThereChange())
+//	{
+//		//if(isValid())
+//		//{
+//			if(isClockwise())
+//				status = COUNT_UP;
+//			else
+//				status = COUNT_DOWN;
+//	//}
+//		//else
+//		//	status = ERROR;
+//	}
+//	else
+//		status = NO_CHANGE;
 
 	return status;
 }
 
 bool isClockwise(void)
 {
-	bool clockwise = false;
-	//si A adelanta a B, es clockwise //CHEQUEAR
-	if(encoder.prev_data[A] != encoder.curr_data[A])
-	{
+	bool clockwise;
+	if(encoder.prev_data[B] != encoder.curr_data[B])			//me fijo qué flanco fue, si de la señal A o B
+	{															//fue señal B
 		if(encoder.curr_data[B] != encoder.curr_data[A])
 			clockwise = true;
 		else
 			clockwise = false;
 	}
-	else
+	else if(encoder.prev_data[A] != encoder.curr_data[A])		//fue señal A
 	{
-		if(encoder.curr_data[B] == encoder.curr_data[A])
-			clockwise = true;
-		else
+		if(encoder.curr_data[B] != encoder.curr_data[A])
 			clockwise = false;
+		else
+			clockwise = true;
 	}
 
 	return clockwise;

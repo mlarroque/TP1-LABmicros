@@ -13,9 +13,9 @@
 /**************************************************************************
  * 									DEFINICIONES
  **************************************************************************/
-#define SIGNAL_A_PIN PORTNUM2PIN(PD,2)// PTD1
-#define SIGNAL_B_PIN PORTNUM2PIN(PD,3)// PTD3
-#define SIGNAL_C_PIN PORTNUM2PIN(PD,1)// PTD2
+#define SIGNAL_A_PIN PORTNUM2PIN(PD,3)// PTD3
+#define SIGNAL_B_PIN PORTNUM2PIN(PD,1)// PTD1
+#define SIGNAL_C_PIN PORTNUM2PIN(PD,2)// PTD2
 
 
 #define ENCODER_TIME 	200000 		// 200 milisegundos
@@ -45,9 +45,9 @@ void initializeEncoderHAL(void)
 	if(!initialized_enc_low)
 	{
 		gpioMode(SIGNAL_A_PIN, INPUT_PULLUP);
-		//setPassiveFilter(SIGNAL_A_PIN);
+		setPassiveFilter(SIGNAL_A_PIN);
 		gpioMode(SIGNAL_B_PIN, INPUT_PULLUP);
-		//setPassiveFilter(SIGNAL_B_PIN);
+		setPassiveFilter(SIGNAL_B_PIN);
 		gpioMode(SIGNAL_C_PIN, INPUT_PULLUP);
 		//setPassiveFilter(SIGNAL_C_PIN);
 		SetTimer(ENCODER_TIMER, ENCODER_TIME, encTimerRoutine);
@@ -60,7 +60,7 @@ void initializeEncoderHAL(void)
 
 void encTimerRoutine(void)
 {
-	if(gpioRead(SIGNAL_C_PIN))		//si el botón está presionado aumento el contador
+	if(!gpioRead(SIGNAL_C_PIN))		//si el botón está presionado aumento el contador
 		encoder_timer_count++;
 }
 
@@ -78,8 +78,6 @@ bool readEncoderSignalX (encoder_signal signal)
 		lecture = gpioRead(SIGNAL_B_PIN);
 	else if (signal == C)
 		lecture = gpioRead(SIGNAL_C_PIN);
-	else
-		lecture = false;
 	return lecture;
 }
 
@@ -88,10 +86,10 @@ void setSignalCallback(void (*funcallback)(void), encoder_signal signal)
 	switch (signal)
 	{
 		case A:
-			gpioIRQ(SIGNAL_A_PIN, GPIO_IRQ_MODE_BOTH_EDGES, (pinIrqFun_t) funcallback);
+			gpioIRQ(SIGNAL_A_PIN, GPIO_IRQ_MODE_FALLING_EDGE, (pinIrqFun_t) funcallback);
 			break;
 		case B:
-			gpioIRQ(SIGNAL_B_PIN, GPIO_IRQ_MODE_BOTH_EDGES, (pinIrqFun_t) funcallback);
+			gpioIRQ(SIGNAL_B_PIN, GPIO_IRQ_MODE_FALLING_EDGE, (pinIrqFun_t) funcallback);
 			break;
 		case C:
 			gpioIRQ(SIGNAL_C_PIN, GPIO_IRQ_MODE_BOTH_EDGES, (pinIrqFun_t) funcallback);
