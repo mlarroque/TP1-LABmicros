@@ -5,14 +5,20 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../source/App.c \
+../source/FSM.c \
 ../source/SegmentDisplay.c \
 ../source/SysTick.c \
 ../source/dataBase.c \
 ../source/display.c \
+../source/doorManagement.c \
 ../source/encoder.c \
+../source/encoderDecoder.c \
+../source/encoderHAL.c \
 ../source/gpio.c \
+../source/magnetCardDecode.c \
+../source/magnetCardLector.c \
+../source/magnetLectorHAL.c \
 ../source/queue.c \
-../source/stateAccessGranted.c \
 ../source/stateAddingUser.c \
 ../source/stateAdminMode.c \
 ../source/stateBlocked.c \
@@ -22,19 +28,26 @@ C_SRCS += \
 ../source/stateReceivingID.c \
 ../source/stateReceivingPIN.c \
 ../source/stateRemovingUser.c \
+../source/stateUserApproved.c \
 ../source/timer.c \
-../source/userInterface.c 
+../source/timer_queue.c 
 
 OBJS += \
 ./source/App.o \
+./source/FSM.o \
 ./source/SegmentDisplay.o \
 ./source/SysTick.o \
 ./source/dataBase.o \
 ./source/display.o \
+./source/doorManagement.o \
 ./source/encoder.o \
+./source/encoderDecoder.o \
+./source/encoderHAL.o \
 ./source/gpio.o \
+./source/magnetCardDecode.o \
+./source/magnetCardLector.o \
+./source/magnetLectorHAL.o \
 ./source/queue.o \
-./source/stateAccessGranted.o \
 ./source/stateAddingUser.o \
 ./source/stateAdminMode.o \
 ./source/stateBlocked.o \
@@ -44,19 +57,26 @@ OBJS += \
 ./source/stateReceivingID.o \
 ./source/stateReceivingPIN.o \
 ./source/stateRemovingUser.o \
+./source/stateUserApproved.o \
 ./source/timer.o \
-./source/userInterface.o 
+./source/timer_queue.o 
 
 C_DEPS += \
 ./source/App.d \
+./source/FSM.d \
 ./source/SegmentDisplay.d \
 ./source/SysTick.d \
 ./source/dataBase.d \
 ./source/display.d \
+./source/doorManagement.d \
 ./source/encoder.d \
+./source/encoderDecoder.d \
+./source/encoderHAL.d \
 ./source/gpio.d \
+./source/magnetCardDecode.d \
+./source/magnetCardLector.d \
+./source/magnetLectorHAL.d \
 ./source/queue.d \
-./source/stateAccessGranted.d \
 ./source/stateAddingUser.d \
 ./source/stateAdminMode.d \
 ./source/stateBlocked.d \
@@ -66,8 +86,9 @@ C_DEPS += \
 ./source/stateReceivingID.d \
 ./source/stateReceivingPIN.d \
 ./source/stateRemovingUser.d \
+./source/stateUserApproved.d \
 ./source/timer.d \
-./source/userInterface.d 
+./source/timer_queue.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

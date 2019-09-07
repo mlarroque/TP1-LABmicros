@@ -6,11 +6,14 @@
  */
 
 #include "stateAdminMode.h"
+#include "stateMenu.h"
 #include "stateAddingUser.h"
 #include "stateRemovingUser.h"
+#include "stateReceivingPIN.h"
 
 #include "display.h"
 #include "encoder.h"
+#include "dataBase.h"
 
 #define INCREMENT	1
 #define INITIAL	0
@@ -21,7 +24,7 @@ const char * menuStrings[MENU_OPTIONS] = {"ADD","DLT"};
 state_t AMinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	switch(ud->encoderUd->input)
+	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
 			if(ud->option < MENU_OPTIONS){
@@ -31,7 +34,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			PrintMessage(menuStrings[ud->option], false);
+			PrintMessage(menuStrings[(int)ud->option], false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -42,7 +45,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 				ud->option = MENU_OPTIONS;
 			}
 			// show option to user
-			PrintMessage(menuStrings[ud->option], false);
+			PrintMessage(menuStrings[(int)ud->option], false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
@@ -53,8 +56,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 					nextState.name = ADDING_USER;
 					nextState.routines[INPUT_EV] = &AUinputEvHandler;
 					nextState.routines[TIMER_EV] = &AUtimerEvHandler;
-					nextState.routines[KEYCARD_EV] = &AUMkeycardEvHandler;
-					openDoorTemporally();
+					nextState.routines[KEYCARD_EV] = &AUkeycardEvHandler;
 					break;
 				case DELETE_USER:
 					userDataReset(false ,false ,false ,true ,ud);
@@ -82,12 +84,12 @@ state_t AMinputEvHandler(UserData_t * ud)
 state_t AMtimerEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	if(ud->timerUd.timers[DISPLAY]){
+	nextState.name = STAY;
+	if(ud->timerUd == DISPLAY){
 		UpdateDisplay();
 	}
-	// TERMINAR (agregar el timer de inactividad)
-	nextState.name = STAY;
 	return nextState;
+	// TERMINAR (agregar el timer de inactividad)
 }
 
 state_t AMkeycardEvHandler(UserData_t * ud)
@@ -96,14 +98,17 @@ state_t AMkeycardEvHandler(UserData_t * ud)
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
-		cardID[i] = ud->magnetLectorUd.id[i];
+		cardID[i] = ud->magnetLectorUd.trackString[i];
 	}
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
-		ud->received_ID = ud->magnetLectorUd.id;
-		userDataReset(false ,true ,true ,true ,ud);
+		int i;
+		for(i=0;i<ID_LENGTH;++i){
+			ud->received_ID[i] = cardID[i];
+		}
+		userDataReset(false, true, true, true, ud);
 		nextState.name = RECEIVING_PIN;
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;

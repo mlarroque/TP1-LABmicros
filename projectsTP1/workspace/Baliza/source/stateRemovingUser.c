@@ -5,7 +5,7 @@
  *      Author: Manuel Mollon
  */
 
-#include "stateRemovingUser.c"
+#include "stateRemovingUser.h"
 
 #include "display.h"
 #include "encoder.h"

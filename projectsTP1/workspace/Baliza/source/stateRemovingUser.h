@@ -9,6 +9,7 @@
 #define REMOVING_USER_H_
 
 #include "userData.h"
+#include "FSM.h"
 
 state_t RUinputEvHandler(UserData_t * ud);
 

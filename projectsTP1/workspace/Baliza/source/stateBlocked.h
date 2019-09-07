@@ -9,6 +9,7 @@
 #define BLOCKED_H_
 
 #include "userData.h"
+#include "FSM.h"
 
 state_t BinputEvHandler(UserData_t * ud);
 

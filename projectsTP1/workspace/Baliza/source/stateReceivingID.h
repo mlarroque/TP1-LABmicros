@@ -9,6 +9,7 @@
 #define RECEIVING_ID_H_
 
 #include "userData.h"
+#include "FSM.h"
 
 state_t RIinputEvHandler(UserData_t * ud);
 

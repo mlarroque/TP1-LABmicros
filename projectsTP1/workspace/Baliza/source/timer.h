@@ -15,7 +15,7 @@
 /******************************************************************************************
  *  				TIPOS DE DATOS, CONSTANTES Y VARIABLES GLOBALES
  ******************************************************************************************/
-typedef enum {INACTIVITY, DISPLAY, MESSAGE, DISPLAY_INTENSITY,ENCODER_TIMER, NUM_TIMERS}timerUd_t; //Timers utilizados
+typedef enum {INACTIVITY, DISPLAY, MESSAGE, DOOR, DISPLAY_INTENSITY,ENCODER_TIMER, NUM_TIMERS}timerUd_t; //Timers utilizados
 typedef void (*callback_ptr)(void);
 
 

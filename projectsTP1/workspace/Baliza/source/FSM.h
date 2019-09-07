@@ -11,6 +11,9 @@
 #ifndef FSM_H_
 #define FSM_H_
 
+#include "queue.h"
+#include <stdbool.h>
+
 typedef enum {MENU, CHANGE_INTENSITY, RECEIVING_ID, RECEIVING_PIN, ADMIN_MODE, ADDING_USER,
 			REMOVING_USER, CHANGING_PIN,USER_APPROVED, BLOCKED, NUM_STATES,STAY}state_name; //Estados posibles de la FSM
 
