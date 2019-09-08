@@ -12,7 +12,11 @@ typedef enum {A, B, C, ENC_SIGNAL_COUNT}encoder_signal;
 
 static encoder_t encoder;
 
-
+void resetEdgeFlag(void)
+{
+	encoder.edge_A = false;
+	encoder.edge_B = false;
+}
 
 void updateData(_Bool value, int signal)
 {
@@ -23,32 +27,36 @@ void updateData(_Bool value, int signal)
 		//seteo el estado actual donde sea que empiece el encoder
 
 }
-void resetStartingToRotate(void)
-{
-	encoder.first_edge_A = false;
-	encoder.first_edge_B = false;
-}
 
 counter_type decodeEncoder()
 {
-
 	counter_type event = NO_CHANGE;
 	if(encoder.curr_data[B] != encoder.prev_data[B])	//flanco descendente de B
 	{
-		if(encoder.prev_data[A])	//si la señal anterior de A estaba en HIGH, fue primer flanco de B
+		if(encoder.edge_A == false)	//si la señal anterior de A estaba en HIGH, fue primer flanco de B
+		{
 			event = COUNT_UP;
-		//else
-		//	event = COUNT_DOWN;
+			encoder.edge_B = true;
+		}
 	}
 	else if (encoder.curr_data[A] != encoder.prev_data[A])	//flanco descendente de A
 	{
-		if(encoder.prev_data[B])	//si la señal anterior de B estaba en HIGH, fue primer flanco de A
+		if(encoder.edge_B == false)	//si la señal anterior de B estaba en HIGH, fue primer flanco de A
+		{
 			event = COUNT_DOWN;
-		//else
-		//	event = COUNT_UP;
+			encoder.edge_A = true;
+		}
 	}
 	return event;
 
+}
+
+void resetData(void)
+{
+	updateData(HIGH, A);
+	updateData(HIGH, A);
+	updateData(HIGH, B);
+	updateData(HIGH, B);
 }
 
 void updateButtonState(_Bool value)
@@ -65,13 +73,15 @@ void updateButtonState(_Bool value)
 _Bool checkEnterRisingEdge()
 {
   //true si se presionó el ENTER (flanco ascendente)
-	return (encoder.prev_data[C]==LOW) && (encoder.curr_data[C]==HIGH);
+	return encoder.curr_data[C];
+	//return (encoder.prev_data[C]==LOW) && (encoder.curr_data[C]==HIGH);
 }
 
 _Bool checkEnterFallingEdge(void)
 {
   //true si se dejó de presionar el ENTER (flanco descendente)
-	return (encoder.prev_data[C]==HIGH) && (encoder.curr_data[C]==LOW);
+	return !encoder.curr_data[C];
+	//return (encoder.prev_data[C]==HIGH) && (encoder.curr_data[C]==LOW);
 }
 
 counter_type readRotation(void)

@@ -47,7 +47,7 @@ void App_Run (void)
 	int delayTime = 1000000UL;
 	while(delayTime--);
 
-	if(isEncEventValid())
+	//if(isEncEventValid())
 	{
 		dataEncoder = popEncoderEvent();;
 		if(dataEncoder.isValid)
@@ -60,7 +60,7 @@ void App_Run (void)
 			{
 				closeDoor();
 			}
-			else if(dataEncoder.input == BACK)
+			else if(dataEncoder.input == CANCEL)
 			{
 				openDoor();
 			}
