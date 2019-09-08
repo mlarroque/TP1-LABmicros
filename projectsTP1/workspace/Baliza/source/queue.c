@@ -11,7 +11,7 @@
 #include "encoder.h"
 #include "magnetCardLector.h"
 
-queue_t queue;
+static queue_t queue;
 
 void initializeQueue(void)
 {

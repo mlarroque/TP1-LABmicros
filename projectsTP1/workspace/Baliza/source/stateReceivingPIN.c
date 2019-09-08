@@ -23,20 +23,20 @@
 #define STRING_CANT	(PIN_MAX_LENGTH+1)
 
 typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
-const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
-char string[STRING_CANT];
+static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
+static char PINstring[STRING_CANT];
 
-char * createString(UserData_t * ud);
+char * createPINString(UserData_t * ud);
 
-char * createString(UserData_t * ud){
+char * createPINString(UserData_t * ud){
 	int i=0;
 	while(ud->received_PIN[i] != -1){
-		string[i] = pinStrings[(int)ud->received_PIN[i]];
+		PINstring[i] = pinStrings[(int)ud->received_PIN[i]];
 	}
 	i += 1;
-	string[i] = pinStrings[(int)ud->option];
+	PINstring[i] = pinStrings[(int)ud->option];
 	i += 1;
-	string[i] = TERMINATOR;
+	PINstring[i] = TERMINATOR;
 }
 
 char tryNro = 0;
@@ -49,6 +49,8 @@ state_t RPinputEvHandler(UserData_t * ud)
 	int k = 0;
 	switch(ud->encoderUd.input)
 	{
+		case BACK:
+			break;
 		case UP: // change current option
 			if(ud->option < PIN_OPTIONS){
 				ud->option += INCREMENT;
@@ -57,7 +59,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			string = createString(ud);
+			string = createPINString(ud);
 			PrintMessage(string, false);
 			nextState.name = STAY;
 			break;
@@ -69,7 +71,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 				ud->option = PIN_OPTIONS;
 			}
 			// show option to user
-			string = createString(ud);
+			string = createPINString(ud);
 			PrintMessage(string, false);
 			nextState.name = STAY;
 			break;
@@ -84,7 +86,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 					{
 						ud->received_PIN[j-1] = -1;
 					}
-					string = createString(ud);
+					string = createPINString(ud);
 					PrintMessage(string, false);
 					nextState.name = STAY;
 					break;
@@ -93,7 +95,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 						ud->received_PIN[k] = -1;
 						k += 1;
 					}
-					string = createString(ud);
+					string = createPINString(ud);
 					PrintMessage(string, false);
 					nextState.name = STAY;
 					break;
@@ -128,7 +130,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 						}
 					}
 					else{
-						string = createString(ud);
+						string = createPINString(ud);
 						PrintMessage(string, false);
 						nextState.name = STAY;
 					}

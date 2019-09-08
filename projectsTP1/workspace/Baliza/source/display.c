@@ -35,6 +35,7 @@ static bool initialized = false;
 unsigned int GetStringSize(const char* str);
 void GenerateDisplayEv(void);
 void GenerateBrightnessEv(void);
+void ShiftLeft(void); //desplaza todos los caracteres una posicion hacia la izquierda.
 
 /******************************************************************************
  *
@@ -147,7 +148,6 @@ void UpdateDisplay(void)
 				string_position -= DISPLAY_SIZE;
 				display_position -= DISPLAY_SIZE;
 			}
-			//CHEQUEAAAAAAAR
 			brightness_delay = (brigthness*US_BETWEEN_SYMBOLS)/(MAX_BRIGHTNESS+1);
 			SetTimer(DISPLAY_INTENSITY, brightness_delay, &GenerateBrightnessEv);
 	}

@@ -19,7 +19,7 @@
 #define INITIAL	0
 
 typedef enum {ENTER_ENCODER_ID, INTENSITY,MENU_OPTIONS}option_name;
-const char * menuStrings[MENU_OPTIONS] = {"ID","GLOW"};
+static const char * menuStrings[MENU_OPTIONS] = {"ID","GLOW"};
 
 
 state_t MinputEvHandler(UserData_t * ud)

@@ -22,7 +22,7 @@ typedef struct{
  * 										MACROS
  *******************************************************************************************/
 //Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
-#define US_TO_PULSES(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en milisegundos.
+#define US_TO_PULSES(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en microsegundos.
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
@@ -58,7 +58,7 @@ void InitializeTimers(void)
 void SetTimer(unsigned char index, unsigned int timeout_, callback_ptr func_)
 {
 	(timers+index)->enabled = false; //Deshabilto el timer para efectuar los cambios.
-	(timers+index)->timeout = MS_TO_PULSES(timeout_);
+	(timers+index)->timeout = US_TO_PULSES(timeout_);
 	(timers+index)->func = func_;
 	(timers+index)->counter = 0;
 	(timers+index)->enabled = true;
