@@ -22,7 +22,7 @@ typedef struct{
  * 										MACROS
  *******************************************************************************************/
 //Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
-#define US_TO_PULSES(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en milisegundos.
+#define US_TO_PULSES(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en microsegundos.
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
