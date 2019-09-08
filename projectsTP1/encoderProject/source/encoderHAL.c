@@ -27,7 +27,7 @@ typedef void (*callback_t)(void);
  *								VARIABLES ESTATICAS
  *******************************************************************************/
 
-static bool initialized_enc_low = false;
+static _Bool initialized_enc_low = false;
 static uint8_t encoder_timer_count = 0;
 
 /*******************************************************************************
@@ -69,16 +69,24 @@ void resetEncoderTimerCount(void)
 	encoder_timer_count = 0;
 }
 
-bool readEncoderSignalX (encoder_signal signal)
+_Bool readEncoderSignalX (encoder_signal signal)
 {
-	bool lecture;
-	if(signal == A)
-		lecture = gpioRead(SIGNAL_A_PIN);
-	else if (signal == B)
-		lecture = gpioRead(SIGNAL_B_PIN);
-	else if (signal == C)
-		lecture = gpioRead(SIGNAL_C_PIN);
-	return lecture;
+	_Bool value;
+	switch(signal)
+	{
+		case A:
+			value = gpioRead(SIGNAL_A_PIN);
+			break;
+		case B:
+			value = gpioRead(SIGNAL_B_PIN);
+			break;
+		case C:
+			value = gpioRead(SIGNAL_C_PIN);
+			break;
+		default:
+			break;
+	}
+	return value;
 }
 
 void setSignalCallback(void (*funcallback)(void), encoder_signal signal)

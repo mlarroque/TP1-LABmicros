@@ -24,13 +24,13 @@ typedef enum {UP, DOWN, BACK, ENTER, CANCEL}enc_type;
 
 typedef struct{
 	enc_type input;
-	bool isValid;
+	_Bool isValid;
 }encoderUd_t;
 
 typedef struct{
 	int top; 			//contador de eventos
 	encoderUd_t event;
-	bool isEmpty;
+	_Bool isEmpty;
 }encoderQueue_t;
 
 /******************************************************************************
@@ -40,7 +40,7 @@ void initializeEncoder(void);
 
 
 encoderUd_t popEncoderEvent(void);
-bool isEncEventValid(void);
+_Bool isEncEventValid(void);
 //encoderQueue_t getEncoderQueue(void);
 
 

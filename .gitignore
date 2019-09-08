@@ -6,3 +6,14 @@
 *.d
 *.o
 *.o
+*.map
+*.ld
+*.axf
+*.o
+*.log
+*.log
+*.ld
+projectsTP1/workspace/Baliza/Debug/Blink_Debug.ld
+*.ld
+*.o
+*.map
