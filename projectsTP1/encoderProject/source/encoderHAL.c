@@ -9,6 +9,8 @@
 #include "timer.h"
 #include "gpio.h"
 
+#include "doorManagement.h"
+
 
 /**************************************************************************
  * 									DEFINICIONES
@@ -18,7 +20,7 @@
 #define SIGNAL_C_PIN PORTNUM2PIN(PD,2)// PTD2
 
 
-#define ENCODER_TIME 	200000 		// 200 milisegundos
+#define ENCODER_TIME 	100000 		// 100 milisegundos
 
 
 typedef void (*callback_t)(void);
@@ -28,7 +30,7 @@ typedef void (*callback_t)(void);
  *******************************************************************************/
 
 static _Bool initialized_enc_low = false;
-static uint8_t encoder_timer_count = 0;
+static uint8_t encoder_timer_count;
 
 /*******************************************************************************
  *								FUNCIONES LOCALES
@@ -49,10 +51,11 @@ void initializeEncoderHAL(void)
 		gpioMode(SIGNAL_B_PIN, INPUT_PULLUP);
 		setPassiveFilter(SIGNAL_B_PIN);
 		gpioMode(SIGNAL_C_PIN, INPUT_PULLUP);
-		//setPassiveFilter(SIGNAL_C_PIN);
-		SetTimer(ENCODER_TIMER, ENCODER_TIME, encTimerRoutine);
-		//DisableTimer(ENCODER_TIMER);		//lo inicializo sólo cuando se presiona el enter
-
+		setPassiveFilter(SIGNAL_C_PIN);
+		encoder_timer_count = 0;
+		InitializeTimers();
+		SetTimer(ENCODER_TIMER, ENCODER_TIME, &encTimerRoutine);
+		//EnableTimer(ENCODER_TIMER);
 		initialized_enc_low = true;
 	}
 }

@@ -20,11 +20,8 @@ void resetEdgeFlag(void)
 
 void updateData(_Bool value, int signal)
 {
-	_Bool temp = encoder.curr_data[signal];
-		//seteo el estado anterior igual al estado actual
+	encoder.prev_data[signal] = encoder.curr_data[signal];
 	encoder.curr_data[signal] = value;
-	encoder.prev_data[signal] = temp;
-		//seteo el estado actual donde sea que empiece el encoder
 
 }
 
@@ -59,29 +56,15 @@ void resetData(void)
 	updateData(HIGH, B);
 }
 
-void updateButtonState(_Bool value)
-{
-	//_Bool temp = encoder.curr_data[C];			//guardo valor actual, que pasará a ser valor anterior
-	//encoder.curr_data[C] = value;  				//leo valor actual
-	//encoder.prev_data[C] = temp;				//actualizo valor anterior
-	_Bool temp = encoder.curr_data[C];
-			//seteo el estado anterior igual al estado actual
-	encoder.curr_data[C] = value;
-	encoder.prev_data[C] = temp;
-}
 
 _Bool checkEnterRisingEdge()
 {
-  //true si se presionó el ENTER (flanco ascendente)
-	return encoder.curr_data[C];
-	//return (encoder.prev_data[C]==LOW) && (encoder.curr_data[C]==HIGH);
+	return encoder.curr_data[C];			//true si se deja de presionar el botón
 }
 
 _Bool checkEnterFallingEdge(void)
 {
-  //true si se dejó de presionar el ENTER (flanco descendente)
-	return !encoder.curr_data[C];
-	//return (encoder.prev_data[C]==HIGH) && (encoder.curr_data[C]==LOW);
+	return !encoder.curr_data[C];   //true si se presiona el botón (flanco descendente)
 }
 
 counter_type readRotation(void)

@@ -27,19 +27,18 @@ typedef struct{
 }encoder_t;
 
 
-void updateData(_Bool value, int signal);
-counter_type decodeEncoder();
-void updateButtonState(_Bool value);
 void resetEdgeFlag(void);
 void resetData(void);
+void updateData(_Bool value, int signal);
+counter_type decodeEncoder();
 
 //Devuelve si se movió en sentido horario (COUNT_UP), antihorario (COUNT_DOWN), si no hubo cambio, o si se movió muy rápido el encoder, generando ERROR
 counter_type readRotation(void);
 
-//Devuelve true si se presionó el ENTER (flanco ascendente)
+
 _Bool checkEnterRisingEdge();
 
-//Devuelve true si se dejó de presionar el ENTER (flanco descendente)
+
 _Bool checkEnterFallingEdge(void);
 
 _Bool isClockwise(void);

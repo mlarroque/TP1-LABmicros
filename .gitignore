@@ -46,3 +46,9 @@ projectsTP1/workspace/Baliza/Debug/Blink_Debug_memory.ld
 projectsTP1/workspace/Baliza/Debug/Blink_Debug_library.ld
 projectsTP1/workspace/Baliza/Debug/Blink_Debug.ld
 projectsTP1/workspace/Baliza/Debug/Baliza.map
+*.axf
+*.map
+*.ld
+*.o
+*.o
+*.d

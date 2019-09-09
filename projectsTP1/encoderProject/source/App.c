@@ -60,13 +60,13 @@ void App_Run (void)
 			{
 				closeDoor();
 			}
-			else if(dataEncoder.input == CANCEL)
+			else if(dataEncoder.input == BACK)
 			{
-				openDoor();
+				toggleDoor();
 			}
 			else if(dataEncoder.input == ENTER)
 			{
-				closeDoor();
+				//closeDoor();
 			}
 
 			//openDoorTemporally();

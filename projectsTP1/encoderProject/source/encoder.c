@@ -16,17 +16,15 @@
 #define ENCODER_EVENTS		200
 
 //#define CANCEL_COUNT	20			//el tiempo que tiene que pasar para que sea evento CANCEL es CANCEL_COUNT*ENCODER_TIME (=200ms*20)
-#define BACK_COUNT		15			//entre 1 y 3 segundos para que sea evento = BACK
-#define ENTER_COUNT		5			//<1 segundo para que el evento sea = ENTER
+#define BACK_COUNT		20			//entre .5 y 2 segundos para que sea evento = BACK
+#define ENTER_COUNT		5			//<.5 segundos para que el evento sea = ENTER
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
  *******************************************************************************/
 
 static _Bool initialized_enc = false;
-//static encoderUd_t encoderData;
 static encoderQueue_t encoderQueue[ENCODER_EVENTS];
-//static _Bool initEv = false;
 
 /*******************************************************************************
  * 								FUNCIONES LOCALES
@@ -62,6 +60,7 @@ void initializeEncoder(void)
 		for(j=0; j<2;j++)
 			for(i=0;i<ENC_SIGNAL_COUNT;i++)
 				updateData(readEncoderSignalX(i), i);				//inicializo estructura encoder_t con las señales en el instante actual y el anterior
+
 		resetEdgeFlag();
 		initialized_enc = true;
 	}
