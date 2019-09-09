@@ -20,7 +20,6 @@ void initializeDataBase(void)
 void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH])
 {
 	// checks if ID is on list
-	bool IDfound = false;
 	int i;
 	for(i=0 ; i< (dataBase.top + 1) ; ++i){
 		int j;
@@ -31,12 +30,11 @@ void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH])
 			}
 		}
 		if(same){
-			IDfound = true;
 			break;
 		}
 	}
 	int j;
-	for(i=0;i<PIN_MAX_LENGTH;++i){
+	for(j=0;j<PIN_MAX_LENGTH;j++){
 		dataBase.userList[i].usersPIN[j] = usersNewPIN[j];
 	}
 }
@@ -119,7 +117,6 @@ bool verifyID(char usersID[ID_LENGTH])
 bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 {
 	// checks if ID is on list
-	bool IDfound = false;
 	int i,j;
 	for(i=0 ; i< (dataBase.top + 1) ; ++i){
 		int j;
@@ -130,7 +127,6 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 			}
 		}
 		if(same){
-			IDfound = true;
 			break;
 		}
 	}
@@ -146,7 +142,6 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 char verifyCategory(char usersID[ID_LENGTH])
 {
 	// checks if ID is on list
-	bool IDfound = false;
 	int i;
 	for(i=0 ; i< (dataBase.top + 1) ; ++i){
 		int j;
@@ -157,7 +152,6 @@ char verifyCategory(char usersID[ID_LENGTH])
 			}
 		}
 		if(same){
-			IDfound = true;
 			break;
 		}
 	}

@@ -73,7 +73,7 @@ Discarded input sections
  .data          0x00000000        0x0 ./source/dataBase.o
  .bss           0x00000000        0x0 ./source/dataBase.o
  .text.changePIN
-                0x00000000       0x1c ./source/dataBase.o
+                0x00000000       0x58 ./source/dataBase.o
  .text.removeUser
                 0x00000000       0x90 ./source/dataBase.o
  .text.verifyPIN
@@ -132,7 +132,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x22 ./source/doorManagement.o
  .debug_macro   0x00000000       0x3a ./source/doorManagement.o
  .debug_line    0x00000000      0x150 ./source/doorManagement.o
- .debug_str     0x00000000     0x3a0c ./source/doorManagement.o
+ .debug_str     0x00000000     0x3a1e ./source/doorManagement.o
  .comment       0x00000000       0x7f ./source/doorManagement.o
  .debug_frame   0x00000000       0x94 ./source/doorManagement.o
  .ARM.attributes
@@ -270,7 +270,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x22 ./source/magnetCardDecode.o
  .debug_macro   0x00000000      0x174 ./source/magnetCardDecode.o
  .debug_line    0x00000000      0x33c ./source/magnetCardDecode.o
- .debug_str     0x00000000     0x44a1 ./source/magnetCardDecode.o
+ .debug_str     0x00000000     0x44b3 ./source/magnetCardDecode.o
  .comment       0x00000000       0x7f ./source/magnetCardDecode.o
  .debug_frame   0x00000000       0xdc ./source/magnetCardDecode.o
  .ARM.attributes
@@ -324,7 +324,7 @@ Discarded input sections
  .data          0x00000000        0x0 ./source/queue.o
  .bss           0x00000000        0x0 ./source/queue.o
  .text.pushEvent
-                0x00000000       0x50 ./source/queue.o
+                0x00000000       0x4c ./source/queue.o
  .debug_macro   0x00000000      0xa5a ./source/queue.o
  .debug_macro   0x00000000       0x10 ./source/queue.o
  .debug_macro   0x00000000       0x22 ./source/queue.o
@@ -364,7 +364,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 ./source/stateAddingUser.o
  .debug_macro   0x00000000       0x10 ./source/stateAddingUser.o
  .debug_line    0x00000000      0x136 ./source/stateAddingUser.o
- .debug_str     0x00000000     0x3b1c ./source/stateAddingUser.o
+ .debug_str     0x00000000     0x3b2c ./source/stateAddingUser.o
  .comment       0x00000000       0x7f ./source/stateAddingUser.o
  .debug_frame   0x00000000       0x40 ./source/stateAddingUser.o
  .ARM.attributes
@@ -410,7 +410,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 ./source/stateAdminMode.o
  .debug_macro   0x00000000       0x10 ./source/stateAdminMode.o
  .debug_line    0x00000000      0x216 ./source/stateAdminMode.o
- .debug_str     0x00000000     0x3c31 ./source/stateAdminMode.o
+ .debug_str     0x00000000     0x3c41 ./source/stateAdminMode.o
  .comment       0x00000000       0x7f ./source/stateAdminMode.o
  .debug_frame   0x00000000       0x78 ./source/stateAdminMode.o
  .ARM.attributes
@@ -447,7 +447,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 ./source/stateBlocked.o
  .debug_macro   0x00000000       0x10 ./source/stateBlocked.o
  .debug_line    0x00000000      0x130 ./source/stateBlocked.o
- .debug_str     0x00000000     0x3b12 ./source/stateBlocked.o
+ .debug_str     0x00000000     0x3b22 ./source/stateBlocked.o
  .comment       0x00000000       0x7f ./source/stateBlocked.o
  .debug_frame   0x00000000       0x40 ./source/stateBlocked.o
  .ARM.attributes
@@ -505,7 +505,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 ./source/stateChangingPIN.o
  .debug_macro   0x00000000       0x10 ./source/stateChangingPIN.o
  .debug_line    0x00000000      0x138 ./source/stateChangingPIN.o
- .debug_str     0x00000000     0x3b1e ./source/stateChangingPIN.o
+ .debug_str     0x00000000     0x3b2e ./source/stateChangingPIN.o
  .comment       0x00000000       0x7f ./source/stateChangingPIN.o
  .debug_frame   0x00000000       0x40 ./source/stateChangingPIN.o
  .ARM.attributes
@@ -605,7 +605,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 ./source/stateRemovingUser.o
  .debug_macro   0x00000000       0x10 ./source/stateRemovingUser.o
  .debug_line    0x00000000      0x13a ./source/stateRemovingUser.o
- .debug_str     0x00000000     0x3b32 ./source/stateRemovingUser.o
+ .debug_str     0x00000000     0x3b30 ./source/stateRemovingUser.o
  .comment       0x00000000       0x7f ./source/stateRemovingUser.o
  .debug_frame   0x00000000       0x40 ./source/stateRemovingUser.o
  .ARM.attributes
@@ -655,7 +655,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 ./source/stateUserApproved.o
  .debug_macro   0x00000000       0x10 ./source/stateUserApproved.o
  .debug_line    0x00000000      0x246 ./source/stateUserApproved.o
- .debug_str     0x00000000     0x3ca6 ./source/stateUserApproved.o
+ .debug_str     0x00000000     0x3ca4 ./source/stateUserApproved.o
  .comment       0x00000000       0x7f ./source/stateUserApproved.o
  .debug_frame   0x00000000       0x80 ./source/stateUserApproved.o
  .ARM.attributes
@@ -892,7 +892,7 @@ END GROUP
                 0x000001bc                __data_section_table_end = .
                 0x000001bc                __bss_section_table = .
                 0x000001bc        0x4 LONG 0x20000028 ADDR (.bss)
-                0x000001c0        0x4 LONG 0x5dc58 SIZEOF (.bss)
+                0x000001c0        0x4 LONG 0x27090 SIZEOF (.bss)
                 0x000001c4        0x4 LONG 0x1fff0000 ADDR (.bss_RAM2)
                 0x000001c8        0x4 LONG 0x0 SIZEOF (.bss_RAM2)
                 0x000001cc        0x4 LONG 0x14000000 ADDR (.bss_RAM3)
@@ -1623,7 +1623,7 @@ END GROUP
                 0x14000000                . = ALIGN ((. != 0x0)?0x8:0x1)
                 [!provide]                PROVIDE (__end_bss_RAM3, .)
 
-.bss            0x20000028    0x5dc58
+.bss            0x20000028    0x27090
                 0x20000028                _bss = .
  *(SORT_BY_ALIGNMENT(.bss*))
  .bss.fsm       0x20000028       0x14 ./source/App.o
@@ -1660,41 +1660,41 @@ END GROUP
                 0x20022de4        0x4 ./source/magnetLectorHAL.o
                 0x20022de4                counterDataIn
  .bss.queue     0x20022de8     0x1408 ./source/magnetLectorHAL.o
- .bss.queue     0x200241f0    0x399e4 ./source/queue.o
- .bss.timers    0x2005dbd4       0x60 ./source/timer.o
- .bss.queue     0x2005dc34       0x38 ./source/timer_queue.o
+ .bss.queue     0x200241f0     0x2e1c ./source/queue.o
+ .bss.timers    0x2002700c       0x60 ./source/timer.o
+ .bss.queue     0x2002706c       0x38 ./source/timer_queue.o
  .bss.__LDM_interruptDisableCount
-                0x2005dc6c        0x4 ./SDK/startup/hardware.o
+                0x200270a4        0x4 ./SDK/startup/hardware.o
  .bss.changingState
-                0x2005dc70        0x1 ./source/App.o
-                0x2005dc70                changingState
+                0x200270a8        0x1 ./source/App.o
+                0x200270a8                changingState
  .bss.initialized
-                0x2005dc71        0x1 ./source/SegmentDisplay.o
+                0x200270a9        0x1 ./source/SegmentDisplay.o
  .bss.brightness_ev
-                0x2005dc72        0x1 ./source/display.o
+                0x200270aa        0x1 ./source/display.o
  .bss.initialized
-                0x2005dc73        0x1 ./source/display.o
+                0x200270ab        0x1 ./source/display.o
  .bss.initialized_enc
-                0x2005dc74        0x1 ./source/encoder.o
+                0x200270ac        0x1 ./source/encoder.o
  .bss.encoder_timer_count
-                0x2005dc75        0x1 ./source/encoderHAL.o
+                0x200270ad        0x1 ./source/encoderHAL.o
  .bss.initialized_enc_low
-                0x2005dc76        0x1 ./source/encoderHAL.o
- .bss.enable    0x2005dc77        0x1 ./source/magnetLectorHAL.o
-                0x2005dc77                enable
+                0x200270ae        0x1 ./source/encoderHAL.o
+ .bss.enable    0x200270af        0x1 ./source/magnetLectorHAL.o
+                0x200270af                enable
  .bss.hwLectorIsInit
-                0x2005dc78        0x1 ./source/magnetLectorHAL.o
-                0x2005dc78                hwLectorIsInit
- .bss.raw2save  0x2005dc79        0x1 ./source/magnetLectorHAL.o
-                0x2005dc79                raw2save
- .bss.tryNro    0x2005dc7a        0x1 ./source/stateReceivingPIN.o
-                0x2005dc7a                tryNro
+                0x200270b0        0x1 ./source/magnetLectorHAL.o
+                0x200270b0                hwLectorIsInit
+ .bss.raw2save  0x200270b1        0x1 ./source/magnetLectorHAL.o
+                0x200270b1                raw2save
+ .bss.tryNro    0x200270b2        0x1 ./source/stateReceivingPIN.o
+                0x200270b2                tryNro
  .bss.initialized
-                0x2005dc7b        0x1 ./source/timer.o
+                0x200270b3        0x1 ./source/timer.o
  *(SORT_BY_ALIGNMENT(COMMON))
-                0x2005dc80                . = ALIGN (0x8)
- *fill*         0x2005dc7c        0x4 
-                0x2005dc80                _ebss = .
+                0x200270b8                . = ALIGN (0x8)
+ *fill*         0x200270b4        0x4 
+                0x200270b8                _ebss = .
                 [!provide]                PROVIDE (end, .)
 
 .noinit_RAM2    0x1fff0000        0x0
@@ -1707,25 +1707,25 @@ END GROUP
  *(SORT_BY_ALIGNMENT(.noinit.$FLEX_RAM*))
                 0x14000000                . = ALIGN (0x8)
 
-.noinit         0x2005dc80        0x0
-                0x2005dc80                _noinit = .
+.noinit         0x200270b8        0x0
+                0x200270b8                _noinit = .
  *(SORT_BY_ALIGNMENT(.noinit*))
-                0x2005dc80                . = ALIGN (0x8)
-                0x2005dc80                _end_noinit = .
+                0x200270b8                . = ALIGN (0x8)
+                0x200270b8                _end_noinit = .
                 0x00001000                _HeapSize = 0x1000
 
-.heap           0x2005dc80     0x1000
-                0x2005dc80                _pvHeapStart = .
-                0x2005ec80                . = (. + _HeapSize)
- *fill*         0x2005dc80     0x1000 
-                0x2005ec80                . = ALIGN (0x8)
-                0x2005ec80                _pvHeapLimit = .
+.heap           0x200270b8     0x1000
+                0x200270b8                _pvHeapStart = .
+                0x200280b8                . = (. + _HeapSize)
+ *fill*         0x200270b8     0x1000 
+                0x200280b8                . = ALIGN (0x8)
+                0x200280b8                _pvHeapLimit = .
                 0x00001000                _StackSize = 0x1000
 
 .heap2stackfill
-                0x2005ec80     0x1000
-                0x2005fc80                . = (. + _StackSize)
- *fill*         0x2005ec80     0x1000 
+                0x200280b8     0x1000
+                0x200290b8                . = (. + _StackSize)
+ *fill*         0x200280b8     0x1000 
 
 .stack          0x2002f000        0x0
                 0x2002f000                _vStackBase = .
@@ -1736,57 +1736,57 @@ END GROUP
                 0x00001bf0                _image_size = (_image_end - _image_start)
 OUTPUT(ControlDeAcceso.axf elf32-littlearm)
 
-.debug_info     0x00000000     0x75ee
+.debug_info     0x00000000     0x75d9
  .debug_info    0x00000000      0x54f ./source/App.o
  .debug_info    0x0000054f      0x360 ./source/FSM.o
  .debug_info    0x000008af      0x4c8 ./source/SegmentDisplay.o
  .debug_info    0x00000d77      0x518 ./source/SysTick.o
- .debug_info    0x0000128f      0x498 ./source/dataBase.o
- .debug_info    0x00001727      0x41f ./source/display.o
- .debug_info    0x00001b46      0x522 ./source/encoder.o
- .debug_info    0x00002068      0x2d9 ./source/encoderDecoder.o
- .debug_info    0x00002341      0x39b ./source/encoderHAL.o
- .debug_info    0x000026dc     0x1138 ./source/gpio.o
- .debug_info    0x00003814      0x1b5 ./source/magnetCardLector.o
- .debug_info    0x000039c9      0x33d ./source/magnetLectorHAL.o
- .debug_info    0x00003d06      0x421 ./source/queue.o
- .debug_info    0x00004127      0x53e ./source/stateChangeIntensity.o
- .debug_info    0x00004665      0x541 ./source/stateMenu.o
- .debug_info    0x00004ba6      0x5f9 ./source/stateReceivingID.o
- .debug_info    0x0000519f      0x652 ./source/stateReceivingPIN.o
- .debug_info    0x000057f1      0x27a ./source/timer.o
- .debug_info    0x00005a6b      0x19e ./source/timer_queue.o
- .debug_info    0x00005c09      0x675 ./SDK/startup/hardware.o
- .debug_info    0x0000627e      0x120 ./SDK/startup/main.o
- .debug_info    0x0000639e       0x3b ./SDK/startup/semihost_hardfault.o
- .debug_info    0x000063d9      0xc0d ./SDK/startup/startup_mk64f12.o
- .debug_info    0x00006fe6      0x608 ./SDK/CMSIS/system_MK64F12.o
+ .debug_info    0x0000128f      0x486 ./source/dataBase.o
+ .debug_info    0x00001715      0x41f ./source/display.o
+ .debug_info    0x00001b34      0x522 ./source/encoder.o
+ .debug_info    0x00002056      0x2d9 ./source/encoderDecoder.o
+ .debug_info    0x0000232f      0x39b ./source/encoderHAL.o
+ .debug_info    0x000026ca     0x1138 ./source/gpio.o
+ .debug_info    0x00003802      0x1b5 ./source/magnetCardLector.o
+ .debug_info    0x000039b7      0x33d ./source/magnetLectorHAL.o
+ .debug_info    0x00003cf4      0x41e ./source/queue.o
+ .debug_info    0x00004112      0x53e ./source/stateChangeIntensity.o
+ .debug_info    0x00004650      0x541 ./source/stateMenu.o
+ .debug_info    0x00004b91      0x5f9 ./source/stateReceivingID.o
+ .debug_info    0x0000518a      0x652 ./source/stateReceivingPIN.o
+ .debug_info    0x000057dc      0x27a ./source/timer.o
+ .debug_info    0x00005a56      0x19e ./source/timer_queue.o
+ .debug_info    0x00005bf4      0x675 ./SDK/startup/hardware.o
+ .debug_info    0x00006269      0x120 ./SDK/startup/main.o
+ .debug_info    0x00006389       0x3b ./SDK/startup/semihost_hardfault.o
+ .debug_info    0x000063c4      0xc0d ./SDK/startup/startup_mk64f12.o
+ .debug_info    0x00006fd1      0x608 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_abbrev   0x00000000     0x23ab
+.debug_abbrev   0x00000000     0x2384
  .debug_abbrev  0x00000000      0x14d ./source/App.o
  .debug_abbrev  0x0000014d       0xde ./source/FSM.o
  .debug_abbrev  0x0000022b      0x159 ./source/SegmentDisplay.o
  .debug_abbrev  0x00000384      0x199 ./source/SysTick.o
- .debug_abbrev  0x0000051d      0x203 ./source/dataBase.o
- .debug_abbrev  0x00000720      0x1c0 ./source/display.o
- .debug_abbrev  0x000008e0      0x21f ./source/encoder.o
- .debug_abbrev  0x00000aff      0x1d4 ./source/encoderDecoder.o
- .debug_abbrev  0x00000cd3      0x176 ./source/encoderHAL.o
- .debug_abbrev  0x00000e49      0x37c ./source/gpio.o
- .debug_abbrev  0x000011c5      0x10e ./source/magnetCardLector.o
- .debug_abbrev  0x000012d3      0x1c6 ./source/magnetLectorHAL.o
- .debug_abbrev  0x00001499      0x198 ./source/queue.o
- .debug_abbrev  0x00001631      0x16e ./source/stateChangeIntensity.o
- .debug_abbrev  0x0000179f      0x15d ./source/stateMenu.o
- .debug_abbrev  0x000018fc      0x1ab ./source/stateReceivingID.o
- .debug_abbrev  0x00001aa7      0x208 ./source/stateReceivingPIN.o
- .debug_abbrev  0x00001caf      0x15c ./source/timer.o
- .debug_abbrev  0x00001e0b      0x10a ./source/timer_queue.o
- .debug_abbrev  0x00001f15      0x138 ./SDK/startup/hardware.o
- .debug_abbrev  0x0000204d       0x9b ./SDK/startup/main.o
- .debug_abbrev  0x000020e8       0x2f ./SDK/startup/semihost_hardfault.o
- .debug_abbrev  0x00002117      0x14a ./SDK/startup/startup_mk64f12.o
- .debug_abbrev  0x00002261      0x14a ./SDK/CMSIS/system_MK64F12.o
+ .debug_abbrev  0x0000051d      0x1e5 ./source/dataBase.o
+ .debug_abbrev  0x00000702      0x1c0 ./source/display.o
+ .debug_abbrev  0x000008c2      0x21f ./source/encoder.o
+ .debug_abbrev  0x00000ae1      0x1d4 ./source/encoderDecoder.o
+ .debug_abbrev  0x00000cb5      0x176 ./source/encoderHAL.o
+ .debug_abbrev  0x00000e2b      0x37c ./source/gpio.o
+ .debug_abbrev  0x000011a7      0x10e ./source/magnetCardLector.o
+ .debug_abbrev  0x000012b5      0x1c6 ./source/magnetLectorHAL.o
+ .debug_abbrev  0x0000147b      0x18f ./source/queue.o
+ .debug_abbrev  0x0000160a      0x16e ./source/stateChangeIntensity.o
+ .debug_abbrev  0x00001778      0x15d ./source/stateMenu.o
+ .debug_abbrev  0x000018d5      0x1ab ./source/stateReceivingID.o
+ .debug_abbrev  0x00001a80      0x208 ./source/stateReceivingPIN.o
+ .debug_abbrev  0x00001c88      0x15c ./source/timer.o
+ .debug_abbrev  0x00001de4      0x10a ./source/timer_queue.o
+ .debug_abbrev  0x00001eee      0x138 ./SDK/startup/hardware.o
+ .debug_abbrev  0x00002026       0x9b ./SDK/startup/main.o
+ .debug_abbrev  0x000020c1       0x2f ./SDK/startup/semihost_hardfault.o
+ .debug_abbrev  0x000020f0      0x14a ./SDK/startup/startup_mk64f12.o
+ .debug_abbrev  0x0000223a      0x14a ./SDK/CMSIS/system_MK64F12.o
 
 .debug_aranges  0x00000000      0x8d0
  .debug_aranges
@@ -1918,80 +1918,80 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_macro   0x00011ea4       0x23 ./SDK/startup/startup_mk64f12.o
  .debug_macro   0x00011ec7       0x80 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_line     0x00000000     0x2c76
+.debug_line     0x00000000     0x2c8f
  .debug_line    0x00000000      0x162 ./source/App.o
  .debug_line    0x00000162      0x11c ./source/FSM.o
  .debug_line    0x0000027e      0x162 ./source/SegmentDisplay.o
  .debug_line    0x000003e0      0x163 ./source/SysTick.o
- .debug_line    0x00000543      0x1f5 ./source/dataBase.o
- .debug_line    0x00000738      0x215 ./source/display.o
- .debug_line    0x0000094d      0x1fd ./source/encoder.o
- .debug_line    0x00000b4a      0x1b0 ./source/encoderDecoder.o
- .debug_line    0x00000cfa      0x157 ./source/encoderHAL.o
- .debug_line    0x00000e51      0x36f ./source/gpio.o
- .debug_line    0x000011c0      0x13f ./source/magnetCardLector.o
- .debug_line    0x000012ff      0x19d ./source/magnetLectorHAL.o
- .debug_line    0x0000149c      0x172 ./source/queue.o
- .debug_line    0x0000160e      0x1e2 ./source/stateChangeIntensity.o
- .debug_line    0x000017f0      0x1f7 ./source/stateMenu.o
- .debug_line    0x000019e7      0x1e6 ./source/stateReceivingID.o
- .debug_line    0x00001bcd      0x1f9 ./source/stateReceivingPIN.o
- .debug_line    0x00001dc6      0x169 ./source/timer.o
- .debug_line    0x00001f2f      0x11d ./source/timer_queue.o
- .debug_line    0x0000204c      0x1ed ./SDK/startup/hardware.o
- .debug_line    0x00002239      0x175 ./SDK/startup/main.o
- .debug_line    0x000023ae       0x55 ./SDK/startup/semihost_hardfault.o
- .debug_line    0x00002403      0x680 ./SDK/startup/startup_mk64f12.o
- .debug_line    0x00002a83      0x1f3 ./SDK/CMSIS/system_MK64F12.o
+ .debug_line    0x00000543      0x20e ./source/dataBase.o
+ .debug_line    0x00000751      0x215 ./source/display.o
+ .debug_line    0x00000966      0x1fd ./source/encoder.o
+ .debug_line    0x00000b63      0x1b0 ./source/encoderDecoder.o
+ .debug_line    0x00000d13      0x157 ./source/encoderHAL.o
+ .debug_line    0x00000e6a      0x36f ./source/gpio.o
+ .debug_line    0x000011d9      0x13f ./source/magnetCardLector.o
+ .debug_line    0x00001318      0x19d ./source/magnetLectorHAL.o
+ .debug_line    0x000014b5      0x172 ./source/queue.o
+ .debug_line    0x00001627      0x1e2 ./source/stateChangeIntensity.o
+ .debug_line    0x00001809      0x1f7 ./source/stateMenu.o
+ .debug_line    0x00001a00      0x1e6 ./source/stateReceivingID.o
+ .debug_line    0x00001be6      0x1f9 ./source/stateReceivingPIN.o
+ .debug_line    0x00001ddf      0x169 ./source/timer.o
+ .debug_line    0x00001f48      0x11d ./source/timer_queue.o
+ .debug_line    0x00002065      0x1ed ./SDK/startup/hardware.o
+ .debug_line    0x00002252      0x175 ./SDK/startup/main.o
+ .debug_line    0x000023c7       0x55 ./SDK/startup/semihost_hardfault.o
+ .debug_line    0x0000241c      0x680 ./SDK/startup/startup_mk64f12.o
+ .debug_line    0x00002a9c      0x1f3 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_str      0x00000000    0x79968
- .debug_str     0x00000000     0x3a96 ./source/App.o
-                               0x3c30 (size before relaxing)
- .debug_str     0x00003a96       0x19 ./source/FSM.o
-                               0x3b01 (size before relaxing)
- .debug_str     0x00003aaf      0x2f5 ./source/SegmentDisplay.o
-                               0x3b0e (size before relaxing)
- .debug_str     0x00003da4    0x6d4df ./source/SysTick.o
-                              0x70db6 (size before relaxing)
- .debug_str     0x00071283      0x111 ./source/dataBase.o
-                               0x39f1 (size before relaxing)
- .debug_str     0x00071394      0x1e7 ./source/display.o
-                               0x3ad4 (size before relaxing)
- .debug_str     0x0007157b      0x2ad ./source/encoder.o
+.debug_str      0x00000000    0x79915
+ .debug_str     0x00000000     0x3aa6 ./source/App.o
+                               0x3c40 (size before relaxing)
+ .debug_str     0x00003aa6       0x19 ./source/FSM.o
+                               0x3b11 (size before relaxing)
+ .debug_str     0x00003abf      0x2f5 ./source/SegmentDisplay.o
+                               0x3b20 (size before relaxing)
+ .debug_str     0x00003db4    0x6d4df ./source/SysTick.o
+                              0x70dc8 (size before relaxing)
+ .debug_str     0x00071293      0x111 ./source/dataBase.o
+                               0x3a03 (size before relaxing)
+ .debug_str     0x000713a4      0x1e7 ./source/display.o
+                               0x3ae6 (size before relaxing)
+ .debug_str     0x0007158b      0x24a ./source/encoder.o
                                0x3ad0 (size before relaxing)
- .debug_str     0x00071828       0x73 ./source/encoderDecoder.o
-                               0x3963 (size before relaxing)
- .debug_str     0x0007189b      0x17d ./source/encoderHAL.o
-                               0x3b28 (size before relaxing)
- .debug_str     0x00071a18      0x31d ./source/gpio.o
-                              0x70e6b (size before relaxing)
- .debug_str     0x00071d35      0x156 ./source/magnetCardLector.o
-                               0x39e6 (size before relaxing)
- .debug_str     0x00071e8b      0x10f ./source/magnetLectorHAL.o
+ .debug_str     0x000717d5       0x73 ./source/encoderDecoder.o
+                               0x3975 (size before relaxing)
+ .debug_str     0x00071848      0x17d ./source/encoderHAL.o
+                               0x3b3a (size before relaxing)
+ .debug_str     0x000719c5      0x31d ./source/gpio.o
+                              0x70e7d (size before relaxing)
+ .debug_str     0x00071ce2      0x156 ./source/magnetCardLector.o
+                               0x39f8 (size before relaxing)
+ .debug_str     0x00071e38      0x10f ./source/magnetLectorHAL.o
                                0x3e45 (size before relaxing)
- .debug_str     0x00071f9a       0x4f ./source/queue.o
-                               0x3ae0 (size before relaxing)
- .debug_str     0x00071fe9       0xc3 ./source/stateChangeIntensity.o
-                               0x3c1b (size before relaxing)
- .debug_str     0x000720ac       0x8d ./source/stateMenu.o
-                               0x3c36 (size before relaxing)
- .debug_str     0x00072139       0xef ./source/stateReceivingID.o
-                               0x3c9b (size before relaxing)
- .debug_str     0x00072228       0xe4 ./source/stateReceivingPIN.o
-                               0x3cca (size before relaxing)
- .debug_str     0x0007230c       0xc6 ./source/timer.o
+ .debug_str     0x00071f47       0x4f ./source/queue.o
+                               0x3ade (size before relaxing)
+ .debug_str     0x00071f96       0xc3 ./source/stateChangeIntensity.o
+                               0x3c2b (size before relaxing)
+ .debug_str     0x00072059       0x8d ./source/stateMenu.o
+                               0x3c34 (size before relaxing)
+ .debug_str     0x000720e6       0xef ./source/stateReceivingID.o
+                               0x3c99 (size before relaxing)
+ .debug_str     0x000721d5       0xe4 ./source/stateReceivingPIN.o
+                               0x3cc8 (size before relaxing)
+ .debug_str     0x000722b9       0xc6 ./source/timer.o
                                0x39a9 (size before relaxing)
- .debug_str     0x000723d2       0x6c ./source/timer_queue.o
+ .debug_str     0x0007237f       0x6c ./source/timer_queue.o
                                0x393b (size before relaxing)
- .debug_str     0x0007243e     0x6cb1 ./SDK/startup/hardware.o
+ .debug_str     0x000723eb     0x6cb1 ./SDK/startup/hardware.o
                               0x77212 (size before relaxing)
- .debug_str     0x000790ef       0x1b ./SDK/startup/main.o
+ .debug_str     0x0007909c       0x1b ./SDK/startup/main.o
                               0x77028 (size before relaxing)
- .debug_str     0x0007910a       0x36 ./SDK/startup/semihost_hardfault.o
+ .debug_str     0x000790b7       0x36 ./SDK/startup/semihost_hardfault.o
                                0x2d4c (size before relaxing)
- .debug_str     0x00079140      0x7d1 ./SDK/startup/startup_mk64f12.o
+ .debug_str     0x000790ed      0x7d1 ./SDK/startup/startup_mk64f12.o
                                0x35bb (size before relaxing)
- .debug_str     0x00079911       0x57 ./SDK/CMSIS/system_MK64F12.o
+ .debug_str     0x000798be       0x57 ./SDK/CMSIS/system_MK64F12.o
                               0x77121 (size before relaxing)
 
 .comment        0x00000000       0x7e
@@ -2077,48 +2077,48 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .ARM.attributes
                 0x00000591       0x25 c:/nxp/mcuxpressoide_10.2.0_759/ide/tools/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m/fpv4-sp/hard\libcr_eabihelpers.a(memcpy.o)
 
-.debug_frame    0x00000000     0x1624
+.debug_frame    0x00000000     0x163c
  .debug_frame   0x00000000       0x54 ./source/App.o
  .debug_frame   0x00000054       0x2c ./source/FSM.o
  .debug_frame   0x00000080       0x84 ./source/SegmentDisplay.o
  .debug_frame   0x00000104       0x3c ./source/SysTick.o
- .debug_frame   0x00000140      0x124 ./source/dataBase.o
- .debug_frame   0x00000264      0x100 ./source/display.o
- .debug_frame   0x00000364       0xf8 ./source/encoder.o
- .debug_frame   0x0000045c       0xbc ./source/encoderDecoder.o
- .debug_frame   0x00000518       0x80 ./source/encoderHAL.o
- .debug_frame   0x00000598      0x224 ./source/gpio.o
- .debug_frame   0x000007bc       0x54 ./source/magnetCardLector.o
- .debug_frame   0x00000810       0x9c ./source/magnetLectorHAL.o
- .debug_frame   0x000008ac       0xa4 ./source/queue.o
- .debug_frame   0x00000950       0x74 ./source/stateChangeIntensity.o
- .debug_frame   0x000009c4       0x78 ./source/stateMenu.o
- .debug_frame   0x00000a3c       0x88 ./source/stateReceivingID.o
- .debug_frame   0x00000ac4       0x88 ./source/stateReceivingPIN.o
- .debug_frame   0x00000b4c       0xa0 ./source/timer.o
- .debug_frame   0x00000bec       0x50 ./source/timer_queue.o
- .debug_frame   0x00000c3c       0x50 ./SDK/startup/hardware.o
- .debug_frame   0x00000c8c       0x28 ./SDK/startup/main.o
- .debug_frame   0x00000cb4       0x20 ./SDK/startup/semihost_hardfault.o
- .debug_frame   0x00000cd4      0x904 ./SDK/startup/startup_mk64f12.o
- .debug_frame   0x000015d8       0x4c ./SDK/CMSIS/system_MK64F12.o
+ .debug_frame   0x00000140      0x13c ./source/dataBase.o
+ .debug_frame   0x0000027c      0x100 ./source/display.o
+ .debug_frame   0x0000037c       0xf8 ./source/encoder.o
+ .debug_frame   0x00000474       0xbc ./source/encoderDecoder.o
+ .debug_frame   0x00000530       0x80 ./source/encoderHAL.o
+ .debug_frame   0x000005b0      0x224 ./source/gpio.o
+ .debug_frame   0x000007d4       0x54 ./source/magnetCardLector.o
+ .debug_frame   0x00000828       0x9c ./source/magnetLectorHAL.o
+ .debug_frame   0x000008c4       0xa4 ./source/queue.o
+ .debug_frame   0x00000968       0x74 ./source/stateChangeIntensity.o
+ .debug_frame   0x000009dc       0x78 ./source/stateMenu.o
+ .debug_frame   0x00000a54       0x88 ./source/stateReceivingID.o
+ .debug_frame   0x00000adc       0x88 ./source/stateReceivingPIN.o
+ .debug_frame   0x00000b64       0xa0 ./source/timer.o
+ .debug_frame   0x00000c04       0x50 ./source/timer_queue.o
+ .debug_frame   0x00000c54       0x50 ./SDK/startup/hardware.o
+ .debug_frame   0x00000ca4       0x28 ./SDK/startup/main.o
+ .debug_frame   0x00000ccc       0x20 ./SDK/startup/semihost_hardfault.o
+ .debug_frame   0x00000cec      0x904 ./SDK/startup/startup_mk64f12.o
+ .debug_frame   0x000015f0       0x4c ./SDK/CMSIS/system_MK64F12.o
 
-.debug_loc      0x00000000     0x1ea9
+.debug_loc      0x00000000     0x1f4e
  .debug_loc     0x00000000      0x1bb ./source/SegmentDisplay.o
  .debug_loc     0x000001bb       0x48 ./source/SysTick.o
- .debug_loc     0x00000203      0x38a ./source/dataBase.o
- .debug_loc     0x0000058d      0x166 ./source/display.o
- .debug_loc     0x000006f3      0x167 ./source/encoder.o
- .debug_loc     0x0000085a       0x88 ./source/encoderDecoder.o
- .debug_loc     0x000008e2      0x133 ./source/encoderHAL.o
- .debug_loc     0x00000a15      0x77d ./source/gpio.o
- .debug_loc     0x00001192       0x6c ./source/magnetLectorHAL.o
- .debug_loc     0x000011fe      0x108 ./source/queue.o
- .debug_loc     0x00001306      0x1bb ./source/stateChangeIntensity.o
- .debug_loc     0x000014c1      0x1fe ./source/stateMenu.o
- .debug_loc     0x000016bf      0x1cc ./source/stateReceivingID.o
- .debug_loc     0x0000188b      0x227 ./source/stateReceivingPIN.o
- .debug_loc     0x00001ab2       0xda ./source/timer.o
- .debug_loc     0x00001b8c       0x70 ./source/timer_queue.o
- .debug_loc     0x00001bfc      0x1f2 ./SDK/startup/startup_mk64f12.o
- .debug_loc     0x00001dee       0xbb ./SDK/CMSIS/system_MK64F12.o
+ .debug_loc     0x00000203      0x42f ./source/dataBase.o
+ .debug_loc     0x00000632      0x166 ./source/display.o
+ .debug_loc     0x00000798      0x167 ./source/encoder.o
+ .debug_loc     0x000008ff       0x88 ./source/encoderDecoder.o
+ .debug_loc     0x00000987      0x133 ./source/encoderHAL.o
+ .debug_loc     0x00000aba      0x77d ./source/gpio.o
+ .debug_loc     0x00001237       0x6c ./source/magnetLectorHAL.o
+ .debug_loc     0x000012a3      0x108 ./source/queue.o
+ .debug_loc     0x000013ab      0x1bb ./source/stateChangeIntensity.o
+ .debug_loc     0x00001566      0x1fe ./source/stateMenu.o
+ .debug_loc     0x00001764      0x1cc ./source/stateReceivingID.o
+ .debug_loc     0x00001930      0x227 ./source/stateReceivingPIN.o
+ .debug_loc     0x00001b57       0xda ./source/timer.o
+ .debug_loc     0x00001c31       0x70 ./source/timer_queue.o
+ .debug_loc     0x00001ca1      0x1f2 ./SDK/startup/startup_mk64f12.o
+ .debug_loc     0x00001e93       0xbb ./SDK/CMSIS/system_MK64F12.o

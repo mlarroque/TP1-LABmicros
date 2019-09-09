@@ -8,7 +8,7 @@
 #ifndef QUEUE_H_
 #define QUEUE_H_
 
-#define MAX_EVENTS 1000
+#define MAX_EVENTS 50
 
 #include "userData.h"
 
