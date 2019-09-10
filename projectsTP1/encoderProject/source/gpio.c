@@ -258,7 +258,7 @@ _Bool gpioRead (pin_t pin)
 	GPIO_Type * gpioPortPointer[] = GPIO_BASE_PTRS;
 	//gpioPortPointer = (GPIO_Type *)getStructAccess(GPIO_STRUCT, port);
 	uint32_t mask2read = (uint32_t)(1<<numPin);
-	return ((gpioPortPointer[port]->PDIR) & mask2read);
+	return ((gpioPortPointer[port]->PDIR) & mask2read)== 1<<numPin;
 
 }
 

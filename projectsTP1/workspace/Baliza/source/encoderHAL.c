@@ -9,8 +9,6 @@
 #include "timer.h"
 #include "gpio.h"
 
-#include "doorManagement.h"
-
 
 /**************************************************************************
  * 									DEFINICIONES
