@@ -13,7 +13,7 @@ static dataBase_t dataBase;
 void initializeDataBase(void)
 {
 	dataBase.top = -1;
-	user_t newUser = {{0,1,2,3,4,5,6,7},{1,2,3,4,5},ADMIN};
+	user_t newUser = {{'6','0','6','1','2','6','8','3'},{'5','5','8','4','5'},ADMIN};
 	addUser(newUser);
 }
 
@@ -101,9 +101,10 @@ bool verifyID(char usersID[ID_LENGTH])
 	for(i=0 ; i< (dataBase.top + 1) ; ++i){
 		int j;
 		bool same = true;
-		for(j=0 ; i<ID_LENGTH ; ++i){
+		for(j=0 ; j<ID_LENGTH ; ++j){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
 				same = false;
+				break;
 			}
 		}
 		if(same){

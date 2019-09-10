@@ -8,46 +8,26 @@
 #include "queue.h"
 
 #include "timer.h"
+#include "timer_queue.h"
 #include "encoder.h"
 #include "magnetCardLector.h"
 
-static queue_t queue;
-
-void initializeQueue(void)
+ev_name getEvent(UserData_t * ud)
 {
-	queue.top = -1;
-}
-
-event_t popEvent(void)
-{
-	event_t poppedEvent;
-	if(queue.top == -1){ // queue empty -> top = -1
-		poppedEvent.name = NUM_EVENTS; // default event when queue is empty
-		return poppedEvent;
+	ev_name name = NUM_EVENTS;
+	if(!IsTimerQueueEmpty()){
+		ud->timerUd = PopTimerEv();
+		name = TIMER_EV;
 	}
-	else{
-		poppedEvent = queue.events[queue.top]; //popEvent
-		queue.top -= 1; // Decrement queue counter
-		return poppedEvent;
+	else if(someMagnetCard2Read()){
+		ud->magnetLectorUd = getLectureDecoded(); // get specific data for that event
+		name = KEYCARD_EV;
 	}
-}
-
-void pushEvent(event_t ev)
-{
-	if(queue.top == MAX_EVENTS-1){ // event overflow
-		queue.top = 0;
-		queue.events[queue.top] = ev;
+	else if(isEncEventValid()){
+		ud->encoderUd = popEncoderEvent();
+		name = INPUT_EV;
 	}
-	else{
-		queue.top += 1;
-		queue.events[queue.top] = ev;
-	}
-	return;
-}
-
-void organizeEvents(void)
-{
-	//TERMINAR
+	return name;
 }
 
 void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOption, UserData_t * ud)

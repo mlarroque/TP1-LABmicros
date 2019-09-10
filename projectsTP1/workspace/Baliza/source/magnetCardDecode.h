@@ -22,7 +22,7 @@
 #define UINT_T unit8_t
 #endif
 
-#define DATA_LEN 1024
+#define DATA_LEN 256
 #define MAX_TRACK_LEN 200
 
 #define TERMINATOR_DATA_DECODED '\0'

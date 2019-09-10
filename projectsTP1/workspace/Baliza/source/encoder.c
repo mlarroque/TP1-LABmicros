@@ -16,15 +16,14 @@
 #define ENCODER_EVENTS		200
 
 //#define CANCEL_COUNT	20			//el tiempo que tiene que pasar para que sea evento CANCEL es CANCEL_COUNT*ENCODER_TIME (=200ms*20)
-#define BACK_COUNT		15			//entre 1 y 3 segundos para que sea evento = BACK
-#define ENTER_COUNT		5			//<1 segundo para que el evento sea = ENTER
+#define BACK_COUNT		20			//entre .5 y 2 segundos para que sea evento = BACK
+#define ENTER_COUNT		5			//<.5 segundos para que el evento sea = ENTER
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
  *******************************************************************************/
 
-static bool initialized_enc = false;
-//static encoderUd_t encoderData;
+static _Bool initialized_enc = false;
 static encoderQueue_t encoderQueue[ENCODER_EVENTS];
 
 /*******************************************************************************
@@ -38,10 +37,10 @@ void signalBCallback(void);
 void setEncCallbacks(void);
 void signalCCallback(void);
 
+
 void pushEncoderEvent(encoderUd_t ev);
 encoderUd_t popEncoderEvent(void);
 void initializeEncoderQueue(void);
-encoderQueue_t getEncoderEvent(void);
 
 /********************************************************************************
  * 							FUNCIONES DEL HEADER
@@ -59,7 +58,9 @@ void initializeEncoder(void)
 
 		for(j=0; j<2;j++)
 			for(i=0;i<ENC_SIGNAL_COUNT;i++)
-			updateData(readEncoderSignalX(i), i);				//inicializo estructura encoder_t con las señales en el instante actual y el anterior
+				updateData(readEncoderSignalX(i), i);				//inicializo estructura encoder_t con las señales en el instante actual y el anterior
+
+		resetEdgeFlag();
 		initialized_enc = true;
 	}
 }
@@ -73,76 +74,74 @@ void setEncCallbacks(void)
 
 void signalACallback(void)
 {
-	encoderQueue_t eventForQueue;
-	//uint8_t i;
-	//for(i=0;i<ENC_SIGNAL_COUNT;i++)
-	updateData(readEncoderSignalX(B), B);
+	uint8_t i;
+	updateData(LOW, A);
+	//updateData(readEncoderSignalX(B), B);
+	/*for(i=0;i<(ENC_SIGNAL_COUNT-1);i++)
+	{
+		updateData(readEncoderSignalX(i), i);
+	}*/
+
+	encoderUd_t eventForQueue;
+	eventForQueue.isValid = true;
 	counter_type event = decodeEncoder();
 
+
 	if(event == COUNT_UP)
-		eventForQueue.event.input = UP;
+	{
+		eventForQueue.input = UP;
+		resetData();
+	}
 	else if(event == COUNT_DOWN)
-		eventForQueue.event.input = DOWN;
-	else if(event == NO_CHANGE);	//si no hay cambio no hago nada
+	{
+		eventForQueue.input = DOWN;
+		resetData();
+	}
+	else if(event == NO_CHANGE)
+	{
+		eventForQueue.isValid = false;
+		resetEdgeFlag();
+		resetData();
+	}
+	pushEncoderEvent(eventForQueue);
 
-	pushEncoderEvent(eventForQueue.event);
-
-//	for(i=0;i<ENC_SIGNAL_COUNT;i++)
-//		updateData(readEncoderSignalX(i), i);
-//	counter_type event = decodeEncoder();
-//	if(event == COUNT_UP)
-//		eventForQueue.event.input = UP;
-//	else if(event == COUNT_DOWN)
-//		eventForQueue.event.input = DOWN;
-//	else if(event == NO_CHANGE);	//si no hay cambio no hago nada
-//	else if(event == ERROR)			//si hay un error, e.g. se movió muy rápido el encoder, leo de nuevo las señales
-//	{
-//		for(i=0;i<ENC_SIGNAL_COUNT;i++)
-//			updateData(readEncoderSignalX(i), i);
-//	}
-//	pushEncoderEvent(eventForQueue.event);
 }
 void signalBCallback(void)
 {
+	updateData(LOW, B);
+	//updateData(readEncoderSignalX(B), 1);
+	//updateData(readEncoderSignalX(A), 0);
+	encoderUd_t eventForQueue;
+	eventForQueue.isValid = true;
 
-	encoderQueue_t eventForQueue;
-	//uint8_t i;
-	//for(i=0;i<ENC_SIGNAL_COUNT;i++)
-	updateData(readEncoderSignalX(B), B);
 	counter_type event = decodeEncoder();
 
 	if(event == COUNT_UP)
-		eventForQueue.event.input = UP;
+	{
+		eventForQueue.input = UP;
+		resetData();
+	}
 	else if(event == COUNT_DOWN)
-		eventForQueue.event.input = DOWN;
-	else if(event == NO_CHANGE);	//si no hay cambio no hago nada
-
-	pushEncoderEvent(eventForQueue.event);
-
-//	uint8_t i;
-//	encoderQueue_t eventForQueue;
-//	for(i=0;i<ENC_SIGNAL_COUNT;i++)
-//		updateData(readEncoderSignalX(i), i);
-//	counter_type event = decodeEncoder(readEncoderSignalX(A), A);
-//	if(event == COUNT_UP)
-//		eventForQueue.event.input = UP;
-//	else if(event == COUNT_DOWN)
-//		eventForQueue.event.input = DOWN;
-//	else if(event == NO_CHANGE);	//si no hay cambio no hago nada
-//	else if(event == ERROR)			//si hay un error, e.g. se movió muy rápido el encoder, leo de nuevo las señales
-//	{
-//		for(i=0;i<ENC_SIGNAL_COUNT;i++)
-//			updateData(readEncoderSignalX(i), i);
-//	}
-//	pushEncoderEvent(eventForQueue.event);
+	{
+		eventForQueue.input = DOWN;
+		resetData();
+	}
+	else if(event == NO_CHANGE)	//si no hay cambio no hago nada
+	{
+		eventForQueue.isValid = false;
+		resetEdgeFlag();
+		resetData();
+	}
+	pushEncoderEvent(eventForQueue);
 }
 
 void signalCCallback(void)
 {
-	//uint8_t i;
+	updateData(readEncoderSignalX(C), C);
+
 	encoderQueue_t eventForQueue;
-	updateButtonState(readEncoderSignalX(C));
-	if(checkEnterFallingEdge())				//si fue flanco ascendente recién se presionó el botón
+ 	eventForQueue.event.isValid = true;
+	if(checkEnterFallingEdge())				//si fue flanco descendente recién se presionó el botón
 	{
 		resetEncoderTimerCount();			//reseteo el contador
 	}
@@ -199,7 +198,7 @@ encoderUd_t popEncoderEvent(void)
 	return poppedEvent;
 }
 
-bool isEncEventValid(void)
+_Bool isEncEventValid(void)
 {
 	return !encoderQueue->isEmpty;
 }

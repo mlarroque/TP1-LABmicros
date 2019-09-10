@@ -12,43 +12,59 @@ typedef enum {A, B, C, ENC_SIGNAL_COUNT}encoder_signal;
 
 static encoder_t encoder;
 
-
-
-void updateData(bool value, int signal)
+void resetEdgeFlag(void)
 {
-	encoder.prev_data[signal] = encoder.curr_data[signal];	//seteo el estado anterior igual al estado actual
-	encoder.curr_data[signal] = value;	//seteo el estado actual donde sea que empiece el encoder
+	encoder.edge_A = false;
+	encoder.edge_B = false;
+}
+
+void updateData(_Bool value, int signal)
+{
+	encoder.prev_data[signal] = encoder.curr_data[signal];
+	encoder.curr_data[signal] = value;
 
 }
 
 counter_type decodeEncoder()
 {
-	//bool temp = encoder.curr_data[signal];			//guardo valor actual, que pasará a ser valor anterior
-	//encoder.curr_data[signal] = value;  //leo valor actual
-	//encoder.prev_data[signal] = temp;				//actualizo valor anterior
-
-	counter_type event = readRotation();
+	counter_type event = NO_CHANGE;
+	if(encoder.curr_data[B] != encoder.prev_data[B])	//flanco descendente de B
+	{
+		if(encoder.edge_A == false)	//si la señal anterior de A estaba en HIGH, fue primer flanco de B
+		{
+			event = COUNT_UP;
+			encoder.edge_B = true;
+		}
+	}
+	else if (encoder.curr_data[A] != encoder.prev_data[A])	//flanco descendente de A
+	{
+		if(encoder.edge_B == false)	//si la señal anterior de B estaba en HIGH, fue primer flanco de A
+		{
+			event = COUNT_DOWN;
+			encoder.edge_A = true;
+		}
+	}
 	return event;
 
 }
 
-void updateButtonState(bool value)
+void resetData(void)
 {
-	//bool temp = encoder.curr_data[C];			//guardo valor actual, que pasará a ser valor anterior
-	encoder.curr_data[C] = value;  				//leo valor actual
-	//encoder.prev_data[C] = temp;				//actualizo valor anterior
+	updateData(HIGH, A);
+	updateData(HIGH, A);
+	updateData(HIGH, B);
+	updateData(HIGH, B);
 }
 
-bool checkEnterRisingEdge()
+
+_Bool checkEnterRisingEdge()
 {
-  //true si se presionó el ENTER (flanco ascendente)
-	return (encoder.prev_data[C]==LOW) && (encoder.curr_data[C]==HIGH);
+	return encoder.curr_data[C];			//true si se deja de presionar el botón
 }
 
-bool checkEnterFallingEdge(void)
+_Bool checkEnterFallingEdge(void)
 {
-  //true si se dejó de presionar el ENTER (flanco descendente)
-	return (encoder.prev_data[C]==HIGH) && (encoder.curr_data[C]==LOW);
+	return !encoder.curr_data[C];   //true si se presiona el botón (flanco descendente)
 }
 
 counter_type readRotation(void)
@@ -81,9 +97,9 @@ counter_type readRotation(void)
 	return status;
 }
 
-bool isClockwise(void)
+_Bool isClockwise(void)
 {
-	bool clockwise;
+	_Bool clockwise;
 	if(encoder.prev_data[B] != encoder.curr_data[B])			//me fijo qué flanco fue, si de la señal A o B
 	{															//fue señal B
 		if(encoder.curr_data[B] != encoder.curr_data[A])
@@ -102,9 +118,9 @@ bool isClockwise(void)
 	return clockwise;
 }
 
-bool isValid(void)
+_Bool isValid(void)
 {
-	bool status = false;
+	_Bool status = false;
 	//los únicos cambios válidos son los del código de Gray de 2 bits
 	// A	0	1	1	0
 	// B	0	0	1	1
@@ -128,9 +144,9 @@ bool isValid(void)
 	return status;
 }
 
-bool wasThereChange(void)
+_Bool wasThereChange(void)
 {
-	bool status = false;
+	_Bool status = false;
 	int i;
 	for (i=0; i<ENC_SIGNAL_COUNT; i++)
 	{

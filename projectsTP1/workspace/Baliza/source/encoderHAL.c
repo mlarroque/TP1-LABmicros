@@ -9,6 +9,8 @@
 #include "timer.h"
 #include "gpio.h"
 
+#include "doorManagement.h"
+
 
 /**************************************************************************
  * 									DEFINICIONES
@@ -18,7 +20,7 @@
 #define SIGNAL_C_PIN PORTNUM2PIN(PD,2)// PTD2
 
 
-#define ENCODER_TIME 	200000 		// 200 milisegundos
+#define ENCODER_TIME 	100000 		// 100 milisegundos
 
 
 typedef void (*callback_t)(void);
@@ -27,8 +29,8 @@ typedef void (*callback_t)(void);
  *								VARIABLES ESTATICAS
  *******************************************************************************/
 
-static bool initialized_enc_low = false;
-static uint8_t encoder_timer_count = 0;
+static _Bool initialized_enc_low = false;
+static uint8_t encoder_timer_count;
 
 /*******************************************************************************
  *								FUNCIONES LOCALES
@@ -49,10 +51,11 @@ void initializeEncoderHAL(void)
 		gpioMode(SIGNAL_B_PIN, INPUT_PULLUP);
 		setPassiveFilter(SIGNAL_B_PIN);
 		gpioMode(SIGNAL_C_PIN, INPUT_PULLUP);
-		//setPassiveFilter(SIGNAL_C_PIN);
-		SetTimer(ENCODER_TIMER, ENCODER_TIME, encTimerRoutine);
-		//DisableTimer(ENCODER_TIMER);		//lo inicializo sólo cuando se presiona el enter
-
+		setPassiveFilter(SIGNAL_C_PIN);
+		encoder_timer_count = 0;
+		InitializeTimers();
+		SetTimer(ENCODER_TIMER, ENCODER_TIME, &encTimerRoutine);
+		//EnableTimer(ENCODER_TIMER);
 		initialized_enc_low = true;
 	}
 }
@@ -69,16 +72,24 @@ void resetEncoderTimerCount(void)
 	encoder_timer_count = 0;
 }
 
-bool readEncoderSignalX (encoder_signal signal)
+_Bool readEncoderSignalX (encoder_signal signal)
 {
-	bool lecture;
-	if(signal == A)
-		lecture = gpioRead(SIGNAL_A_PIN);
-	else if (signal == B)
-		lecture = gpioRead(SIGNAL_B_PIN);
-	else if (signal == C)
-		lecture = gpioRead(SIGNAL_C_PIN);
-	return lecture;
+	_Bool value;
+	switch(signal)
+	{
+		case A:
+			value = gpioRead(SIGNAL_A_PIN);
+			break;
+		case B:
+			value = gpioRead(SIGNAL_B_PIN);
+			break;
+		case C:
+			value = gpioRead(SIGNAL_C_PIN);
+			break;
+		default:
+			break;
+	}
+	return value;
 }
 
 void setSignalCallback(void (*funcallback)(void), encoder_signal signal)

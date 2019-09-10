@@ -35,9 +35,10 @@ FSM_t fsm;
 state_t nextState;
 UserData_t userData;
 // queue.h
-event_t newEvent;
+ev_name newEvent;
 // App.c
 bool changingState = false;
+ev_name nameEvent;
 
 /*******************************************************************************
  *******************************************************************************
@@ -58,7 +59,6 @@ void App_Init (void)
     // FSM/Queue Initialization
     initFSM(&fsm);
     initializeDataBase();
-    initializeQueue();
 
     // User Data init
     userDataReset(true, true, true, true, &userData);
@@ -68,25 +68,21 @@ void App_Init (void)
 /* Función que se llama constantemente en un ciclo infinito */
 void App_Run (void)
 {
-	organizeEvents(); // organize events of all queues
-	newEvent = popEvent(); // get new event
-	switch(newEvent.name){ // which type of event?
+	nameEvent = getEvent(&userData); // get new event
+	switch(nameEvent){ // which type of event?
 		case INPUT_EV:
-			userData.encoderUd = newEvent.data.encoderUd; // get specific data for that event
 			nextState = (fsm.currentState.routines[INPUT_EV])(&userData); // action routine
 			if(nextState.name != STAY){ // if state changes
 				changingState = true;
 			}
 			break;
 		case TIMER_EV:
-			userData.timerUd = newEvent.data.timerUd; // get specific data for that event
 			nextState = (fsm.currentState.routines[TIMER_EV])(&userData); // action routine
 			if(nextState.name != STAY){ // if state changes
 				changingState = true;
 			}
 			break;
 		case KEYCARD_EV:
-			userData.magnetLectorUd = newEvent.data.magnetLectorUd; // get specific data for that event
 			nextState = (fsm.currentState.routines[KEYCARD_EV])(&userData); // action routine
 			if(nextState.name != STAY){ // if state changes
 				changingState = true;

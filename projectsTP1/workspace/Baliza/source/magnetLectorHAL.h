@@ -7,7 +7,7 @@
 #define TRACK3_DATAID 3
 
 #define MAX_ITEMS_LECTOR_QUEUE 5
-#define DATA_LEN 1024
+#define DATA_LEN 256
 
 #include <stdint.h>
 typedef uint8_t bufferMagnetDataEncoded_Type;
