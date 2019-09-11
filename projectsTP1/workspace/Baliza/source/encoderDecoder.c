@@ -28,7 +28,7 @@ counter_type decodeEncoder()
 				event = COUNT_UP;
 		}
 	}
-	else if (encoder.prev_data[A] == HIGH)	//flanco descendente de A
+	if (encoder.prev_data[A] == HIGH)	//flanco descendente de A
 	{
 		if(encoder.curr_data[A] == LOW){
 		if(encoder.prev_data[B])	//si la señal anterior de B estaba en HIGH, fue primer flanco de A

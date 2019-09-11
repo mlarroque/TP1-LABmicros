@@ -19,7 +19,7 @@
 
 
 #define BUTTON_TIME 	100000 		// 100 milisegundos
-#define ROTATION_FREQUENCY 80000	//80 milisegundos
+#define ROTATION_FREQUENCY 70000	//80 milisegundos
 
 
 typedef void (*callback_t)(void);
