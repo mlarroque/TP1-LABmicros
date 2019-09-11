@@ -82,7 +82,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 			break;
 		case ENTER: // Selects current option
 			while(ud->received_PIN[j] != '\0'){
-				j += 1;
+				j++;
 			}
 			switch(ud->option)
 			{
@@ -108,6 +108,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 					if((ud->option >= INITIAL) && (j < PIN_MAX_LENGTH))
 					{
 						ud->received_PIN[j] = INT2CHAR(ud->option);
+						j++;
 						userDataReset(false ,false ,false ,true ,ud);
 						createPINString(ud);
 						PrintMessage(PINstring, false);
@@ -116,13 +117,12 @@ state_t RPinputEvHandler(UserData_t * ud)
 					if(j == PIN_MAX_LENGTH){ // check if pin valid
 						validPIN = verifyPIN(ud->received_ID, ud->received_PIN);
 						if(validPIN){
-							PrintMessage("USER APPROVED", true);
 							nextState.name = USER_APPROVED;
 							tryNro = 0;
 							nextState.routines[INPUT_EV] = &UAinputEvHandler;
 							nextState.routines[TIMER_EV] = &UAtimerEvHandler;
 							nextState.routines[KEYCARD_EV] = &UAkeycardEvHandler;
-							PrintMessage("ACCESS GRANTED", false);
+							PrintMessage("USER APPROVED", true);
 						}
 						else
 						{
@@ -133,11 +133,11 @@ state_t RPinputEvHandler(UserData_t * ud)
 						    	nextState.name = STAY;
 						    }
 						    else{
-								PrintMessage("USER BLOCKED", true);
 								nextState.name = BLOCKED;
 								nextState.routines[INPUT_EV] = &BinputEvHandler;
 								nextState.routines[TIMER_EV] = &BtimerEvHandler;
 								nextState.routines[KEYCARD_EV] = &BkeycardEvHandler;
+								PrintMessage("USER BLOCKED", true);
 						    }
 						}
 					}

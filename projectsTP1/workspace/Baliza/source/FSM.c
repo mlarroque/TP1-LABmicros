@@ -14,4 +14,5 @@ void initFSM(FSM_t * fsm)
 	fsm->currentState.routines[INPUT_EV] = &MinputEvHandler;
 	fsm->currentState.routines[TIMER_EV] = &MtimerEvHandler;
 	fsm->currentState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+	PrintMessage("MENU", false);
 }

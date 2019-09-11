@@ -13,7 +13,7 @@ static dataBase_t dataBase;
 void initializeDataBase(void)
 {
 	dataBase.top = -1;
-	user_t newUser = {{'6','0','6','1','2','6','8','3'},{'5','5','8','4','5'},ADMIN};
+	user_t newUser = {{'6','0','6','1','2','6','8','3'},{'0','0','0','0','0'},ADMIN};
 	addUser(newUser);
 }
 
@@ -119,10 +119,9 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 {
 	// checks if ID is on list
 	int i,j;
+	bool same = true;
 	for(i=0 ; i< (dataBase.top + 1) ; ++i){
-		int j;
-		bool same = true;
-		for(j=0 ; i<ID_LENGTH ; ++i){
+		for(j=0 ; j<ID_LENGTH ; ++j){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
 				same = false;
 			}
@@ -143,11 +142,10 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 char verifyCategory(char usersID[ID_LENGTH])
 {
 	// checks if ID is on list
-	int i;
+	int i,j;
 	for(i=0 ; i< (dataBase.top + 1) ; ++i){
-		int j;
 		bool same = true;
-		for(j=0 ; i<ID_LENGTH ; ++i){
+		for(j=0 ; j<ID_LENGTH ; ++j){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
 				same = false;
 			}
