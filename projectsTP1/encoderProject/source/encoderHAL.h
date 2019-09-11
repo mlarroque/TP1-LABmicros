@@ -21,8 +21,9 @@ typedef void (*callback_ptr)(void);
 /********************************************************************************************
  * 										FUNCIONES
  ********************************************************************************************/
-void initializeEncoderHAL(void);
-void setSignalCallback (void (*funcallback)(void), encoder_signal);
+void initializeEncoderHAL(void (*funcallback)(void));
+void setButtonCallback(void (*funcallback)(void));
+//void setSignalCallback (void (*funcallback)(void), encoder_signal);
 bool readEncoderSignalX(encoder_signal);
 void resetEncoderTimerCount(void);
 uint8_t getEncTimerCount(void);

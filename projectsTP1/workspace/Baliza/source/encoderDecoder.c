@@ -23,6 +23,22 @@ counter_type decodeEncoder()
 	counter_type event = NO_CHANGE;
 	if(encoder.curr_data[B] != encoder.prev_data[B])	//flanco descendente de B
 	{
+		if(encoder.prev_data[A])
+			event = COUNT_UP;
+	}
+	else if (encoder.curr_data[A] != encoder.prev_data[A])	//flanco descendente de A
+	{
+		if(encoder.prev_data[A])	//si la señal anterior de B estaba en HIGH, fue primer flanco de A
+		{
+			event = COUNT_DOWN;
+		}
+	}
+	return event;
+
+
+/*	counter_type event = NO_CHANGE;
+	if(encoder.curr_data[B] != encoder.prev_data[B])	//flanco descendente de B
+	{
 		if(encoder.edge_A == false)	//si la señal anterior de A estaba en HIGH, fue primer flanco de B
 		{
 			event = COUNT_UP;
@@ -37,15 +53,15 @@ counter_type decodeEncoder()
 			encoder.edge_A = true;
 		}
 	}
-	return event;
+	return event;*/
 
 }
 
-void resetEdgeFlag(void)
+/*void resetEdgeFlag(void)
 {
 	encoder.edge_A = false;
 	encoder.edge_B = false;
-}
+}*/
 
 void resetData(void)
 {

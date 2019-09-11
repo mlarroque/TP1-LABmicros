@@ -18,7 +18,8 @@
 #define SIGNAL_C_PIN PORTNUM2PIN(PD,2)// PTD2
 
 
-#define ENCODER_TIME 	100000 		// 100 milisegundos
+#define BUTTON_TIME 	100000 		// 100 milisegundos
+#define ROTATION_FREQUENCY 80000	//80 milisegundos
 
 
 typedef void (*callback_t)(void);
@@ -40,7 +41,7 @@ void encTimerRoutine(void);
  *									FUNCIONES
  *******************************************************************************/
 
-void initializeEncoderHAL(void)
+void initializeEncoderHAL(void (*funcallback)(void))
 {
 	if(!initialized_enc_low)
 	{
@@ -52,7 +53,8 @@ void initializeEncoderHAL(void)
 		setPassiveFilter(SIGNAL_C_PIN);
 		encoder_timer_count = 0;
 		InitializeTimers();
-		SetTimer(ENCODER_TIMER, ENCODER_TIME, &encTimerRoutine);
+		SetTimer(CHECK_ROTATION_TIMER, ROTATION_FREQUENCY, funcallback);
+		SetTimer(BUTTON_TIMER, BUTTON_TIME, &encTimerRoutine);
 		//EnableTimer(ENCODER_TIMER);
 		initialized_enc_low = true;
 	}
@@ -90,22 +92,11 @@ _Bool readEncoderSignalX (encoder_signal signal)
 	return value;
 }
 
-void setSignalCallback(void (*funcallback)(void), encoder_signal signal)
+
+
+void setButtonCallback(void (*funcallback)(void))
 {
-	switch (signal)
-	{
-		case A:
-			gpioIRQ(SIGNAL_A_PIN, GPIO_IRQ_MODE_FALLING_EDGE, (pinIrqFun_t) funcallback);
-			break;
-		case B:
-			gpioIRQ(SIGNAL_B_PIN, GPIO_IRQ_MODE_FALLING_EDGE, (pinIrqFun_t) funcallback);
-			break;
-		case C:
-			gpioIRQ(SIGNAL_C_PIN, GPIO_IRQ_MODE_BOTH_EDGES, (pinIrqFun_t) funcallback);
-			break;
-		default:
-			break;
-	}
+	gpioIRQ(SIGNAL_C_PIN, GPIO_IRQ_MODE_BOTH_EDGES, (pinIrqFun_t) funcallback);
 }
 
 uint8_t getEncTimerCount(void)

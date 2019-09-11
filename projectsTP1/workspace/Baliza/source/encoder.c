@@ -32,10 +32,12 @@ static encoderQueue_t encoderQueue[ENCODER_EVENTS];
 
 void setEncCallbacks(void);
 
-void signalACallback(void);
-void signalBCallback(void);
-void setEncCallbacks(void);
-void signalCCallback(void);
+//void signalACallback(void);
+//void signalBCallback(void);
+//void setEncCallbacks(void);
+//void signalCCallback(void);
+void buttonCallback(void);
+void rotationCallback(void);
 
 
 void pushEncoderEvent(encoderUd_t ev);
@@ -53,29 +55,31 @@ void initializeEncoder(void)
 	{
 		uint8_t i;
 		uint8_t j;
-		initializeEncoderHAL();		//setea gpio y timer count
-		setEncCallbacks();			//setea callbacks para señal
+		initializeEncoderHAL(rotationCallback);		//setea gpio y timer count
+		setButtonCallback(buttonCallback);
+		//setEncCallbacks();			//setea callbacks para señal
 		initializeEncoderQueue();			//inicializo queue de encoder
 
 		for(j=0; j<STATES;j++)
 			for(i=0;i<ENC_SIGNAL_COUNT;i++)
 				updateData(readEncoderSignalX(i), i);				//inicializo estructura encoder_t con las señales en el instante actual y el anterior
 
-		resetEdgeFlag();
+		//resetEdgeFlag();
 		initialized_enc = true;
 	}
 }
 
-void setEncCallbacks(void)
+/*void setEncCallbacks(void)
 {
-	setSignalCallback(signalACallback, A);
-	setSignalCallback(signalBCallback, B);
-	setSignalCallback(signalCCallback, C);
-}
+	//setRotationCallback(rotationCallback);
+	//setSignalCallback(signalBCallback, B);
+	//setButtonCallback(signalCCallback, C);
+}*/
 
-void signalACallback(void)
+void rotationCallback(void)
 {
-	updateData(LOW, A);
+	updateData(readEncoderSignalX(A), A);
+	updateData(readEncoderSignalX(B), B);
 	encoderUd_t eventForQueue;
 	eventForQueue.isValid = true;
 	counter_type event = decodeEncoder();
@@ -95,13 +99,14 @@ void signalACallback(void)
 	{
 		eventForQueue.isValid = false;
 		resetData();
-		resetEdgeFlag();
+		//resetEdgeFlag();
 
 	}
 	pushEncoderEvent(eventForQueue);
 
 }
-void signalBCallback(void)
+
+/*void signalBCallback(void)
 {
 	updateData(LOW, B);
 	encoderUd_t eventForQueue;
@@ -126,9 +131,9 @@ void signalBCallback(void)
 		resetData();
 	}
 	pushEncoderEvent(eventForQueue);
-}
+}*/
 
-void signalCCallback(void)
+void buttonCallback(void)
 {
 	updateData(readEncoderSignalX(C), C);
 
