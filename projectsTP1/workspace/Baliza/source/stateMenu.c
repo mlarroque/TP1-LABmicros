@@ -43,7 +43,7 @@ state_t MinputEvHandler(UserData_t * ud)
 				ud->option -= INCREMENT;
 			}
 			else{
-				ud->option = MENU_OPTIONS;
+				ud->option = MENU_OPTIONS-1;
 			}
 			// show option to user
 			PrintMessage(menuStrings[(int)ud->option], false);

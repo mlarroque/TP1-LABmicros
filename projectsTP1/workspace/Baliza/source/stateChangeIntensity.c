@@ -16,6 +16,7 @@
 #define INTENSITY_OPTIONS	10
 #define INCREMENT	1
 #define INITIAL	1
+#define LAST_OPTION (INTENSITY_OPTIONS-1)
 
 const char * intStrings[INTENSITY_OPTIONS] = {"10","20","30","40","50","60","70","80","90","100"};
 
@@ -33,7 +34,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			PrintMessage(intStrings[(int)ud->option], false);
+			PrintMessage(intStrings[ud->option], false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -41,10 +42,10 @@ state_t CIinputEvHandler(UserData_t * ud)
 				ud->option -= INCREMENT;
 			}
 			else{
-				ud->option = INTENSITY_OPTIONS;
+				ud->option = LAST_OPTION;
 			}
 			// show option to user
-			PrintMessage(intStrings[(int)ud->option], false);
+			PrintMessage(intStrings[ud->option], false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
@@ -56,12 +57,12 @@ state_t CIinputEvHandler(UserData_t * ud)
 			else
 			{
 				SetBrightness((unsigned char) ud->option);
-				PrintMessage("INTENSITY CHANGED", true);
 				userDataReset(false, false, false, true, ud);
 				nextState.name = MENU;
 				nextState.routines[INPUT_EV] = &MinputEvHandler;
 				nextState.routines[TIMER_EV] = &MtimerEvHandler;
 				nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+				PrintMessage("MENU", false);
 			}
 			break;
 		case CANCEL:
@@ -70,6 +71,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;
 			nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+			PrintMessage("MENU", false);
 			break; // Cancels selection and back to menu
 	}
 	return nextState;
@@ -106,6 +108,7 @@ state_t CIkeycardEvHandler(UserData_t * ud)
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
 		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
+		PrintMessage("ENTER PIN", true);
 	}
 	else{
 		// show message in display
