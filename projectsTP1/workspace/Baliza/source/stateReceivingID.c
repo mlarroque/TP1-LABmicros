@@ -77,7 +77,7 @@ state_t RIinputEvHandler(UserData_t * ud)
 			break;
 		case ENTER: // Selects current option
 			while(ud->received_ID[j] != '\0'){
-				j += 1;
+				j++;
 			}
 			switch(ud->option)
 			{
@@ -103,6 +103,7 @@ state_t RIinputEvHandler(UserData_t * ud)
 					if((ud->option >= INITIAL) && (j < ID_LENGTH))
 					{
 						ud->received_ID[j] = INT2CHAR(ud->option);
+						j++;
 						userDataReset(false ,false ,false ,true ,ud);
 						createIDString(ud);
 						PrintMessage(IDstring, false);
