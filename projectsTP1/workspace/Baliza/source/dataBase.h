@@ -11,14 +11,14 @@
 #include <stdbool.h>
 #include "userData.h"
 
-#define MAX_CANT_USERS	10000
+#define MAX_CANT_USERS	10
 
 typedef enum {SUCCESSFULL,DATABASE_FULL,ID_ALREADY_EXISTS,ID_NOT_FOUND}status;
 
 typedef struct{
 	char usersID[ID_LENGTH];
 	char usersPIN[PIN_MAX_LENGTH];
-	char category;
+	category_name category;
 }user_t;
 
 typedef struct{
@@ -36,7 +36,7 @@ bool verifyID(char usersID[ID_LENGTH]);
 
 bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH]);
 
-char verifyCategory(char usersID[ID_LENGTH]);
+category_name verifyCategory(char usersID[ID_LENGTH]);
 
 void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH]);
 

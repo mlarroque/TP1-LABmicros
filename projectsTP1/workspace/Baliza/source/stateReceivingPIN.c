@@ -24,20 +24,19 @@
 #define STRING_CANT	(PIN_MAX_LENGTH+1)
 #define INT2CHAR(x)	((char)(x+48))
 
-typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
+static typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
 static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
 static char PINstring[STRING_CANT];
 
-//char * createPINString(UserData_t * ud);
+static void createPINString(UserData_t * ud);
 
-void createPINString(UserData_t * ud){
+static void createPINString(UserData_t * ud){
 	int i=0;
 	while(ud->received_PIN[i] != '\0'){
 		PINstring[i] = HIDDEN;
 		i++;
 	}
-	if(ud->option != -1)
-	{
+	if(ud->option != -1){
 		PINstring[i] = pinStrings[ud->option];
 		i++;
 	}
@@ -87,8 +86,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 			switch(ud->option)
 			{
 				case ERASE_LAST:
-					if(j>INITIAL)
-					{
+					if(j>INITIAL){
 						ud->received_PIN[j-1] = '\0';
 					}
 					createPINString(ud);
@@ -105,8 +103,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 					nextState.name = STAY;
 					break;
 				default: // number
-					if((ud->option >= INITIAL) && (j < PIN_MAX_LENGTH))
-					{
+					if((ud->option >= INITIAL) && (j < PIN_MAX_LENGTH)){
 						ud->received_PIN[j] = INT2CHAR(ud->option);
 						j++;
 						userDataReset(false ,false ,false ,true ,ud);
@@ -138,6 +135,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 								nextState.routines[TIMER_EV] = &BtimerEvHandler;
 								nextState.routines[KEYCARD_EV] = &BkeycardEvHandler;
 								PrintMessage("USER BLOCKED", true);
+								//init blocked timer
 						    }
 						}
 					}
@@ -194,6 +192,7 @@ state_t RPkeycardEvHandler(UserData_t * ud)
 	if(IDExists){
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
+		ud->category = verifyCategory(ud->received_ID);
 		int i;
 		for(i=0;i<ID_LENGTH;++i){
 			ud->received_ID[i] = cardID[i];

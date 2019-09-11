@@ -68,6 +68,9 @@ state_t AMinputEvHandler(UserData_t * ud)
 					nextState.routines[KEYCARD_EV] = &RUkeycardEvHandler;
 					PrintMessage("ENTER USER ID TO DELETE", true);
 					break;
+				default:
+					nextState.name = STAY;
+					break;
 			}
 			break;
 		case CANCEL:
@@ -115,6 +118,7 @@ state_t AMkeycardEvHandler(UserData_t * ud)
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
+		ud->category = verifyCategory(ud->received_ID);
 		PrintMessage("VALID ID - ENTER PIN", true);
 		int i;
 		for(i=0;i<ID_LENGTH;++i){

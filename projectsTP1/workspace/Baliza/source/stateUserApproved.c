@@ -85,6 +85,9 @@ state_t UAinputEvHandler(UserData_t * ud)
 						nextState.name = STAY;
 					}
 					break;
+				default:
+					nextState.name = STAY;
+					break;
 			}
 			break;
 		case CANCEL:
@@ -132,6 +135,7 @@ state_t UAkeycardEvHandler(UserData_t * ud)
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
+		ud->category = verifyCategory(ud->received_ID);
 		PrintMessage("VALID ID - ENTER PIN", true);
 		int i;
 		for(i=0;i<ID_LENGTH;++i){
