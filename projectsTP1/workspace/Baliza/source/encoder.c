@@ -32,10 +32,7 @@ static encoderQueue_t encoderQueue[ENCODER_EVENTS];
 
 void setEncCallbacks(void);
 
-//void signalACallback(void);
-//void signalBCallback(void);
-//void setEncCallbacks(void);
-//void signalCCallback(void);
+
 void buttonCallback(void);
 void rotationCallback(void);
 
@@ -57,7 +54,6 @@ void initializeEncoder(void)
 		uint8_t j;
 		initializeEncoderHAL(rotationCallback);		//setea gpio y timer count
 		setButtonCallback(buttonCallback);
-		//setEncCallbacks();			//setea callbacks para señal
 		initializeEncoderQueue();			//inicializo queue de encoder
 
 		for(j=0; j<STATES;j++)

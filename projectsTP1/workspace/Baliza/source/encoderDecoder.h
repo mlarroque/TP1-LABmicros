@@ -23,8 +23,6 @@ typedef enum {COUNT_UP/*clockwise*/, COUNT_DOWN/*counterClockwise*/, NO_CHANGE, 
 typedef struct{
 	_Bool prev_data[SIGNAL_COUNT]; //estados de las señales en el instante anterior para el encoder
 	_Bool curr_data[SIGNAL_COUNT]; //estados de las señales en el instante actual para el encoder
-	//_Bool edge_B;
-	//_Bool edge_A;
 }encoder_t;
 
 void resetEdgeFlag(void);
