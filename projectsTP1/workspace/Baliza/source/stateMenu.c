@@ -35,7 +35,7 @@ state_t MinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			PrintMessage(menuStrings[(int)ud->option], false);
+			PrintMessage(menuStrings[ud->option], false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -46,7 +46,7 @@ state_t MinputEvHandler(UserData_t * ud)
 				ud->option = MENU_OPTIONS-1;
 			}
 			// show option to user
-			PrintMessage(menuStrings[(int)ud->option], false);
+			PrintMessage(menuStrings[ud->option], false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
@@ -104,6 +104,7 @@ state_t MkeycardEvHandler(UserData_t * ud)
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
+		ud->category = verifyCategory(ud->received_ID);
 		PrintMessage("VALID ID - ENTER PIN", true);
 		int i;
 		for(i=0;i<ID_LENGTH;++i){

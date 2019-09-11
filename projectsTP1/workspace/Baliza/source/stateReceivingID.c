@@ -24,7 +24,7 @@ typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE
 static const char idStrings[ID_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
 static char IDstring[STRING_CANT];
 
-//void createIDString(UserData_t * ud);
+void createIDString(UserData_t * ud);
 
 void createIDString(UserData_t * ud){
 	int i=0;
@@ -113,12 +113,11 @@ state_t RIinputEvHandler(UserData_t * ud)
 						validID = verifyID(ud->received_ID);
 						if(validID){
 							nextState.name = RECEIVING_PIN;
-							char cat = verifyCategory(ud->received_ID);
-							ud->category = cat;
+							ud->category = verifyCategory(ud->received_ID);
 							nextState.routines[INPUT_EV] = &RPinputEvHandler;
 							nextState.routines[TIMER_EV] = &RPtimerEvHandler;
 							nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
-							PrintMessage("ENTER PIN", true);
+							PrintMessage("VALID ID - ENTER PIN", true);
 						}
 						else
 						{
@@ -173,6 +172,7 @@ state_t RIkeycardEvHandler(UserData_t * ud)
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
 		// show message in display
+		ud->category = verifyCategory(ud->received_ID);
 		PrintMessage("VALID ID - ENTER PIN", true);
 		int i;
 		for(i=0;i<ID_LENGTH;++i){

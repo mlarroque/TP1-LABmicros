@@ -19,6 +19,7 @@
 #include "encoder.h"
 #include "magnetCardLector.h"
 #include "timer.h"
+#include "doorManagement.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -54,6 +55,7 @@ void App_Init (void)
     initializeEncoder();
     InitializeDisplay();
     initMagnetCardLector();
+    doorInit();
 
 
     // FSM/Queue Initialization

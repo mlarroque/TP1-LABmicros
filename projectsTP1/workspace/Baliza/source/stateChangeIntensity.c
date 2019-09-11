@@ -97,6 +97,7 @@ state_t CIkeycardEvHandler(UserData_t * ud)
 	}
 	bool IDExists = verifyID(cardID);
 	if(IDExists){
+		ud->category = verifyCategory(ud->received_ID);
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
 		int i;
