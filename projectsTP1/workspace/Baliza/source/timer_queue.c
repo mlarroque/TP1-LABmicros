@@ -9,21 +9,22 @@
  *						VARIABLES ESTATICAS
  **********************************************************************/
 static timerQueue_t queue;
-static bool initialized;
+static bool tqInitialized = false;
 /**********************************************************************
  * 						FUNCIONES DEL HEADER
  **********************************************************************/
 void InitializeTimerQueue(void)
 {
-	if(!initialized)
+	if(!tqInitialized)
 	{
 		queue.queue_size = 0;
 	}
 }
+
 bool PushTimerEv(timerUd_t ev)
 {
 	bool success = false;
-	if(queue.queue_size < MAX_TIMER_EVENTS)
+	if(queue.queue_size < MAX_TIMER_EVENTS-1)
 	{
 		(queue.array_of_events)[queue.queue_size] = ev;
 		(queue.queue_size)++;
@@ -38,19 +39,19 @@ bool PushTimerEv(timerUd_t ev)
 
 timerUd_t PopTimerEv(void)
 {
-	return (queue.array_of_events)[(queue.queue_size)--];
+	return (queue.array_of_events)[--(queue.queue_size)];
 }
 
 bool IsTimerQueueEmpty(void)
 {
 	bool result;
-	if(queue.queue_size)
+	if(queue.queue_size == 0)
 	{
-		result = false;
+		result = true;
 	}
 	else
 	{
-		result = true;
+		result = false;
 	}
 	return result;
 }
