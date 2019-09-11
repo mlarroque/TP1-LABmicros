@@ -88,21 +88,22 @@ void rotationCallback(void)
 	if(event == COUNT_UP)
 	{
 		eventForQueue.input = UP;
+		pushEncoderEvent(eventForQueue);
 		resetData();
 	}
 	else if(event == COUNT_DOWN)
 	{
 		eventForQueue.input = DOWN;
+		pushEncoderEvent(eventForQueue);
 		resetData();
 	}
-	else if(event == NO_CHANGE)
+	else
 	{
 		eventForQueue.isValid = false;
 		resetData();
 		//resetEdgeFlag();
 
 	}
-	pushEncoderEvent(eventForQueue);
 
 }
 

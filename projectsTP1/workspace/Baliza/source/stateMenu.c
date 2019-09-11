@@ -28,7 +28,7 @@ state_t MinputEvHandler(UserData_t * ud)
 	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
-			if(ud->option < MENU_OPTIONS){
+			if(ud->option < (MENU_OPTIONS-1)){
 				ud->option += INCREMENT;
 			}
 			else{
@@ -58,6 +58,7 @@ state_t MinputEvHandler(UserData_t * ud)
 					nextState.routines[INPUT_EV] = &RIinputEvHandler;
 					nextState.routines[TIMER_EV] = &RItimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &RIkeycardEvHandler;
+					PrintMessage("ENTER ID", true);
 					break;
 				case INTENSITY:
 					userDataReset(false, false, false, true, ud);
@@ -65,9 +66,11 @@ state_t MinputEvHandler(UserData_t * ud)
 					nextState.routines[INPUT_EV] = &CIinputEvHandler;
 					nextState.routines[TIMER_EV] = &CItimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &CIkeycardEvHandler;
+					PrintMessage("SELECT INTENSITY", true);
 					break;
 				default:
 					nextState.name = STAY;
+					break;
 			}
 			break;
 		case CANCEL:

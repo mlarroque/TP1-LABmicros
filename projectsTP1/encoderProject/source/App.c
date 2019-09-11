@@ -54,15 +54,15 @@ void App_Run (void)
 		{
 			if(dataEncoder.input == UP)
 			{
-				openDoor();
+				closeDoor();
 			}
 			else if(dataEncoder.input == DOWN)
 			{
-				closeDoor();
+				openDoor();
 			}
 			else if(dataEncoder.input == BACK)
 			{
-				//openDoor();
+				openDoor();
 			}
 			else if(dataEncoder.input == ENTER)
 			{
@@ -70,7 +70,7 @@ void App_Run (void)
 			}
 			else if(dataEncoder.input == CANCEL)
 			{
-				openDoor();
+				//openDoor();
 			}
 
 			//openDoorTemporally();

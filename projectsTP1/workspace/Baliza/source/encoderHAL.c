@@ -19,7 +19,7 @@
 
 
 #define BUTTON_TIME 	100000 		// 100 milisegundos
-#define ROTATION_FREQUENCY 80000	//80 milisegundos
+#define ROTATION_FREQUENCY 66000	//80 milisegundos
 
 
 typedef void (*callback_t)(void);
@@ -46,9 +46,9 @@ void initializeEncoderHAL(void (*funcallback)(void))
 	if(!initialized_enc_low)
 	{
 		gpioMode(SIGNAL_A_PIN, INPUT_PULLUP);
-		setPassiveFilter(SIGNAL_A_PIN);
+		//setPassiveFilter(SIGNAL_A_PIN);
 		gpioMode(SIGNAL_B_PIN, INPUT_PULLUP);
-		setPassiveFilter(SIGNAL_B_PIN);
+		//setPassiveFilter(SIGNAL_B_PIN);
 		gpioMode(SIGNAL_C_PIN, INPUT_PULLUP);
 		setPassiveFilter(SIGNAL_C_PIN);
 		encoder_timer_count = 0;

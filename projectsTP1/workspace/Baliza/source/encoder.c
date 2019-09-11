@@ -16,8 +16,8 @@
 #define ENCODER_EVENTS		200
 
 //#define CANCEL_COUNT	20			//el tiempo que tiene que pasar para que sea evento CANCEL es CANCEL_COUNT*ENCODER_TIME (=200ms*20)
-#define BACK_COUNT		20			//entre .5 y 2 segundos para que sea evento = BACK
-#define ENTER_COUNT		5			//<.5 segundos para que el evento sea = ENTER
+#define BACK_COUNT		40			//entre .5 y 2 segundos para que sea evento = BACK
+#define ENTER_COUNT		20			//<.5 segundos para que el evento sea = ENTER
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
@@ -82,27 +82,30 @@ void rotationCallback(void)
 	updateData(readEncoderSignalX(B), B);
 	encoderUd_t eventForQueue;
 	eventForQueue.isValid = true;
-	counter_type event = decodeEncoder();
+	//eventForQueue.input = NO_CHANGE;
+	counter_type event = NO_CHANGE;
+	event = decodeEncoder();
 
 
 	if(event == COUNT_UP)
 	{
 		eventForQueue.input = UP;
+		pushEncoderEvent(eventForQueue);
 		resetData();
 	}
 	else if(event == COUNT_DOWN)
 	{
 		eventForQueue.input = DOWN;
+		pushEncoderEvent(eventForQueue);
 		resetData();
 	}
-	else if(event == NO_CHANGE)
+	else
 	{
 		eventForQueue.isValid = false;
 		resetData();
 		//resetEdgeFlag();
 
 	}
-	pushEncoderEvent(eventForQueue);
 
 }
 

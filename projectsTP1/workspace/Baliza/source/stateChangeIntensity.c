@@ -15,7 +15,7 @@
 
 #define INTENSITY_OPTIONS	10
 #define INCREMENT	1
-#define INITIAL	1
+#define INITIAL	 0
 #define LAST_OPTION (INTENSITY_OPTIONS-1)
 
 const char * intStrings[INTENSITY_OPTIONS] = {"10","20","30","40","50","60","70","80","90","100"};
@@ -27,7 +27,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
-			if(ud->option < INTENSITY_OPTIONS){
+			if(ud->option < LAST_OPTION){
 				ud->option += INCREMENT;
 			}
 			else{
@@ -56,7 +56,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 			}
 			else
 			{
-				SetBrightness((unsigned char) ud->option);
+				SetBrightness((unsigned char) (ud->option+1));
 				userDataReset(false, false, false, true, ud);
 				nextState.name = MENU;
 				nextState.routines[INPUT_EV] = &MinputEvHandler;

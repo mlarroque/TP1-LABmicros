@@ -29,7 +29,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
-			if(ud->option < MENU_OPTIONS){
+			if(ud->option < (MENU_OPTIONS-1)){
 				ud->option += INCREMENT;
 			}
 			else{

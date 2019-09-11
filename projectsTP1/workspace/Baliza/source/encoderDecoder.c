@@ -28,11 +28,11 @@ counter_type decodeEncoder()
 	}
 	else if (encoder.curr_data[A] != encoder.prev_data[A])	//flanco descendente de A
 	{
-		if(encoder.prev_data[A])	//si la señal anterior de B estaba en HIGH, fue primer flanco de A
-		{
+		if(encoder.prev_data[B])	//si la señal anterior de B estaba en HIGH, fue primer flanco de A
 			event = COUNT_DOWN;
-		}
 	}
+	else
+		resetData();
 	return event;
 
 

@@ -28,19 +28,19 @@ typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE
 static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
 static char PINstring[STRING_CANT];
 
-char * createPINString(UserData_t * ud);
+//char * createPINString(UserData_t * ud);
 
-char * createPINString(UserData_t * ud){
+void createPINString(UserData_t * ud){
 	int i=0;
 	while(ud->received_PIN[i] != '\0'){
 		PINstring[i] = HIDDEN;
+		i++;
 	}
-	i++;
 	if(ud->option != -1)
 	{
 		PINstring[i] = pinStrings[ud->option];
+		i++;
 	}
-	i++;
 	PINstring[i] = '\0';
 }
 
@@ -49,23 +49,23 @@ int tryNro = 0;
 state_t RPinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
-	char * string;
 	int j = 0;
 	int k = 0;
+	bool validPIN = false;
 	switch(ud->encoderUd.input)
 	{
 		case BACK:
 			break;
 		case UP: // change current option
-			if(ud->option < PIN_OPTIONS){
+			if(ud->option < LAST_OPTION_PIN){
 				ud->option += INCREMENT;
 			}
 			else{
 				ud->option = INITIAL;
 			}
 			// show option to user
-			string = createPINString(ud);
-			PrintMessage(string, false);
+			createPINString(ud);
+			PrintMessage(PINstring, false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -76,8 +76,8 @@ state_t RPinputEvHandler(UserData_t * ud)
 				ud->option = LAST_OPTION_PIN;
 			}
 			// show option to user
-			string = createPINString(ud);
-			PrintMessage(string, false);
+			createPINString(ud);
+			PrintMessage(PINstring, false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
@@ -91,8 +91,8 @@ state_t RPinputEvHandler(UserData_t * ud)
 					{
 						ud->received_PIN[j-1] = '\0';
 					}
-					string = createPINString(ud);
-					PrintMessage(string, false);
+					createPINString(ud);
+					PrintMessage(PINstring, false);
 					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
@@ -100,13 +100,19 @@ state_t RPinputEvHandler(UserData_t * ud)
 						ud->received_PIN[k] = '\0';
 						k += 1;
 					}
-					string = createPINString(ud);
-					PrintMessage(string, false);
+					createPINString(ud);
+					PrintMessage(PINstring, false);
 					nextState.name = STAY;
 					break;
 				default: // number
-					ud->received_PIN[j] = INT2CHAR(ud->option);
-					bool validPIN = false;
+					if((ud->option >= INITIAL) && (j < PIN_MAX_LENGTH))
+					{
+						ud->received_PIN[j] = INT2CHAR(ud->option);
+						userDataReset(false ,false ,false ,true ,ud);
+						createPINString(ud);
+						PrintMessage(PINstring, false);
+						nextState.name = STAY;
+					}
 					if(j == PIN_MAX_LENGTH){ // check if pin valid
 						validPIN = verifyPIN(ud->received_ID, ud->received_PIN);
 						if(validPIN){
@@ -121,7 +127,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 						else
 						{
 							PrintMessage("INCORRECT PIN", true);
-							userDataReset(false ,true ,false ,false ,ud);
+							userDataReset(false ,true ,false ,true ,ud);
 						    tryNro += 1;
 						    if(tryNro < MAX_TRIES){
 						    	nextState.name = STAY;
@@ -136,8 +142,8 @@ state_t RPinputEvHandler(UserData_t * ud)
 						}
 					}
 					else{
-						string = createPINString(ud);
-						PrintMessage(string, false);
+						createPINString(ud);
+						PrintMessage(PINstring, false);
 						nextState.name = STAY;
 					}
 					break;
