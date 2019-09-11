@@ -18,7 +18,7 @@
 #define STATES 2
 
 
-typedef enum {COUNT_UP/*clockwise*/, COUNT_DOWN/*counterClockwise*/, NO_CHANGE, ERROR}counter_type; //el ERROR se debe a cambios rápidos de velocidad
+typedef enum {COUNT_UP/*clockwise*/, COUNT_DOWN/*counterClockwise*/, NO_CHANGE, RESET}counter_type; //el ERROR se debe a cambios rápidos de velocidad
 
 typedef struct{
 	_Bool prev_data[SIGNAL_COUNT]; //estados de las señales en el instante anterior para el encoder

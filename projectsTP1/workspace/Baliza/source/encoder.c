@@ -64,106 +64,72 @@ void initializeEncoder(void)
 			for(i=0;i<ENC_SIGNAL_COUNT;i++)
 				updateData(readEncoderSignalX(i), i);				//inicializo estructura encoder_t con las señales en el instante actual y el anterior
 
-		//resetEdgeFlag();
 		initialized_enc = true;
 	}
 }
-
-/*void setEncCallbacks(void)
-{
-	//setRotationCallback(rotationCallback);
-	//setSignalCallback(signalBCallback, B);
-	//setButtonCallback(signalCCallback, C);
-}*/
 
 void rotationCallback(void)
 {
 	updateData(readEncoderSignalX(A), A);
 	updateData(readEncoderSignalX(B), B);
 	encoderUd_t eventForQueue;
-	eventForQueue.isValid = true;
-	//eventForQueue.input = NO_CHANGE;
+	eventForQueue.isValid = false;
+	eventForQueue.input = NO_CHANGE;
 	counter_type event = NO_CHANGE;
 	event = decodeEncoder();
-
 
 	if(event == COUNT_UP)
 	{
 		eventForQueue.input = UP;
+		eventForQueue.isValid = true;
 		pushEncoderEvent(eventForQueue);
-		resetData();
 	}
 	else if(event == COUNT_DOWN)
 	{
 		eventForQueue.input = DOWN;
+		eventForQueue.isValid = true;
 		pushEncoderEvent(eventForQueue);
+	}
+	else if(event == RESET)
+	{
+		eventForQueue.isValid = false;
 		resetData();
 	}
 	else
 	{
 		eventForQueue.isValid = false;
-		resetData();
-		//resetEdgeFlag();
-
 	}
 
 }
 
-/*void signalBCallback(void)
-{
-	updateData(LOW, B);
-	encoderUd_t eventForQueue;
-	eventForQueue.isValid = true;
-
-	counter_type event = decodeEncoder();
-
-	if(event == COUNT_UP)
-	{
-		eventForQueue.input = UP;
-		resetData();
-	}
-	else if(event == COUNT_DOWN)
-	{
-		eventForQueue.input = DOWN;
-		resetData();
-	}
-	else if(event == NO_CHANGE)	//si no hay cambio no hago nada
-	{
-		eventForQueue.isValid = false;
-		resetEdgeFlag();
-		resetData();
-	}
-	pushEncoderEvent(eventForQueue);
-}*/
-
 void buttonCallback(void)
 {
 	updateData(readEncoderSignalX(C), C);
-
 	encoderQueue_t eventForQueue;
- 	eventForQueue.event.isValid = true;
+	eventForQueue.event.input = NO_ENC_EVENT;
+ 	eventForQueue.event.isValid = false;
 	if(checkEnterFallingEdge())				//si fue flanco descendente recién se presionó el botón
 	{
 		resetEncoderTimerCount();			//reseteo el contador
 	}
 	else if(checkEnterRisingEdge())		//si fue un flanco descendente me fijo cuánto tiempo se presionó el botón para saber si fue ENTER; BACK o CANCEL
 	{
-		if(getEncTimerCount() <= ENTER_COUNT)		//si es menor a ENTER_COUNT el evento es ENTER
+		if(getEncTimerCount() < ENTER_COUNT)		//si es menor a ENTER_COUNT el evento es ENTER
 		{
 			eventForQueue.event.input = ENTER;
-			//resetEncoderTimerCount();				//reseteo el contador
+			eventForQueue.event.isValid = true;
 			pushEncoderEvent(eventForQueue.event);
 		}
 		else if(getEncTimerCount() < BACK_COUNT)	//si es menos de BACK_COUNT o mas de ENTER_COUNT el evento es BACK
 		{
 			eventForQueue.event.input = BACK;
-			//resetEncoderTimerCount();				//reseteo el contador
+			eventForQueue.event.isValid = true;
 			pushEncoderEvent(eventForQueue.event);
 		}
 		else		//si fue más de BACK_COUNT, tomó que fue evento = CANCEL
 		{
 			eventForQueue.event.input = CANCEL;
-			//resetEncoderTimerCount();				//reseteo el contador
+			eventForQueue.event.isValid = true;
 			pushEncoderEvent(eventForQueue.event);
 		}
 	}

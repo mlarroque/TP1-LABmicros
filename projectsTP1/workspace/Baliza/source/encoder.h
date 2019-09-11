@@ -20,7 +20,7 @@
 #define LOW 0
 #define HIGH 1
 
-typedef enum {UP, DOWN, BACK, ENTER, CANCEL}enc_type;
+typedef enum {UP, DOWN, BACK, ENTER, CANCEL, NO_ENC_EVENT}enc_type;
 
 typedef struct{
 	enc_type input;
