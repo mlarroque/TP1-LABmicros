@@ -16,11 +16,13 @@
 #include <stdbool.h>
 
 #define PIN_OPTIONS	12
+#define LAST_OPTION_PIN	(PIN_OPTIONS-1)
 #define INCREMENT	1
 #define INITIAL	0
 #define MAX_TRIES	3
-#define TERMINATOR	'\0'
+#define HIDDEN '-'
 #define STRING_CANT	(PIN_MAX_LENGTH+1)
+#define INT2CHAR(x)	((char)(x+48))
 
 typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
 static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
@@ -30,16 +32,19 @@ char * createPINString(UserData_t * ud);
 
 char * createPINString(UserData_t * ud){
 	int i=0;
-	while(ud->received_PIN[i] != -1){
-		PINstring[i] = pinStrings[(int)ud->received_PIN[i]];
+	while(ud->received_PIN[i] != '\0'){
+		PINstring[i] = HIDDEN;
 	}
-	i += 1;
-	PINstring[i] = pinStrings[(int)ud->option];
-	i += 1;
-	PINstring[i] = TERMINATOR;
+	i++;
+	if(ud->option != -1)
+	{
+		PINstring[i] = pinStrings[ud->option];
+	}
+	i++;
+	PINstring[i] = '\0';
 }
 
-char tryNro = 0;
+int tryNro = 0;
 
 state_t RPinputEvHandler(UserData_t * ud)
 {
@@ -68,7 +73,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 				ud->option -= INCREMENT;
 			}
 			else{
-				ud->option = PIN_OPTIONS;
+				ud->option = LAST_OPTION_PIN;
 			}
 			// show option to user
 			string = createPINString(ud);
@@ -76,7 +81,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
-			while(ud->received_PIN[j] != -1){
+			while(ud->received_PIN[j] != '\0'){
 				j += 1;
 			}
 			switch(ud->option)
@@ -84,15 +89,15 @@ state_t RPinputEvHandler(UserData_t * ud)
 				case ERASE_LAST:
 					if(j>INITIAL)
 					{
-						ud->received_PIN[j-1] = -1;
+						ud->received_PIN[j-1] = '\0';
 					}
 					string = createPINString(ud);
 					PrintMessage(string, false);
 					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
-					while(ud->received_PIN[k] != -1){
-						ud->received_PIN[k] = -1;
+					while(ud->received_PIN[k] != '\0'){
+						ud->received_PIN[k] = '\0';
 						k += 1;
 					}
 					string = createPINString(ud);
@@ -100,7 +105,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 					nextState.name = STAY;
 					break;
 				default: // number
-					ud->received_PIN[j] = ud->option;
+					ud->received_PIN[j] = INT2CHAR(ud->option);
 					bool validPIN = false;
 					if(j == PIN_MAX_LENGTH){ // check if pin valid
 						validPIN = verifyPIN(ud->received_ID, ud->received_PIN);
@@ -111,6 +116,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 							nextState.routines[INPUT_EV] = &UAinputEvHandler;
 							nextState.routines[TIMER_EV] = &UAtimerEvHandler;
 							nextState.routines[KEYCARD_EV] = &UAkeycardEvHandler;
+							PrintMessage("ACCESS GRANTED", false);
 						}
 						else
 						{
@@ -145,6 +151,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;
 			nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+			PrintMessage("MENU", false);
 			break; // Cancels selection and back to menu
 	}
 	return nextState;
@@ -163,6 +170,8 @@ state_t RPtimerEvHandler(UserData_t * ud)
 		nextState.routines[INPUT_EV] = &MinputEvHandler;
 		nextState.routines[TIMER_EV] = &MtimerEvHandler;
 		nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+		PrintMessage("MENU", false);
+		//resetear timer
 	}
 	return nextState;
 }
@@ -188,6 +197,7 @@ state_t RPkeycardEvHandler(UserData_t * ud)
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
 		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
+		PrintMessage("ENTER PIN", true);
 	}
 	else{
 		// show message in display

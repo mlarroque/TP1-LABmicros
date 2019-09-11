@@ -19,6 +19,7 @@
 #define INITIAL	0
 
 typedef enum {ADD_USER,DELETE_USER,MENU_OPTIONS}option_name;
+
 const char * menuStrings[MENU_OPTIONS] = {"ADD","DLT"};
 
 state_t AMinputEvHandler(UserData_t * ud)
@@ -34,7 +35,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			PrintMessage(menuStrings[(int)ud->option], false);
+			PrintMessage(menuStrings[ud->option], false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -42,10 +43,10 @@ state_t AMinputEvHandler(UserData_t * ud)
 				ud->option -= INCREMENT;
 			}
 			else{
-				ud->option = MENU_OPTIONS;
+				ud->option = (MENU_OPTIONS - 1); //last option
 			}
 			// show option to user
-			PrintMessage(menuStrings[(int)ud->option], false);
+			PrintMessage(menuStrings[ud->option], false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
@@ -57,6 +58,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 					nextState.routines[INPUT_EV] = &AUinputEvHandler;
 					nextState.routines[TIMER_EV] = &AUtimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &AUkeycardEvHandler;
+					PrintMessage("ENTER USER ID TO ADD", true);
 					break;
 				case DELETE_USER:
 					userDataReset(false ,false ,false ,true ,ud);
@@ -64,6 +66,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 					nextState.routines[INPUT_EV] = &RUinputEvHandler;
 					nextState.routines[TIMER_EV] = &RUtimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &RUkeycardEvHandler;
+					PrintMessage("ENTER USER ID TO DELETE", true);
 					break;
 			}
 			break;
@@ -73,6 +76,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;
 			nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+			PrintMessage("MENU", false);
 			break;
 		default:
 			nextState.name = STAY;
@@ -88,8 +92,16 @@ state_t AMtimerEvHandler(UserData_t * ud)
 	if(ud->timerUd == DISPLAY){
 		UpdateDisplay();
 	}
+	if(ud->timerUd == INACTIVITY){
+		userDataReset(true ,false ,false ,true ,ud);
+		nextState.name = MENU;
+		nextState.routines[INPUT_EV] = &MinputEvHandler;
+		nextState.routines[TIMER_EV] = &MtimerEvHandler;
+		nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+		PrintMessage("MENU", false);
+		//resetear timer
+	}
 	return nextState;
-	// TERMINAR (agregar el timer de inactividad)
 }
 
 state_t AMkeycardEvHandler(UserData_t * ud)
@@ -113,6 +125,7 @@ state_t AMkeycardEvHandler(UserData_t * ud)
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
 		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
+		PrintMessage("ENTER PIN", true);
 	}
 	else{
 		// show message in display

@@ -35,16 +35,16 @@ void userDataReset(bool resetID, bool resetPIN, bool resetCategory, bool resetOp
 	int i;
 	if(resetID){
 	    for(i=0;i<ID_LENGTH;++i){
-	    	ud->received_ID[i] = -1;
+	    	ud->received_ID[i] = '\0';
 	    } // clean user ID
 	}
 	if(resetPIN){
 	    for(i=0;i<PIN_MAX_LENGTH;++i){
-	    	ud->received_PIN[i] = -1;
+	    	ud->received_PIN[i] = '\0';
 	    } // clean user PIN
 	}
 	if(resetCategory){
-		ud->category = -1;
+		ud->category = NONE;
 	}
 	if(resetOption){
 		ud->option = -1;

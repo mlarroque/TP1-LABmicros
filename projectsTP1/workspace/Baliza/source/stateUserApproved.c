@@ -36,7 +36,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 				ud->option = INITIAL;
 			}
 			// show option to user
-			PrintMessage(menuStrings[(int)ud->option], false);
+			PrintMessage(menuStrings[ud->option], false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -44,10 +44,10 @@ state_t UAinputEvHandler(UserData_t * ud)
 				ud->option -= INCREMENT;
 			}
 			else{
-				ud->option = MENU_OPTIONS;
+				ud->option = (MENU_OPTIONS-1); //last option
 			}
 			// show option to user
-			PrintMessage(menuStrings[(int)ud->option], false);
+			PrintMessage(menuStrings[ud->option], false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
@@ -59,6 +59,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 					nextState.routines[INPUT_EV] = &MinputEvHandler;
 					nextState.routines[TIMER_EV] = &MtimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+					PrintMessage("MENU", false);
 					openDoorTemporally();
 					break;
 				case CHANGE_PIN:
@@ -67,6 +68,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 					nextState.routines[INPUT_EV] = &CPinputEvHandler;
 					nextState.routines[TIMER_EV] = &CPtimerEvHandler;
 					nextState.routines[KEYCARD_EV] = &CPkeycardEvHandler;
+					PrintMessage("ENTER NEW PIN", true);
 					break;
 				case ADMIN_OPTION:
 					category = verifyCategory(ud->received_ID);
@@ -76,6 +78,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 						nextState.routines[INPUT_EV] = &AMinputEvHandler;
 						nextState.routines[TIMER_EV] = &AMtimerEvHandler;
 						nextState.routines[KEYCARD_EV] = &AMkeycardEvHandler;
+						PrintMessage("ADMIN MENU", true);
 					}
 					else{
 						PrintMessage("ACCESS DENIED - USER NOT ADMIN", true);
@@ -90,6 +93,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;
 			nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+			PrintMessage("MENU", false);
 			break;
 		default:
 			nextState.name = STAY;
@@ -111,6 +115,8 @@ state_t UAtimerEvHandler(UserData_t * ud)
 		nextState.routines[INPUT_EV] = &MinputEvHandler;
 		nextState.routines[TIMER_EV] = &MtimerEvHandler;
 		nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+		PrintMessage("MENU", false);
+		//resetear timer
 	}
 	return nextState;
 }
@@ -136,6 +142,7 @@ state_t UAkeycardEvHandler(UserData_t * ud)
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
 		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
+		PrintMessage("ENTER PIN", true);
 	}
 	else{
 		// show message in display
