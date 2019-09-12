@@ -15,9 +15,9 @@
 
 #define ENCODER_EVENTS		200
 
-#define CANCEL_COUNT	20			//el tiempo que tiene que pasar para que sea evento CANCEL es CANCEL_COUNT*ENCODER_TIME (=200ms*20)
+#define CANCEL_COUNT		20			//el tiempo que tiene que pasar para que sea evento CANCEL es CANCEL_COUNT*ENCODER_TIME (=200ms*20)
 //#define BACK_COUNT		40			//entre .5 y 2 segundos para que sea evento = BACK
-#define ENTER_COUNT		3			//<.5 segundos para que el evento sea = ENTER
+#define ENTER_COUNT			10			//<.5 segundos para que el evento sea = ENTER
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
