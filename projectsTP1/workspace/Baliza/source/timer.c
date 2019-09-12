@@ -12,7 +12,7 @@
  ******************************************************************************/
 #define NULL 0
 typedef struct{
-	unsigned int timeout; //Cada cuanto se llama al callback(medido en ticks de SysTick)
+	unsigned long int timeout; //Cada cuanto se llama al callback(medido en ticks de SysTick)
 	callback_ptr func;
 	unsigned int counter; //Cuanto tiempo transcurrio desde el ultimo llamado
 	bool enabled;
@@ -22,7 +22,10 @@ typedef struct{
  * 										MACROS
  *******************************************************************************************/
 //Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
-#define US_TO_PULSES(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en microsegundos.
+#define US_TO_PULSES_MAX(t) ( (t/1000000)*SYSTICK_ISR_FREQ_HZ) //Asume que recibe el t en microsegundos.
+#define US_TO_PULSES_MIN(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en microsegundos.
+#define US_LIMIT	10000000
+
 
 /*******************************************************************************
  *								VARIABLES ESTATICAS
@@ -55,10 +58,15 @@ void InitializeTimers(void)
 	}
 
 }
-void SetTimer(unsigned char index, unsigned int timeout_, callback_ptr func_)
+void SetTimer(unsigned char index, unsigned long int timeout_, callback_ptr func_)
 {
 	(timers+index)->enabled = false; //Deshabilto el timer para efectuar los cambios.
-	(timers+index)->timeout = US_TO_PULSES(timeout_);
+	if(timeout_>US_LIMIT){
+		(timers+index)->timeout = US_TO_PULSES_MAX(timeout_);
+	}
+	else{
+		(timers+index)->timeout = US_TO_PULSES_MIN(timeout_);
+	}
 	(timers+index)->func = func_;
 	(timers+index)->counter = 0;
 	(timers+index)->enabled = true;

@@ -19,6 +19,7 @@
 #include "encoder.h"
 #include "magnetCardLector.h"
 #include "timer.h"
+#include "timer_queue.h"
 #include "doorManagement.h"
 
 /*******************************************************************************
@@ -48,10 +49,15 @@ ev_name nameEvent;
  ******************************************************************************/
 
 /* Función que se llama 1 vez, al comienzo del programa */
+void inactCallback(){
+	PushTimerEv(INACTIVITY);
+}
+
 void App_Init (void)
 {
 	// IO Initialization
     InitializeTimers();
+    SetTimer(INACTIVITY,60000000,inactCallback);
     initializeEncoder();
     InitializeDisplay();
     initMagnetCardLector();
@@ -73,6 +79,7 @@ void App_Run (void)
 	nameEvent = getEvent(&userData); // get new event
 	switch(nameEvent){ // which type of event?
 		case INPUT_EV:
+			RestartTimer(INACTIVITY);
 			nextState = (fsm.currentState.routines[INPUT_EV])(&userData); // action routine
 			if(nextState.name != STAY){ // if state changes
 				changingState = true;
@@ -85,6 +92,7 @@ void App_Run (void)
 			}
 			break;
 		case KEYCARD_EV:
+			RestartTimer(INACTIVITY);
 			nextState = (fsm.currentState.routines[KEYCARD_EV])(&userData); // action routine
 			if(nextState.name != STAY){ // if state changes
 				changingState = true;

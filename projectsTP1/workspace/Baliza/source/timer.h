@@ -24,7 +24,7 @@ typedef void (*callback_ptr)(void);
  ********************************************************************************************/
 void InitializeTimers(void);
 //Recibe el timeout en microsegundos
-void SetTimer(unsigned char index,unsigned int timeout, callback_ptr func);
+void SetTimer(unsigned char index,unsigned long int timeout, callback_ptr func);
 void DisableTimer(unsigned char index);
 void EnableTimer(unsigned char index);
 void RestartTimer(unsigned char index);

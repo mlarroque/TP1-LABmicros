@@ -107,7 +107,14 @@ state_t AUPinputEvHandler(UserData_t * ud)
 						nextState.name = STAY;
 					}
 					if(j == PIN_MAX_LENGTH){ // save user
-						user_t newUser = {ud->received_ID,ud->received_PIN,BASIC}; //REVISAR
+						user_t newUser;
+						for(k = 0;;k++){
+							newUser.usersID[k] = ud->received_ID[k];
+						}
+						for(k = 0;;k++){
+							newUser.usersPIN[k] = ud->received_PIN[k];
+						}
+						newUser.category = BASIC;
 						switch(addUser(newUser))
 						{
 							case SUCCESSFULL:

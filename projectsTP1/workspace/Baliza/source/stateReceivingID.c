@@ -86,15 +86,13 @@ state_t RIinputEvHandler(UserData_t * ud)
 					{
 						ud->received_ID[j-1] = '\0';
 					}
+					userDataReset(false ,false ,false ,true ,ud);
 					createIDString(ud);
 					PrintMessage(IDstring, false);
 					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
-					while(ud->received_ID[k] != '\0'){
-						ud->received_ID[k] = '\0';
-						k += 1;
-					}
+					userDataReset(true ,false ,false ,true ,ud);
 					createIDString(ud);
 					PrintMessage(IDstring, false);
 					nextState.name = STAY;
@@ -183,7 +181,6 @@ state_t RIkeycardEvHandler(UserData_t * ud)
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
 		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
-		PrintMessage("ENTER PIN", false);
 	}
 	else{
 		// show message in display

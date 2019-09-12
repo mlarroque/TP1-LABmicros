@@ -12,6 +12,7 @@
 
 #include "display.h"
 #include "encoder.h"
+#include "dataBase.h"
 
 #define PIN_OPTIONS	12
 #define LAST_OPTION_PIN	(PIN_OPTIONS-1)

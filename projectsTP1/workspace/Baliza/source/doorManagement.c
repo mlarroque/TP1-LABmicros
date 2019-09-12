@@ -12,12 +12,13 @@
 #define PIN_LED_GREEN PORTNUM2PIN(PE,26)
 
 #define LED_ACTIVE      LOW
+#define LED_INACTIVE	HIGH
 
 void closeAfterTimeOut(void);
 
 void doorInit(void)
 {
-	gpioMode (PIN_LED_GREEN, OUTPUT);
+	gpioMode(PIN_LED_GREEN, OUTPUT);
 	closeDoor();
 	InitializeTimers();
 
@@ -39,7 +40,7 @@ void openDoor(void)
 }
 void closeDoor(void)
 {
-	gpioWrite(PIN_LED_GREEN, !LED_ACTIVE);
+	gpioWrite(PIN_LED_GREEN, LED_INACTIVE);
 }
 
 void toggleDoor(void)
