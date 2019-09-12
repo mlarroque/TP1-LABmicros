@@ -13,8 +13,11 @@ static dataBase_t dataBase;
 void initializeDataBase(void)
 {
 	dataBase.top = -1;
-	user_t newUser = {{'6','0','6','1','2','6','8','3'},{'0','0','0','0','0'},ADMIN};
-	addUser(newUser);
+	user_t newUser1 = {{'6','0','6','1','2','6','8','3'},{'0','0','0','0','0'},ADMIN};
+	user_t newUser2 = {{'6','0','6','1','2','6','8','4'},{'0','0','0','0','1'},BASIC};
+	addUser(newUser1);
+	addUser(newUser2);
+
 }
 
 void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH])
@@ -63,9 +66,8 @@ status removeUser(user_t userToDelete)
 {
 		// checks if ID is on list
 		bool IDfound = false;
-		int i; //position where ID is, if found
+		int i,j; //position where ID is, if found
 		for(i=0 ; i< (dataBase.top + 1) ; ++i){
-			int j;
 			bool same = true;
 			for(j=0 ; i<ID_LENGTH ; ++i){
 				if(dataBase.userList[i].usersID[j] != userToDelete.usersID[j]){
@@ -126,9 +128,8 @@ bool verifyID(char usersID[ID_LENGTH])
 {
 	// checks if ID is on list
 	bool IDfound = false;
-	int i;
+	int i,j;
 	for(i=0 ; i< (dataBase.top + 1) ; ++i){
-		int j;
 		bool same = true;
 		for(j=0 ; j<ID_LENGTH ; ++j){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
@@ -148,11 +149,12 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 {
 	// checks if ID is on list
 	int i,j;
-	bool same = true;
-	for(i=0 ; i< (dataBase.top + 1) ; ++i){
-		for(j=0 ; j<ID_LENGTH ; ++j){
+	for(i=0 ; i< (dataBase.top + 1) ; i++){
+		bool same = true;
+		for(j=0 ; j<ID_LENGTH ; j++){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
 				same = false;
+				break;
 			}
 		}
 		if(same){
@@ -160,9 +162,10 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 		}
 	}
 	bool correctPIN = true;
-	for(j=0 ; j<PIN_MAX_LENGTH ; ++j){
+	for(j=0 ; j<PIN_MAX_LENGTH ; j++){
 		if(dataBase.userList[i].usersPIN[j] != usersPIN[j]){
 			correctPIN = false;
+			break;
 		}
 	}
 	return correctPIN;
@@ -177,6 +180,7 @@ category_name verifyCategory(char usersID[ID_LENGTH])
 		for(j=0 ; j<ID_LENGTH ; ++j){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
 				same = false;
+				break;
 			}
 		}
 		if(same){

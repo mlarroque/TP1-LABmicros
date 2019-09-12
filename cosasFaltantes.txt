@@ -1,6 +1,5 @@
-debug delete y add user
+debug add user
 debug TIMER BLOCK
-debug intensity
 
 encoder
 debug ENTER
