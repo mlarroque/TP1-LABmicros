@@ -52,11 +52,10 @@ void resetData(void)
 	}
 }
 
-_Bool checkEnterRisingEdge()
+_Bool checkEnterRisingEdge(bool value)
 {
 	bool rising_edge = false;
-	bool value = readEncoderSignalX(C);
-	if((encoder.prev_data[C] == LOW) && (encoder.curr_data[C] == HIGH) )
+	if((encoder.prev_data[C] == LOW) && (value == HIGH))
 	{
 		rising_edge = true;					//true si se deja de presionar el botón
 		updateData(value, C);
@@ -65,11 +64,10 @@ _Bool checkEnterRisingEdge()
 	return rising_edge;
 }
 
-_Bool checkEnterFallingEdge(void)
+_Bool checkEnterFallingEdge(bool value)
 {
 	bool falling_edge = false;
-	bool value = readEncoderSignalX(C);
-	if((encoder.prev_data[C] == HIGH) && (encoder.curr_data[C] == LOW) )
+	if((encoder.prev_data[C] == HIGH) && (value == LOW))
 	{
 		falling_edge = true;					//true si se presiona el botón (flanco descendente)
 		updateData(value, C);

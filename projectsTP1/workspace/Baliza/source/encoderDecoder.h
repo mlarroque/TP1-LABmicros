@@ -25,13 +25,14 @@ typedef struct{
 	_Bool curr_data[SIGNAL_COUNT]; //estados de las señales en el instante actual para el encoder
 }encoder_t;
 
-void resetEdgeFlag(void);
+//void resetEdgeFlag(void);
 void resetData(void);
 void updateData(_Bool value, int signal);
+
 counter_type decodeEncoder();
 
-_Bool checkEnterRisingEdge();
+_Bool checkEnterRisingEdge(bool);
 
-_Bool checkEnterFallingEdge(void);
+_Bool checkEnterFallingEdge(bool);
 
 #endif /* ENCODERDECODER_H_ */
