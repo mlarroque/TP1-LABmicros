@@ -62,13 +62,14 @@ void initializeEncoderHAL(void (*funcallback)(void))
 
 void encTimerRoutine(void)
 {
-	if(!gpioRead(SIGNAL_C_PIN))		//si el botón está presionado aumento el contador
+	if(gpioRead(SIGNAL_C_PIN) == LOW)		//si el botón está presionado aumento el contador
 		encoder_timer_count++;
 }
 
 void resetEncoderTimerCount(void)
 {
 	encoder_timer_count = 0;
+	RestartTimer(BUTTON_TIMER);
 }
 
 _Bool readEncoderSignalX (encoder_signal signal)
