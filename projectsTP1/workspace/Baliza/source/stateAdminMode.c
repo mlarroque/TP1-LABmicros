@@ -53,7 +53,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 			switch(ud->option)
 			{
 				case ADD_USER:
-					userDataReset(false ,false ,false ,true ,ud);
+					userDataReset(true ,true ,true ,true ,ud);
 					nextState.name = ADDING_USER;
 					nextState.routines[INPUT_EV] = &AUinputEvHandler;
 					nextState.routines[TIMER_EV] = &AUtimerEvHandler;
@@ -61,7 +61,7 @@ state_t AMinputEvHandler(UserData_t * ud)
 					PrintMessage("ENTER USER ID TO ADD", true);
 					break;
 				case DELETE_USER:
-					userDataReset(false ,false ,false ,true ,ud);
+					userDataReset(true ,true ,true ,true ,ud);
 					nextState.name = REMOVING_USER;
 					nextState.routines[INPUT_EV] = &RUinputEvHandler;
 					nextState.routines[TIMER_EV] = &RUtimerEvHandler;

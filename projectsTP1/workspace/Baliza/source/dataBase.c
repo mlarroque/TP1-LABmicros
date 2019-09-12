@@ -95,11 +95,10 @@ status removeUserID(char usersID[ID_LENGTH])
 {
 	// checks if ID is on list
 	bool IDfound = false;
-	int i; //position where ID is, if found
+	int i,j; //position where ID is, if found
 	for(i=0 ; i< (dataBase.top + 1) ; ++i){
-		int j;
 		bool same = true;
-		for(j=0 ; i<ID_LENGTH ; ++i){
+		for(j=0 ; j<ID_LENGTH ; j++){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
 				same = false;
 			}

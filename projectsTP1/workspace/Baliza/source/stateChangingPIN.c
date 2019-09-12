@@ -112,6 +112,7 @@ state_t CPinputEvHandler(UserData_t * ud)
 							nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
 							changePIN(ud->received_ID, ud->received_PIN);
 							PrintMessage("PIN CHANGED", true);
+							userDataReset(true ,true ,true ,true ,ud);
 					}
 					else{
 						createPINString(ud);
