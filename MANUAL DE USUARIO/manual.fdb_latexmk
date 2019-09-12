@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1568325352 "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.tex" "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.pdf" "manual" 1568325362
+["pdflatex"] 1568328378 "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.tex" "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.pdf" "manual" 1568328386
   "C:/Program Files (x86)/MiKTeX 2.9/tex/context/base/supp-pdf.mkii" 1306918461 71592 fe353e1fbd982ffc647f3e98ff74da96 ""
   "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/arabi/bblopts.cfg" 1139961600 902 c30e5c373bc58bde21f8f63a3091626f ""
   "C:/Program Files (x86)/MiKTeX 2.9/tex/latex/booktabs/booktabs.sty" 1114298098 6557 989ecfb545a13610facc71ae7e40ced1 ""
@@ -145,16 +145,16 @@
   "C:/Users/lugfe/AppData/Local/Programs/MiKTeX 2.9/tex/latex/stix/t1stix.fd" 1524060088 2269 8c074e05c4ef5af520f739918e222af4 ""
   "C:/Users/lugfe/AppData/Local/Programs/MiKTeX 2.9/tex/latex/tools/array.sty" 1546708598 12527 31ab547f6520657998ecf91709f950ac ""
   "C:/Users/lugfe/AppData/Local/Programs/MiKTeX 2.9/tex/latex/tools/calc.sty" 1546708598 10212 357072c1d20578a30d6387d8a22e72ab ""
-  "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.aux" 1568325361 2610 c4ac7542d401fe517fbccc702e95164b ""
+  "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.aux" 1568328386 2848 5083ed224dee16aec6fe9bb02e66deb8 ""
   "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.tex" 1568259049 315 f18d23c607276289e9c382a1412806e8 ""
   "cover.tex" 1568259049 2692 c517de2daaa652db58c6b0f545085946 ""
-  "manual.aux" 1568325361 2610 c4ac7542d401fe517fbccc702e95164b "pdflatex"
+  "manual.aux" 1568328386 2848 5083ed224dee16aec6fe9bb02e66deb8 "pdflatex"
   "manual.tex" 1568259049 315 f18d23c607276289e9c382a1412806e8 ""
-  "menu.tex" 1568325341 1963 2c116bf77de7d2c577dae8cad8368081 ""
+  "menu.tex" 1568328365 2056 7c8b543820ea5d9ff93fbff897d94051 ""
   "preamble.tex" 1568259462 2261 7ae8e0364f355ec5d61d7043c8b5440d ""
   (generated)
-  "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.pdf"
-  "manual.log"
-  "manual.pdf"
-  "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.log"
   "manual.aux"
+  "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.pdf"
+  "c:/Users/lugfe/Documents/GitHub/TP1-LABmicros/MANUAL DE USUARIO/manual.log"
+  "manual.pdf"
+  "manual.log"
