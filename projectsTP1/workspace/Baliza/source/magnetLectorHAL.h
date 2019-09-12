@@ -9,6 +9,8 @@
 #define MAX_ITEMS_LECTOR_QUEUE 5
 #define DATA_LEN 256
 
+#define DEBUG 1
+
 #include <stdint.h>
 typedef uint8_t bufferMagnetDataEncoded_Type;
 

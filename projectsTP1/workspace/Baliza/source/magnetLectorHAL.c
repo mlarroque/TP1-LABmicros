@@ -9,6 +9,11 @@
 #define ENABLE_PIN PORTNUM2PIN(PC, 5) //cable amarillo
 
 
+#define DEBUG_FALL_ENABLE_PIN PORTNUM2PIN(PC, 9)
+#define DEBUG_RISE_ENABLE_PIN PORTNUM2PIN(PC, 9)
+#define DEBUG_FALL_CLOCK_PIN PORTNUM2PIN(PC, 9)
+
+
 
 
 typedef struct{
@@ -48,6 +53,15 @@ void hwLectorInit(void)
 
 		gpioIRQ(ENABLE_PIN, GPIO_IRQ_MODE_BOTH_EDGES, (pinIrqFun_t) enableRoutine);
 		enable = false;
+		if(DEBUG)
+		{
+			gpioMode(DEBUG_FALL_ENABLE_PIN, OUTPUT);
+			gpioMode(DEBUG_RISE_ENABLE_PIN, OUTPUT);
+			gpioMode(DEBUG_FALL_CLOCK_PIN, OUTPUT);
+			gpioWrite(DEBUG_FALL_ENABLE_PIN, LOW);
+			gpioWrite(DEBUG_RISE_ENABLE_PIN, LOW);
+			gpioWrite(DEBUG_FALL_CLOCK_PIN, LOW);
+		}
 	}
 	initLectorQueue();
 }
@@ -67,11 +81,23 @@ void enableRoutine(void)
 	enable = !enable;
 	if(enable) //se comienza a leer la tarjeta
 	{
+		if(DEBUG)
+		{
+			gpioWrite(DEBUG_FALL_ENABLE_PIN, HIGH);
+		}
 		counterDataIn = 0;
 		gpioIRQ(CLOCK_PIN, GPIO_IRQ_MODE_FALLING_EDGE, (pinIrqFun_t) clockRoutine);
+		if(DEBUG)
+		{
+			gpioWrite(DEBUG_FALL_ENABLE_PIN, LOW);
+		}
 	}
 	else
 	{
+		if(DEBUG)
+		{
+			gpioWrite(DEBUG_RISE_ENABLE_PIN, HIGH);
+		}
 		gpioIRQ(CLOCK_PIN, GPIO_IRQ_MODE_DISABLE, (pinIrqFun_t) clockRoutine);
 		queue.top = raw2save;
 		queue.isEmpty = false;
@@ -79,10 +105,10 @@ void enableRoutine(void)
 		{
 			raw2save++;
 		}
-
-		//if(magnetDataParser(bufferDataEncoded, (queue.magnetLectorDataQueue[queue.top]).trackString, &(queue.magnetLectorDataQueue[queue.top].trackNum)))  //si los datos ingresados son correctos
-		//{
-			//(queue.magnetLectorDataQueue[queue.top]).isValid = true;
+		if(DEBUG)
+		{
+			gpioWrite(DEBUG_RISE_ENABLE_PIN, LOW);
+		}
 	}
 }
 
