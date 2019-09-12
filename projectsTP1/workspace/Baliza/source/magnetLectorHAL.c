@@ -68,10 +68,18 @@ void hwLectorInit(void)
 
 void clockRoutine(void)
 {
+	if(DEBUG)
+	{
+		gpioWrite(DEBUG_FALL_CLOCK_PIN, HIGH);
+	}
 	if(counterDataIn < DATA_LEN)  //si queda lugar en el buffer, sigo ingresando datos
 	{
 		queue.encodedWords[raw2save][counterDataIn] = !gpioRead(DATA_PIN);  //activo bajo
 		counterDataIn++;
+	}
+	if(DEBUG)
+	{
+		gpioWrite(DEBUG_FALL_CLOCK_PIN, LOW);
 	}
 
 }
