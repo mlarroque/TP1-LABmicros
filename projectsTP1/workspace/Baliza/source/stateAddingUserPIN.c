@@ -81,18 +81,17 @@ state_t AUPinputEvHandler(UserData_t * ud)
 			switch(ud->option)
 			{
 				case ERASE_LAST:
-					if(j>INITIAL){
-						ud->received_PIN[j-1] = '\0';
+					if(j>INITIAL)
+					{
+						ud->received_ID[j-1] = '\0';
 					}
+					userDataReset(false ,false ,false ,true ,ud);
 					createPINString(ud);
 					PrintMessage(PINstring, false);
 					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
-					while(ud->received_PIN[k] != '\0'){
-						ud->received_PIN[k] = '\0';
-						k += 1;
-					}
+					userDataReset(true ,false ,false ,true ,ud);
 					createPINString(ud);
 					PrintMessage(PINstring, false);
 					nextState.name = STAY;

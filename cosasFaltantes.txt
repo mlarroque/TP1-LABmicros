@@ -1,7 +1,6 @@
-debug ERASE LAST
-debug ADMIN
-debug CHANGE PIN
-debug TIMER INACTIVITY/BLOCK
+debug delete y add user
+debug no cambia el pin despues de seleccionarlo
+debug TIMER BLOCK
 
 encoder
 debug ENTER

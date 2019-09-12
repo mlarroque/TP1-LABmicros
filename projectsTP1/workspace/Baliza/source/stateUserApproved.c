@@ -63,7 +63,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 					openDoorTemporally();
 					break;
 				case CHANGE_PIN:
-					userDataReset(false ,false ,false ,true ,ud);
+					userDataReset(false ,true ,false ,true ,ud);
 					nextState.name = CHANGING_PIN;
 					nextState.routines[INPUT_EV] = &CPinputEvHandler;
 					nextState.routines[TIMER_EV] = &CPtimerEvHandler;
