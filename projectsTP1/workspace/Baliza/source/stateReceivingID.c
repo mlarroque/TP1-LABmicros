@@ -24,9 +24,9 @@ typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE
 static const char idStrings[ID_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
 static char IDstring[STRING_CANT];
 
-void createIDString(UserData_t * ud);
+static void createIDString(UserData_t * ud);
 
-void createIDString(UserData_t * ud){
+static void createIDString(UserData_t * ud){
 	int i=0;
 	while(ud->received_ID[i] != '\0'){
 		IDstring[i] = ud->received_ID[i];
@@ -131,7 +131,7 @@ state_t RIinputEvHandler(UserData_t * ud)
 
 			break;
 		case CANCEL:
-			userDataReset(true ,false ,false ,true ,ud);
+			userDataReset(true ,true ,true ,true ,ud);
 			nextState.name = MENU;
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;

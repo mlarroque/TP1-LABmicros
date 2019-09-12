@@ -66,7 +66,7 @@ state_t CIinputEvHandler(UserData_t * ud)
 			}
 			break;
 		case CANCEL:
-			userDataReset(false, false, false, true, ud);
+			userDataReset(true ,true ,true ,true ,ud);
 			nextState.name = MENU;
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;

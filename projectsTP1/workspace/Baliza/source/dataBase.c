@@ -93,6 +93,38 @@ status removeUser(user_t userToDelete)
 		}
 }
 
+status removeUserID(char usersID[ID_LENGTH])
+{
+	// checks if ID is on list
+	bool IDfound = false;
+	int i; //position where ID is, if found
+	for(i=0 ; i< (dataBase.top + 1) ; ++i){
+		int j;
+		bool same = true;
+		for(j=0 ; i<ID_LENGTH ; ++i){
+			if(dataBase.userList[i].usersID[j] != usersID[j]){
+				same = false;
+			}
+		}
+		if(same){
+			IDfound = true;
+			break;
+		}
+	}
+	if(IDfound)
+	{
+		// if on list, user is deleted
+		user_t topUser = dataBase.userList[dataBase.top];
+		dataBase.userList[i] = topUser; // overwrites user to be removed
+		dataBase.top -= 1; // decrements top pointer
+		return SUCCESSFULL;
+	}
+	else
+	{
+		return ID_NOT_FOUND;
+	}
+}
+
 bool verifyID(char usersID[ID_LENGTH])
 {
 	// checks if ID is on list
@@ -139,7 +171,7 @@ bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH])
 	return correctPIN;
 }
 
-char verifyCategory(char usersID[ID_LENGTH])
+category_name verifyCategory(char usersID[ID_LENGTH])
 {
 	// checks if ID is on list
 	int i,j;

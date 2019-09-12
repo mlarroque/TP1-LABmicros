@@ -1,11 +1,11 @@
 /*
- * stateRemovingUser.c
+ * stateAddingUserPIN.c
  *
- *  Created on: Sep 1, 2019
+ *  Created on: Sep 12, 2019
  *      Author: Manuel Mollon
  */
 
-#include "stateRemovingUser.h"
+#include "stateAddingUserPIN.h"
 #include "stateMenu.h"
 #include "stateReceivingPIN.h"
 
@@ -13,35 +13,35 @@
 #include "display.h"
 #include "encoder.h"
 
-#define ID_OPTIONS	12
-#define LAST_OPTION_ID	(ID_OPTIONS-1)
+#define PIN_OPTIONS	12
+#define LAST_OPTION_PIN	(PIN_OPTIONS-1)
 #define INCREMENT	1
 #define INITIAL	0
-#define STRING_CANT	(ID_LENGTH+1)
+#define MAX_TRIES	3
+#define HIDDEN '-'
+#define STRING_CANT	(PIN_MAX_LENGTH+1)
 #define INT2CHAR(x)	((char)(x+48))
 
 typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
-static const char idStrings[ID_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
-static char IDstring[STRING_CANT];
+static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
+static char PINstring[STRING_CANT];
 
-static void createIDString(UserData_t * ud);
+static void createPINString(UserData_t * ud);
 
-static void createIDString(UserData_t * ud){
+static void createPINString(UserData_t * ud){
 	int i=0;
-	while(ud->received_ID[i] != '\0'){
-		IDstring[i] = ud->received_ID[i];
+	while(ud->received_PIN[i] != '\0'){
+		PINstring[i] = HIDDEN;
 		i++;
 	}
-	if(ud->option != -1)
-	{
-		IDstring[i] = idStrings[ud->option];
+	if(ud->option != -1){
+		PINstring[i] = pinStrings[ud->option];
 		i++;
 	}
-	IDstring[i] = '\0';
-
+	PINstring[i] = '\0';
 }
 
-state_t RUinputEvHandler(UserData_t * ud)
+state_t AUPinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	int j = 0;
@@ -49,17 +49,17 @@ state_t RUinputEvHandler(UserData_t * ud)
 	switch(ud->encoderUd.input)
 	{
 		case BACK:
-			break; //AGREGAR SI PINTA
+			break;
 		case UP: // change current option
-			if(ud->option < LAST_OPTION_ID){
+			if(ud->option < LAST_OPTION_PIN){
 				ud->option += INCREMENT;
 			}
 			else{
 				ud->option = INITIAL;
 			}
 			// show option to user
-			createIDString(ud);
-			PrintMessage(IDstring, false);
+			createPINString(ud);
+			PrintMessage(PINstring, false);
 			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
@@ -67,68 +67,70 @@ state_t RUinputEvHandler(UserData_t * ud)
 				ud->option -= INCREMENT;
 			}
 			else{
-				ud->option = LAST_OPTION_ID;
+				ud->option = LAST_OPTION_PIN;
 			}
 			// show option to user
-			createIDString(ud);
-			PrintMessage(IDstring, false);
+			createPINString(ud);
+			PrintMessage(PINstring, false);
 			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
-			while(ud->received_ID[j] != '\0'){
+			while(ud->received_PIN[j] != '\0'){
 				j++;
 			}
 			switch(ud->option)
 			{
 				case ERASE_LAST:
-					if(j>INITIAL)
-					{
-						ud->received_ID[j-1] = '\0';
+					if(j>INITIAL){
+						ud->received_PIN[j-1] = '\0';
 					}
-					createIDString(ud);
-					PrintMessage(IDstring, false);
+					createPINString(ud);
+					PrintMessage(PINstring, false);
 					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
-					while(ud->received_ID[k] != '\0'){
-						ud->received_ID[k] = '\0';
+					while(ud->received_PIN[k] != '\0'){
+						ud->received_PIN[k] = '\0';
 						k += 1;
 					}
-					createIDString(ud);
-					PrintMessage(IDstring, false);
+					createPINString(ud);
+					PrintMessage(PINstring, false);
 					nextState.name = STAY;
 					break;
 				default: // number
-					if((ud->option >= INITIAL) && (j < ID_LENGTH))
-					{
-						ud->received_ID[j] = INT2CHAR(ud->option);
+					if((ud->option >= INITIAL) && (j < PIN_MAX_LENGTH)){
+						ud->received_PIN[j] = INT2CHAR(ud->option);
 						j++;
 						userDataReset(false ,false ,false ,true ,ud);
-						createIDString(ud);
-						PrintMessage(IDstring, false);
+						createPINString(ud);
+						PrintMessage(PINstring, false);
 						nextState.name = STAY;
 					}
-					if(j == ID_LENGTH){ // delete user
-
-						switch(removeUserID(ud->received_ID))
+					if(j == PIN_MAX_LENGTH){ // save user
+						user_t newUser = {ud->received_ID,ud->received_PIN,BASIC}; //REVISAR
+						switch(addUser(newUser))
 						{
 							case SUCCESSFULL:
-								PrintMessage("USER REMOVED", true);
-								nextState.name = MENU;
-								nextState.routines[INPUT_EV] = &MinputEvHandler;
-								nextState.routines[TIMER_EV] = &MtimerEvHandler;
-								nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+								PrintMessage("NEW USER ADDED TO DATABASE", true);
 								break;
-							case ID_NOT_FOUND:
-								PrintMessage("USER NOT FOUND", true);
-								nextState.name = STAY;
-								userDataReset(true ,false ,false ,true ,ud);
+							case DATABASE_FULL:
+								PrintMessage("ERROR - DATABASE FULL", true);
 								break;
 						}
+						nextState.name = MENU;
+						nextState.routines[INPUT_EV] = &MinputEvHandler;
+						nextState.routines[TIMER_EV] = &MtimerEvHandler;
+						nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+						userDataReset(true ,true ,true ,true ,ud);
+					}
+					else{
+						createPINString(ud);
+						PrintMessage(PINstring, false);
+						nextState.name = STAY;
 					}
 					break;
 			}
-
+			userDataReset(false ,false ,false ,true ,ud);
 			break;
 		case CANCEL:
 			userDataReset(true ,true ,true ,true ,ud);
@@ -142,7 +144,7 @@ state_t RUinputEvHandler(UserData_t * ud)
 	return nextState;
 }
 
-state_t RUtimerEvHandler(UserData_t * ud)
+state_t AUPtimerEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	nextState.name = STAY;
@@ -161,7 +163,7 @@ state_t RUtimerEvHandler(UserData_t * ud)
 	return nextState;
 }
 
-state_t RUkeycardEvHandler(UserData_t * ud)
+state_t AUPkeycardEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	char cardID[ID_LENGTH];
@@ -192,5 +194,3 @@ state_t RUkeycardEvHandler(UserData_t * ud)
 	}
 	return nextState;
 }
-
-

@@ -21,7 +21,7 @@
 #define STRING_CANT	(PIN_MAX_LENGTH+1)
 #define INT2CHAR(x)	((char)(x+48))
 
-static typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
+typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
 static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
 static char PINstring[STRING_CANT];
 

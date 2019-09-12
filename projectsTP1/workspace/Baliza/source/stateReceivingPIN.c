@@ -24,7 +24,7 @@
 #define STRING_CANT	(PIN_MAX_LENGTH+1)
 #define INT2CHAR(x)	((char)(x+48))
 
-static typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
+typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
 static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
 static char PINstring[STRING_CANT];
 
@@ -149,7 +149,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 			userDataReset(false ,false ,false ,true ,ud);
 			break;
 		case CANCEL:
-			userDataReset(true ,true ,false ,true ,ud);
+			userDataReset(true ,true ,true ,true ,ud);
 		    tryNro = 0;
 			nextState.name = MENU;
 			nextState.routines[INPUT_EV] = &MinputEvHandler;
@@ -170,6 +170,7 @@ state_t RPtimerEvHandler(UserData_t * ud)
 	}
 	if(ud->timerUd == INACTIVITY){
 		userDataReset(true ,true ,false ,true ,ud);
+		tryNro = 0;
 		nextState.name = MENU;
 		nextState.routines[INPUT_EV] = &MinputEvHandler;
 		nextState.routines[TIMER_EV] = &MtimerEvHandler;
@@ -192,6 +193,7 @@ state_t RPkeycardEvHandler(UserData_t * ud)
 	if(IDExists){
 		// show message in display
 		PrintMessage("VALID ID - ENTER PIN", true);
+		tryNro = 0;
 		ud->category = verifyCategory(ud->received_ID);
 		int i;
 		for(i=0;i<ID_LENGTH;++i){

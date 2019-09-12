@@ -7,6 +7,7 @@
 
 #include "FSM.h"
 #include "stateMenu.h"
+#include "display.h"
 
 void initFSM(FSM_t * fsm)
 {

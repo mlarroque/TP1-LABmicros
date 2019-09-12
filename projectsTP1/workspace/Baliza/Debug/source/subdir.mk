@@ -20,6 +20,7 @@ C_SRCS += \
 ../source/magnetLectorHAL.c \
 ../source/queue.c \
 ../source/stateAddingUser.c \
+../source/stateAddingUserPIN.c \
 ../source/stateAdminMode.c \
 ../source/stateBlocked.c \
 ../source/stateChangeIntensity.c \
@@ -49,6 +50,7 @@ OBJS += \
 ./source/magnetLectorHAL.o \
 ./source/queue.o \
 ./source/stateAddingUser.o \
+./source/stateAddingUserPIN.o \
 ./source/stateAdminMode.o \
 ./source/stateBlocked.o \
 ./source/stateChangeIntensity.o \
@@ -78,6 +80,7 @@ C_DEPS += \
 ./source/magnetLectorHAL.d \
 ./source/queue.d \
 ./source/stateAddingUser.d \
+./source/stateAddingUserPIN.d \
 ./source/stateAdminMode.d \
 ./source/stateBlocked.d \
 ./source/stateChangeIntensity.d \
