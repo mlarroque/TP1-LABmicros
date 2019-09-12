@@ -12,7 +12,7 @@
 
 #include "gpio.h" ////esto es para debuguear
 
-#define DEBUG_DECODING_PIN PORTNUM2PIN(PC, 9)
+#define DEBUG_DECODING_PIN PORTNUM2PIN(PE, 25) //cable naranja (PE25: arriba a la derecha)
 
 void initMagnetCardLector(void){
 	hwLectorInit();
