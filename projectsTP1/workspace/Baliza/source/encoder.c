@@ -129,7 +129,6 @@ void buttonCallback(void)
 			pushEncoderEvent(eventForQueue.event);
 		}
 		updateData(readEncoderSignalX(C), C);
-		updateData(readEncoderSignalX(C), C);
 	}
 }
 

@@ -55,9 +55,12 @@ void resetData(void)
 _Bool checkEnterRisingEdge()
 {
 	bool rising_edge = false;
-	updateData(readEncoderSignalX(C), C);
+	bool value = readEncoderSignalX(C);
 	if((encoder.prev_data[C] == LOW) && (encoder.curr_data[C] == HIGH) )
+	{
 		rising_edge = true;					//true si se deja de presionar el botón
+		updateData(value, C);
+	}
 
 	return rising_edge;
 }
@@ -65,9 +68,12 @@ _Bool checkEnterRisingEdge()
 _Bool checkEnterFallingEdge(void)
 {
 	bool falling_edge = false;
-	updateData(readEncoderSignalX(C), C);
+	bool value = readEncoderSignalX(C);
 	if((encoder.prev_data[C] == HIGH) && (encoder.curr_data[C] == LOW) )
+	{
 		falling_edge = true;					//true si se presiona el botón (flanco descendente)
+		updateData(value, C);
+	}
 
 	return falling_edge;
 }
