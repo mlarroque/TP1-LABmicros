@@ -1,7 +1,10 @@
-debug ERASE ALL
 debug ERASE LAST
 debug ADMIN
 debug CHANGE PIN
-debug BLOCK
+debug TIMER INACTIVITY/BLOCK
+
+encoder
 debug ENTER
 debug CANCEL
+
+agregar pines para medir tiempo de interrupciones
