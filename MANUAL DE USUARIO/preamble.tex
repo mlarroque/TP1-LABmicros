@@ -1,0 +1,70 @@
+%%% Preamble
+
+
+\documentclass[a4paper, 11pt]{article} % A4 paper size and default 11pt font size
+
+\usepackage[svgnames]{xcolor} % Required for colour specification
+
+%\newcommand*{\plogo}{\fbox{$\mathcal{PL}$}} % Generic dummy publisher logo
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{stix} % Use the Paratype Serif font
+
+
+    \usepackage[spanish]{babel}					% English language/hyphenation
+    \usepackage[thinlines]{easytable}
+    \usepackage{diagbox}
+    \usepackage{multirow}
+    \usepackage{caption}
+    \usepackage{subcaption}
+
+    \usepackage{microtype}
+    \usepackage{bookmark}
+    %\usepackage[protrusion=true,expansion=true]{microtype}	
+    \usepackage{amsmath,mathtools,amsfonts,amsthm} % Math packages
+    \usepackage{url}
+    \usepackage{hyperref}
+    \hypersetup{colorlinks,
+    breaklinks=true,
+    colorlinks=true,linkcolor=black,
+    urlcolor=blue}
+    \usepackage{setspace}
+    \usepackage{import}
+    \usepackage{float}
+    \pagenumbering{arabic}
+    %margenes 
+    \usepackage{geometry}
+     \geometry{
+     a4paper,
+     left=19mm,
+     right=19mm,
+     top=19mm,
+     bottom=42mm,
+     }
+    
+    % %%% Custom sectioning
+    \usepackage{sectsty}
+    \allsectionsfont{\normalfont \scshape}
+    
+    \usepackage{wrapfig,lipsum,booktabs}
+    %%% Custom headers/footers (fancyhdr package)
+    \usepackage{fancyhdr}
+    \pagestyle{fancyplain}
+    \fancyhead{}											% No page header
+    \fancyfoot[L]{}											% Empty 
+    \fancyfoot[C]{\thepage}											% Empty
+    \fancyfoot[R]{}									% Pagenumbering
+    \renewcommand{\headrulewidth}{0pt}			% Remove header underlines
+    \renewcommand{\footrulewidth}{0pt}				% Remove footer underlines
+    \setlength{\headheight}{13.6pt}
+    
+    
+    %%% Equation and float numbering
+    \numberwithin{equation}{section}		% Equationnumbering: section.eq#
+    \numberwithin{figure}{section}			% Figurenumbering: section.fig#
+    \numberwithin{table}{section}				% Tablenumbering: section.tab#
+    
+    
+    %%% Maketitle metadata
+    \newcommand{\horrule}[1]{\rule{\linewidth}{#1}} 	% Horizontal rule
