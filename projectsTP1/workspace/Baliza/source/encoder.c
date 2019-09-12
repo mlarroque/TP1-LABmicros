@@ -100,7 +100,7 @@ void rotationCallback(void)
 
 void buttonCallback(void)
 {
-	updateData(readEncoderSignalX(C), C);
+	//updateData(readEncoderSignalX(C), C);
 	encoderQueue_t eventForQueue;
 	eventForQueue.event.input = NO_ENC_EVENT;
  	eventForQueue.event.isValid = false;
@@ -108,14 +108,13 @@ void buttonCallback(void)
 	{
 		resetEncoderTimerCount();			//reseteo el contador
 	}
-	if(checkEnterRisingEdge())		//si fue un flanco descendente me fijo cuánto tiempo se presionó el botón para saber si fue ENTER; BACK o CANCEL
+	else if(checkEnterRisingEdge())		//si fue un flanco descendente me fijo cuánto tiempo se presionó el botón para saber si fue ENTER; BACK o CANCEL
 	{
 		if(getEncTimerCount() < ENTER_COUNT)		//si es menor a ENTER_COUNT el evento es ENTER
 		{
 			eventForQueue.event.input = ENTER;
 			eventForQueue.event.isValid = true;
 			pushEncoderEvent(eventForQueue.event);
-			updateData(readEncoderSignalX(C), C);
 		}
 		//else if(getEncTimerCount() < BACK_COUNT)	//si es menos de BACK_COUNT o mas de ENTER_COUNT el evento es BACK
 		//{
@@ -128,8 +127,9 @@ void buttonCallback(void)
 			eventForQueue.event.input = CANCEL;
 			eventForQueue.event.isValid = true;
 			pushEncoderEvent(eventForQueue.event);
-			updateData(readEncoderSignalX(C), C);
 		}
+		updateData(readEncoderSignalX(C), C);
+		updateData(readEncoderSignalX(C), C);
 	}
 }
 

@@ -1,7 +1,7 @@
 \section{Menú Principal}
 
 Al comenzar, el display mostrará la palabra $MENU$. 
-Con el encoder se podrá elegir, y seleccionar la opción con un enter del encoder, entre $ID$, 
+Con el encoder se podrá elegir, y confirmar la opción con un enter del encoder, entre $ID$, 
 ya sea para ingresar manualmente el ID o $GLOW$, para cambiar la intensidad.
 
 \subsection{Intensidad del display}
@@ -11,11 +11,30 @@ correspondiéndose 25\% con la mínima intensidad, y 100\% con la máxima intens
 
 \section{ID}
 \subsection{Ingreso Manual con el Encoder}
-El código identificatorio se puede ingresar manualmente, con el encoder, 
+\label{pinsection}
+El código identificatorio de 8 dígitos se puede ingresar manualmente, con el encoder, 
 seleccionando entre $0-9$ para los dígitos. Además, el usuario podrá elegir letras, $L$ ó $A$;
 con $L$ (erase \underline{L}ast) para borrar el último dígito, y $A$ (erase \underline{A}ll)
  para borrar todo el ID.
+ Para confirmar el dígito, hacer click con el encoder.
+ Si el ID se ingresó correctamente, aparecerá el mensaje "valid ID", seguido de "enter PIN".
+ De no ser correcto el ID ingresado, aparecerá el mensaje "invalid ID".
 
- \subsection{Ingreso Autómatico con Lector de Tarjeta Magnética}
- 
+ \subsection{Ingreso Automático con Lector de Tarjeta Magnética}
+ Para el ingreso automático, pasar la tarjeta con la orientación indicada en el lector.
+ De ser correcta la lectura, aparecerá el mensaje "valid ID", seguido de "enter PIN".
+ De no ser correcta la lectura, aparecerá el mensaje "invalid ID".
+
+ \section{PIN}
+ El PIN se ingresa manualmente con el encoder, de la misma forma 
+ que se indicó en la sección \ref{pinsection}.
+ Si se ingresó de manera correcta, aparecerá el mensaje "valid PIN", 
+ y se llegará al menú de administrador (ver sección \ref{adminmenu}).
+Si se ingresó de manera incorrecta, aparecerá el mensaje "invalid PIN".
+Tras 3 intentos de ingreso de PIN incorrectos, se bloquea el usuario, 
+y deberá esperar un tiempo para poder reingresarlo.
+
+
+ \section{Menú de Administrador}
+
 
