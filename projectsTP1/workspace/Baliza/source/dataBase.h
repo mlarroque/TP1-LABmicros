@@ -32,11 +32,13 @@ status addUser(user_t newUser);
 
 status removeUser(user_t userToDelete);
 
+status removeUserID(char usersID[ID_LENGTH]);
+
 bool verifyID(char usersID[ID_LENGTH]);
 
 bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH]);
 
-char verifyCategory(char usersID[ID_LENGTH]);
+category_name verifyCategory(char usersID[ID_LENGTH]);
 
 void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH]);
 
