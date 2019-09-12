@@ -20,11 +20,10 @@ void initializeDataBase(void)
 void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH])
 {
 	// checks if ID is on list
-	int i;
-	for(i=0 ; i< (dataBase.top + 1) ; ++i){
-		int j;
+	int i,j;
+	for(i=0 ; i< (dataBase.top + 1) ; i++){
 		bool same = true;
-		for(j=0 ; i<ID_LENGTH ; ++i){
+		for(j=0 ; j<ID_LENGTH ; j++){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
 				same = false;
 			}
@@ -33,7 +32,6 @@ void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH])
 			break;
 		}
 	}
-	int j;
 	for(j=0;j<PIN_MAX_LENGTH;j++){
 		dataBase.userList[i].usersPIN[j] = usersNewPIN[j];
 	}

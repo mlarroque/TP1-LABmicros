@@ -45,7 +45,6 @@ state_t RIinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
 	int j = 0;
-	int k = 0;
 	bool validID = false;
 	switch(ud->encoderUd.input)
 	{
