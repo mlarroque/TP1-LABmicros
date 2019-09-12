@@ -10,8 +10,17 @@
 #include "magnetCardDecode.h"
 #include <stdbool.h>
 
+#include "gpio.h" ////esto es para debuguear
+
+#define DEBUG_DECODING_PIN PORTNUM2PIN(PC, 9)
+
 void initMagnetCardLector(void){
 	hwLectorInit();
+	if(DEBUG)
+	{
+		gpioMode(DEBUG_DECODING_PIN, OUTPUT);
+		gpioWrite(DEBUG_DECODING_PIN, LOW);
+	}
 }
 
 _Bool someMagnetCard2Read(void){
@@ -21,6 +30,10 @@ magnetLectorData_t getLectureDecoded(void){
 	magnetLectorData_t ret;
 	if(isEventinLectorQueue())
 	{
+		if(DEBUG)
+		{
+			gpioWrite(DEBUG_DECODING_PIN, HIGH);
+		}
 		if(magnetDataParser(getLectureEvent(), ret.trackString, &(ret.trackNum)))
 		{
 			ret.isValid = true;
@@ -28,6 +41,10 @@ magnetLectorData_t getLectureDecoded(void){
 		else
 		{
 			ret.isValid = false;
+		}
+		if(DEBUG)
+		{
+			gpioWrite(DEBUG_DECODING_PIN, LOW);
 		}
 	}
 	return ret;

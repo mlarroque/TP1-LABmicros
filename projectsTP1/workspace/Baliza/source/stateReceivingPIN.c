@@ -95,7 +95,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
-					userDataReset(true ,false ,false ,true ,ud);
+					userDataReset(false ,true ,false ,true ,ud);
 					createPINString(ud);
 					PrintMessage(PINstring, false);
 					nextState.name = STAY;

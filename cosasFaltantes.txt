@@ -1,9 +1,6 @@
-debug delete y add user
+debug add user
 debug TIMER BLOCK
-debug intensity
 
 encoder
 debug ENTER
 debug CANCEL
-
-agregar pines para medir tiempo de interrupciones

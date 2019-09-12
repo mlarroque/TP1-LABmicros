@@ -13,12 +13,12 @@
 #include "encoder.h"
 #include "dataBase.h"
 
-#define INTENSITY_OPTIONS	10
+#define INTENSITY_OPTIONS	4
 #define INCREMENT	1
 #define INITIAL	 0
 #define LAST_OPTION (INTENSITY_OPTIONS-1)
 
-const char * intStrings[INTENSITY_OPTIONS] = {"10","20","30","40","50","60","70","80","90","100"};
+const char * intStrings[INTENSITY_OPTIONS] = {"25","50","75","100"};
 
 
 state_t CIinputEvHandler(UserData_t * ud)
