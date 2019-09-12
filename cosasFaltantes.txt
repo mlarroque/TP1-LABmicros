@@ -1,6 +1,6 @@
 debug delete y add user
-debug no cambia el pin despues de seleccionarlo
 debug TIMER BLOCK
+debug intensity
 
 encoder
 debug ENTER

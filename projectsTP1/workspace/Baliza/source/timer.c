@@ -24,7 +24,7 @@ typedef struct{
 //Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
 #define US_TO_PULSES_MAX(t) ( (t/1000000)*SYSTICK_ISR_FREQ_HZ) //Asume que recibe el t en microsegundos.
 #define US_TO_PULSES_MIN(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en microsegundos.
-#define US_LIMIT	10000000
+#define US_LIMIT	1000000
 
 
 /*******************************************************************************
