@@ -36,7 +36,7 @@ bool verifyID(char usersID[ID_LENGTH]);
 
 bool verifyPIN(char usersID[ID_LENGTH], char usersPIN[PIN_MAX_LENGTH]);
 
-category_name verifyCategory(char usersID[ID_LENGTH]);
+char verifyCategory(char usersID[ID_LENGTH]);
 
 void changePIN(char usersID[ID_LENGTH], char usersNewPIN[PIN_MAX_LENGTH]);
 

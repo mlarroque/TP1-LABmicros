@@ -9,10 +9,10 @@
 #include "timer.h"
 #include "timer_queue.h"
 
-#define STRING_TIME 375000 //Delay en us entre cada shifteo hacia la izquierda.
+#define STRING_TIME 325000 //Delay en us entre cada shifteo hacia la izquierda.
 #define FPS 60 //Frames per second
 #define MIN_BRIGHTNESS 1
-#define MAX_BRIGHTNESS 10
+#define MAX_BRIGHTNESS 4
 #define US_BETWEEN_SYMBOLS ( (1000000/FPS)/(DISPLAY_SIZE) )
 /******************************************************************************
  *
@@ -24,7 +24,7 @@ static int string_position;
 static int display_position;
 static int string_size;
 static unsigned int brigthness;
-static bool brightness_ev; //Indica que se debe apagar el ultimo simbolo enviado al display
+static unsigned char display_counter; //cuantos llamados faltan para pasar al proximo simbolo
 static bool initialized = false;
 
 /*******************************************************************************
@@ -34,7 +34,6 @@ static bool initialized = false;
  *******************************************************************************/
 unsigned int GetStringSize(const char* str);
 void GenerateDisplayEv(void);
-void GenerateBrightnessEv(void);
 void ShiftLeft(void); //desplaza todos los caracteres una posicion hacia la izquierda.
 
 /******************************************************************************
@@ -51,12 +50,12 @@ void InitializeDisplay(void)
 		InitializeTimers();
 		InitializeTimerQueue();
 		ClearDisplay();
-		SetTimer(DISPLAY, US_BETWEEN_SYMBOLS, &GenerateDisplayEv);
+		SetTimer(DISPLAY, US_BETWEEN_SYMBOLS/MAX_BRIGHTNESS, &GenerateDisplayEv);
 		SetTimer(MESSAGE,STRING_TIME, &ShiftLeft);//Setteo el timer con la velocidad de movimiento del string.
 		DisableTimer(MESSAGE); //Por default asumo que se desea un mensaje que nose mueva a traves del display.
 		brigthness = MAX_BRIGHTNESS; //Por default comienza con la intensidad del display al maximo.
-		brightness_ev = false;
 		initialized = true;
+		display_counter= 0;
 	}
 }
 void ClearDisplay(void)
@@ -113,56 +112,50 @@ void SetBrightness(unsigned char brightness_factor)
 
 void UpdateDisplay(void)
 {
-	unsigned int brightness_delay;
-	if(!brightness_ev) //Escribo el digito que sigue en el display
+	++display_counter;
+	if(display_counter == MAX_BRIGHTNESS)
 	{
-		if(string_position < 0)
-			{
-				PrintChar(' ',display_position); //Imprimo espacio en blanco
-			}
-			else
-			{
-				if(string_position > string_size)
-				{
-					PrintChar(' ',display_position);
-					if(string_position == (string_size + DISPLAY_SIZE) ) //Si se mostro todo el mensaje, vuelve a pasarlo.
-					{
-						string_position = -1;
-						display_position = DISPLAY_SIZE-2;
-					}
-				}
-				else if(current_string[string_position] == '\0')
-				{
-					string_size = string_position;
-					PrintChar(' ',display_position);
-				}
-				else
-				{
-					PrintChar(current_string[string_position],display_position);
-				}
-			}
-			string_position++;
-			display_position++;
-			if(display_position == DISPLAY_SIZE)
-			{
-				string_position -= DISPLAY_SIZE;
-				display_position -= DISPLAY_SIZE;
-			}
-			brightness_delay = (brigthness*US_BETWEEN_SYMBOLS)/(MAX_BRIGHTNESS+1);
-			SetTimer(DISPLAY_INTENSITY, brightness_delay, &GenerateBrightnessEv);
-	}
-	else //Apago el ultimo simbolo enviado
-	{
-		if( (display_position-1) < 0 )
+		display_counter = 0; //Paso al proximo simbolo y reinicio el contador
+		string_position++;
+		display_position++;
+		if(display_position == DISPLAY_SIZE)
 		{
-			PrintChar(' ',DISPLAY_SIZE-1);
+			string_position -= DISPLAY_SIZE;
+			display_position -= DISPLAY_SIZE;
+		}
+		if(string_position < 0)
+		{
+			PrintChar(' ',display_position); //Imprimo espacio en blanco
 		}
 		else
 		{
-			PrintChar(' ',display_position-1);
+			if(string_position > string_size)
+			{
+				PrintChar(' ',display_position);
+				if(string_position == (string_size + DISPLAY_SIZE) ) //Si se mostro todo el mensaje, vuelve a pasarlo.
+				{
+					string_position = 0;
+					display_position = DISPLAY_SIZE-1;
+				}
+			}
+			else if(current_string[string_position] == '\0')
+			{
+				string_size = string_position;
+				PrintChar(' ',display_position);
+			}
+			else
+			{
+				PrintChar(current_string[string_position],display_position);
+			}
 		}
-		brightness_ev = false;
+
 	}
+	else if( display_counter>= brigthness )
+	{
+		PrintChar(' ',display_position); //Imprimo espacio en blanco
+		return;
+	}
+
 }
 
 /*******************************************************************************
@@ -183,10 +176,5 @@ void GenerateDisplayEv(void)
 	PushTimerEv(DISPLAY);
 }
 
-void GenerateBrightnessEv(void)
-{
-	DisableTimer(DISPLAY_INTENSITY);
-	PushTimerEv(DISPLAY);
-}
 
 

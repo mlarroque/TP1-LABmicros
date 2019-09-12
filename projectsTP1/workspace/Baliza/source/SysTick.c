@@ -8,6 +8,7 @@
 #include "SysTick.h"
 //#include "core_cm4.h"
 #include "MK64F12.h"
+#include "gpio.h"
 
 #include <stdint.h>
 
@@ -16,6 +17,7 @@
 
 
 #define FCLK	100000000U // Hz
+#define TEST_PIN PORTNUM2PIN(PB,19)
 
 
 typedef void (*sysTickFun_t)(void);
@@ -39,6 +41,7 @@ _Bool SysTick_Init (void (*funcallback)(void))
 		SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk| SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
 		sysTickFun = funcallback;
 		NVIC_EnableIRQ(SysTick_IRQn);
+		gpioMode(TEST_PIN, OUTPUT);
 		succeded = true;
 	}
 
@@ -48,7 +51,9 @@ _Bool SysTick_Init (void (*funcallback)(void))
 
 void SysTick_Handler(void)
 {
-	 sysTickFun();
+	gpioWrite(TEST_PIN, HIGH); //Prendo el pin de testeo cuando inicializa el callback
+	sysTickFun();
+	gpioWrite(TEST_PIN, LOW); //Lo apago al terminar el callback.
 	 //para sysTick no hace falta realizar un "clear" de ningún flag de la interrupción.
 }
 
