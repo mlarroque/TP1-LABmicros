@@ -19,7 +19,7 @@
  * 										DECLARACION DE FUNCIONES
  **********************************************************************************************************/
 
-//Inicializa los recursos necesrios para utilizar el display
+//Inicializa los recursos necesarios para utilizar el display
 void InitializeDisplay(void);
 
 //Borra el contenido del display
@@ -30,11 +30,11 @@ void ClearDisplay(void);
 //o si se desea que el mensaje vaya apareciendo en el display de derecha a izquierda(moving_string=true).
 void PrintMessage(const char* string, bool moving_string);
 
-//Cambia la luminosidad del display, recibe un numero de 1 a 10,
-//donde 1 simboliza 10% de intensidad y 10 simboliza 100%.
+//Cambia la luminosidad del display, recibe un numero de 1 a 4,
+//donde 1 simboliza 25% de intensidad y 4 simboliza 100%.
 void SetBrightness(unsigned char brightness_factor);
 
-//Actualiza el contenido del diplay.
+//Actualiza el contenido del display.
 void UpdateDisplay(void);
 
 #endif /* DISPLAY_H_ */

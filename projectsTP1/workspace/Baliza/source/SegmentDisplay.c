@@ -41,7 +41,7 @@ static bool initialized = false;
 #define CSEGG PORTNUM2PIN(PC,17)// PTC17
 #define CSEGDP PORTNUM2PIN(PC,16)// PTC16
 #define SEL1 PORTNUM2PIN(PC,4)// PTC4
-#define SEL2 PORTNUM2PIN(PE,24)// PTE26
+#define SEL2 PORTNUM2PIN(PE,24)// PTE24
 
 enum {FIRST_DIGIT,SECOND_DIGIT,THIRD_DIGIT, FOURTH_DIGIT, NUMBER_OF_DIGITS};
 
@@ -91,7 +91,7 @@ void InitializeSegmentDisplay(void)
 		gpioMode(CSEGG, OUTPUT);
 		gpioMode(CSEGDP, OUTPUT);
 		//Inicializo pins correspondientes a la linea de seleccion
-		//que ellije el digito que se desea utilizar.
+		//que elije el digito que se desea utilizar.
 		gpioMode(SEL1, OUTPUT);
 		gpioMode(SEL2, OUTPUT);
 
