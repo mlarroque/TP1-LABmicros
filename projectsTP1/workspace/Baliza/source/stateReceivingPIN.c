@@ -16,7 +16,7 @@
 #include "timer_queue.h"
 #include <stdbool.h>
 
-#define PIN_OPTIONS	13
+#define PIN_OPTIONS	12
 #define LAST_OPTION_PIN	(PIN_OPTIONS-1)
 #define INCREMENT	1
 #define INITIAL	0
@@ -24,10 +24,10 @@
 #define HIDDEN '-'
 #define STRING_CANT	(PIN_MAX_LENGTH+1)
 #define INT2CHAR(x)	((char)(x+48))
-#define BLOCKED_TIME	60000UL // 1 min in ms
+#define BLOCKED_TIME	60000000UL // 1 min in us
 
-typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,BLANK,ERASE_LAST,ERASE_ALL}idOption_name;
-static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9',' ','L','A'};
+typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
+static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
 static char PINstring[STRING_CANT];
 
 static void createPINString(UserData_t * ud);
@@ -121,40 +121,6 @@ state_t RPinputEvHandler(UserData_t * ud)
 					createPINString(ud);
 					PrintMessage(PINstring, false);
 					nextState.name = STAY;
-					break;
-				case BLANK:
-					if(j == PIN_MIN_LENGTH){
-						ud->received_PIN[j] = ' ';
-						validPIN = verifyPIN(ud->received_ID,ud->received_PIN);
-						if(validPIN){
-							nextState.name = USER_APPROVED;
-							tryNro = 0;
-							nextState.routines[INPUT_EV] = &UAinputEvHandler;
-							nextState.routines[TIMER_EV] = &UAtimerEvHandler;
-							nextState.routines[KEYCARD_EV] = &UAkeycardEvHandler;
-							PrintMessage("USER APPROVED", true);
-						}
-						else
-						{
-							PrintMessage("INCORRECT PIN", true);
-							userDataReset(false ,true ,false ,true ,ud);
-							tryNro ++;
-							if(tryNro < MAX_TRIES){
-								nextState.name = STAY;
-							}
-							else{
-								nextState.name = BLOCKED;
-								nextState.routines[INPUT_EV] = &BinputEvHandler;
-								nextState.routines[TIMER_EV] = &BtimerEvHandler;
-								nextState.routines[KEYCARD_EV] = &BkeycardEvHandler;
-								PrintMessage("USER BLOCKED", true);
-								SetTimer(UNBLOCKED,getBlockedTime(),blockedCallback);
-							}
-						}
-					}
-					else{
-						nextState.name = STAY;
-					}
 					break;
 				default: // number
 					if((ud->option >= INITIAL) && (j < PIN_MAX_LENGTH)){

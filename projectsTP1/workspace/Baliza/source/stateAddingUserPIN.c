@@ -13,7 +13,7 @@
 #include "display.h"
 #include "encoder.h"
 
-#define PIN_OPTIONS	12
+#define PIN_OPTIONS	13
 #define LAST_OPTION_PIN	(PIN_OPTIONS-1)
 #define INCREMENT	1
 #define INITIAL	0
@@ -22,8 +22,8 @@
 #define STRING_CANT	(PIN_MAX_LENGTH+1)
 #define INT2CHAR(x)	((char)(x+48))
 
-typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
-static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
+typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,BLANK,ERASE_LAST,ERASE_ALL}idOption_name;
+static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9',' ','L','A'};
 static char PINstring[STRING_CANT];
 
 static void createPINString(UserData_t * ud);
@@ -95,6 +95,36 @@ state_t AUPinputEvHandler(UserData_t * ud)
 					createPINString(ud);
 					PrintMessage(PINstring, false);
 					nextState.name = STAY;
+					break;
+				case BLANK:
+					if(j == PIN_MIN_LENGTH){
+						ud->received_PIN[j] = ' ';
+						user_t newUser;
+						for(k = 0;k<ID_LENGTH;k++){
+							newUser.usersID[k] = ud->received_ID[k];
+						}
+						for(k = 0;k<PIN_MAX_LENGTH;k++){
+							newUser.usersPIN[k] = ud->received_PIN[k];
+						}
+						newUser.category = BASIC;
+						switch(addUser(newUser))
+						{
+							case SUCCESSFULL:
+								PrintMessage("NEW USER ADDED TO DATABASE", true);
+								break;
+							case DATABASE_FULL:
+								PrintMessage("ERROR - DATABASE FULL", true);
+								break;
+						}
+						nextState.name = MENU;
+						nextState.routines[INPUT_EV] = &MinputEvHandler;
+						nextState.routines[TIMER_EV] = &MtimerEvHandler;
+						nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
+						userDataReset(true ,true ,true ,true ,ud);
+					}
+					else{
+						nextState.name = STAY;
+					}
 					break;
 				default: // number
 					if((ud->option >= INITIAL) && (j < PIN_MAX_LENGTH)){
