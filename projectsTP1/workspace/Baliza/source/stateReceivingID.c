@@ -49,8 +49,6 @@ state_t RIinputEvHandler(UserData_t * ud)
 	bool validID = false;
 	switch(ud->encoderUd.input)
 	{
-		case BACK:
-			break; //AGREGAR SI PINTA
 		case UP: // change current option
 			if(ud->option < LAST_OPTION_ID){
 				ud->option += INCREMENT;

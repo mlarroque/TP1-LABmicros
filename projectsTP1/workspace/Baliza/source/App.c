@@ -46,11 +46,11 @@ static ev_name nameEvent;
  *******************************************************************************
  ******************************************************************************/
 
-/* Función que se llama 1 vez, al comienzo del programa */
 void inactCallback(){
 	PushTimerEv(INACTIVITY);
 }
 
+/* Función que se llama 1 vez, al comienzo del programa */
 void App_Init (void)
 {
 	// IO Initialization

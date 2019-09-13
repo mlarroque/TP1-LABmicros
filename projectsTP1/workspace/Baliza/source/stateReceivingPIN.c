@@ -39,6 +39,7 @@ void blockedCallback(void);
 void blockedCallback(){
 	PushTimerEv(UNBLOCKED);
 	DisableTimer(UNBLOCKED);
+	RestartTimer(INACTIVITY);
 }
 
 static void createPINString(UserData_t * ud){
@@ -75,8 +76,6 @@ state_t RPinputEvHandler(UserData_t * ud)
 	bool validPIN = false;
 	switch(ud->encoderUd.input)
 	{
-		case BACK:
-			break;
 		case UP: // change current option
 			if(ud->option < LAST_OPTION_PIN){
 				ud->option += INCREMENT;

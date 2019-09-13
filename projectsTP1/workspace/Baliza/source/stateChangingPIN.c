@@ -49,8 +49,6 @@ state_t CPinputEvHandler(UserData_t * ud)
 	int j = 0;
 	switch(ud->encoderUd.input)
 	{
-		case BACK:
-			break;
 		case UP: // change current option
 			if(ud->option < LAST_OPTION_PIN){
 				ud->option += INCREMENT;

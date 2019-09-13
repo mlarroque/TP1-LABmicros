@@ -49,8 +49,6 @@ state_t AUinputEvHandler(UserData_t * ud)
 	int j = 0;
 	switch(ud->encoderUd.input)
 	{
-		case BACK:
-			break;
 		case UP: // change current option
 			if(ud->option < LAST_OPTION_ID){
 				ud->option += INCREMENT;
