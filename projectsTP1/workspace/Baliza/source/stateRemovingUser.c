@@ -44,11 +44,12 @@ static void createIDString(UserData_t * ud){
 state_t RUinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	int j = 0;
 	switch(ud->encoderUd.input)
 	{
 		case BACK:
-			break; //AGREGAR SI PINTA
+			break;
 		case UP: // change current option
 			if(ud->option < LAST_OPTION_ID){
 				ud->option += INCREMENT;
@@ -59,7 +60,6 @@ state_t RUinputEvHandler(UserData_t * ud)
 			// show option to user
 			createIDString(ud);
 			PrintMessage(IDstring, false);
-			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
 			if(ud->option > INITIAL){
@@ -71,7 +71,6 @@ state_t RUinputEvHandler(UserData_t * ud)
 			// show option to user
 			createIDString(ud);
 			PrintMessage(IDstring, false);
-			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
 			while(ud->received_ID[j] != '\0'){
@@ -87,13 +86,11 @@ state_t RUinputEvHandler(UserData_t * ud)
 					userDataReset(false ,false ,false ,true ,ud);
 					createIDString(ud);
 					PrintMessage(IDstring, false);
-					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
 					userDataReset(true ,false ,false ,true ,ud);
 					createIDString(ud);
 					PrintMessage(IDstring, false);
-					nextState.name = STAY;
 					break;
 				default: // number
 					if((ud->option >= INITIAL) && (j < ID_LENGTH))
@@ -103,7 +100,6 @@ state_t RUinputEvHandler(UserData_t * ud)
 						userDataReset(false ,false ,false ,true ,ud);
 						createIDString(ud);
 						PrintMessage(IDstring, false);
-						nextState.name = STAY;
 					}
 					if(j == ID_LENGTH){ // delete user
 
@@ -118,7 +114,6 @@ state_t RUinputEvHandler(UserData_t * ud)
 								break;
 							case ID_NOT_FOUND:
 								PrintMessage("USER NOT FOUND", true);
-								nextState.name = STAY;
 								userDataReset(true ,false ,false ,true ,ud);
 								break;
 						}
@@ -161,6 +156,7 @@ state_t RUtimerEvHandler(UserData_t * ud)
 state_t RUkeycardEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
@@ -185,7 +181,6 @@ state_t RUkeycardEvHandler(UserData_t * ud)
 	else{
 		// show message in display
 		PrintMessage("INVALID ID", true);
-		nextState.name = STAY;
 	}
 	return nextState;
 }

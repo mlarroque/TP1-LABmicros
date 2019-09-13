@@ -24,6 +24,7 @@ const char * intStrings[INTENSITY_OPTIONS] = {"25","50","75","100"};
 state_t CIinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
@@ -35,7 +36,6 @@ state_t CIinputEvHandler(UserData_t * ud)
 			}
 			// show option to user
 			PrintMessage(intStrings[ud->option], false);
-			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
 			if(ud->option > INITIAL){
@@ -46,13 +46,11 @@ state_t CIinputEvHandler(UserData_t * ud)
 			}
 			// show option to user
 			PrintMessage(intStrings[ud->option], false);
-			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
 			if(ud->option < INITIAL)
 			{
 				PrintMessage("PLEASE SELECT INTENSITY FIRST", true);
-				nextState.name = STAY;
 			}
 			else
 			{
@@ -90,6 +88,7 @@ state_t CItimerEvHandler(UserData_t * ud)
 state_t CIkeycardEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
@@ -114,7 +113,6 @@ state_t CIkeycardEvHandler(UserData_t * ud)
 	else{
 		// show message in display
 		PrintMessage("INVALID ID", true);
-		nextState.name = STAY;
 	}
 	return nextState;
 }

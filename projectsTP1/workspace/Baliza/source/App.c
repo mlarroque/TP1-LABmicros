@@ -33,14 +33,12 @@
  ******************************************************************************/
 
 // FSM.h
-FSM_t fsm;
-state_t nextState;
-UserData_t userData;
-// queue.h
-ev_name newEvent;
+static FSM_t fsm;
+static state_t nextState;
+static UserData_t userData;
 // App.c
-bool changingState = false;
-ev_name nameEvent;
+static bool changingState = false;
+static ev_name nameEvent;
 
 /*******************************************************************************
  *******************************************************************************

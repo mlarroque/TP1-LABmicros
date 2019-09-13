@@ -44,6 +44,7 @@ static void createPINString(UserData_t * ud){
 state_t AUPinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	int j = 0;
 	int k = 0;
 	switch(ud->encoderUd.input)
@@ -60,7 +61,6 @@ state_t AUPinputEvHandler(UserData_t * ud)
 			// show option to user
 			createPINString(ud);
 			PrintMessage(PINstring, false);
-			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
 			if(ud->option > INITIAL){
@@ -72,7 +72,6 @@ state_t AUPinputEvHandler(UserData_t * ud)
 			// show option to user
 			createPINString(ud);
 			PrintMessage(PINstring, false);
-			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
 			while(ud->received_PIN[j] != '\0'){
@@ -88,13 +87,11 @@ state_t AUPinputEvHandler(UserData_t * ud)
 					userDataReset(false ,false ,false ,true ,ud);
 					createPINString(ud);
 					PrintMessage(PINstring, false);
-					nextState.name = STAY;
 					break;
 				case ERASE_ALL:
 					userDataReset(true ,false ,false ,true ,ud);
 					createPINString(ud);
 					PrintMessage(PINstring, false);
-					nextState.name = STAY;
 					break;
 				case BLANK:
 					if(j == PIN_MIN_LENGTH){
@@ -122,9 +119,6 @@ state_t AUPinputEvHandler(UserData_t * ud)
 						nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
 						userDataReset(true ,true ,true ,true ,ud);
 					}
-					else{
-						nextState.name = STAY;
-					}
 					break;
 				default: // number
 					if((ud->option >= INITIAL) && (j < PIN_MAX_LENGTH)){
@@ -133,7 +127,6 @@ state_t AUPinputEvHandler(UserData_t * ud)
 						userDataReset(false ,false ,false ,true ,ud);
 						createPINString(ud);
 						PrintMessage(PINstring, false);
-						nextState.name = STAY;
 					}
 					if(j == PIN_MAX_LENGTH){ // save user
 						user_t newUser;
@@ -162,7 +155,6 @@ state_t AUPinputEvHandler(UserData_t * ud)
 					else{
 						createPINString(ud);
 						PrintMessage(PINstring, false);
-						nextState.name = STAY;
 					}
 					break;
 			}
@@ -202,6 +194,7 @@ state_t AUPtimerEvHandler(UserData_t * ud)
 state_t AUPkeycardEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
@@ -226,7 +219,6 @@ state_t AUPkeycardEvHandler(UserData_t * ud)
 	else{
 		// show message in display
 		PrintMessage("INVALID ID", true);
-		nextState.name = STAY;
 	}
 	return nextState;
 }

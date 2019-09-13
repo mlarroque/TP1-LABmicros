@@ -25,6 +25,7 @@ static const char * menuStrings[MENU_OPTIONS] = {"ID","GLOW"};
 state_t MinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	switch(ud->encoderUd.input)
 	{
 		case UP: // change current option
@@ -36,7 +37,6 @@ state_t MinputEvHandler(UserData_t * ud)
 			}
 			// show option to user
 			PrintMessage(menuStrings[ud->option], false);
-			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
 			if(ud->option > INITIAL){
@@ -47,7 +47,6 @@ state_t MinputEvHandler(UserData_t * ud)
 			}
 			// show option to user
 			PrintMessage(menuStrings[ud->option], false);
-			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
 			switch(ud->option)
@@ -68,17 +67,10 @@ state_t MinputEvHandler(UserData_t * ud)
 					nextState.routines[KEYCARD_EV] = &CIkeycardEvHandler;
 					PrintMessage("SELECT INTENSITY", true);
 					break;
-				default:
-					nextState.name = STAY;
-					break;
 			}
 			break;
 		case CANCEL:
-			nextState.name = STAY;
 			break; // Cancel does nothing in menu state
-		default:
-			nextState.name = STAY;
-			break;
 	}
 	return nextState;
 }
@@ -96,6 +88,7 @@ state_t MtimerEvHandler(UserData_t * ud)
 state_t MkeycardEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
@@ -119,7 +112,6 @@ state_t MkeycardEvHandler(UserData_t * ud)
 	else{
 		// show message in display
 		PrintMessage("INVALID ID", true);
-		nextState.name = STAY;
 	}
 	return nextState;
 }

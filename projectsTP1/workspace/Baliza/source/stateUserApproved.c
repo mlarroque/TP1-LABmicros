@@ -25,6 +25,7 @@ static const char * menuStrings[MENU_OPTIONS] = {"OPEN","PIN","ADM"};
 state_t UAinputEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	char category;
 	switch(ud->encoderUd.input)
 	{
@@ -37,7 +38,6 @@ state_t UAinputEvHandler(UserData_t * ud)
 			}
 			// show option to user
 			PrintMessage(menuStrings[ud->option], false);
-			nextState.name = STAY;
 			break;
 		case DOWN: // change current option
 			if(ud->option > INITIAL){
@@ -48,7 +48,6 @@ state_t UAinputEvHandler(UserData_t * ud)
 			}
 			// show option to user
 			PrintMessage(menuStrings[ud->option], false);
-			nextState.name = STAY;
 			break;
 		case ENTER: // Selects current option
 			switch(ud->option)
@@ -82,11 +81,7 @@ state_t UAinputEvHandler(UserData_t * ud)
 					}
 					else{
 						PrintMessage("ACCESS DENIED - USER NOT ADMIN", true);
-						nextState.name = STAY;
 					}
-					break;
-				default:
-					nextState.name = STAY;
 					break;
 			}
 			break;
@@ -97,9 +92,6 @@ state_t UAinputEvHandler(UserData_t * ud)
 			nextState.routines[TIMER_EV] = &MtimerEvHandler;
 			nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
 			PrintMessage("MENU", false);
-			break;
-		default:
-			nextState.name = STAY;
 			break;
 	}
 	return nextState;
@@ -127,6 +119,7 @@ state_t UAtimerEvHandler(UserData_t * ud)
 state_t UAkeycardEvHandler(UserData_t * ud)
 {
 	state_t nextState;
+	nextState.name = STAY;
 	char cardID[ID_LENGTH];
 	int i;
 	for(i=0;i<ID_LENGTH;++i){
@@ -151,7 +144,6 @@ state_t UAkeycardEvHandler(UserData_t * ud)
 	else{
 		// show message in display
 		PrintMessage("INVALID ID", true);
-		nextState.name = STAY;
 	}
 	return nextState;
 }

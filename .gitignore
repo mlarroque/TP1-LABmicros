@@ -52,3 +52,5 @@ projectsTP1/workspace/Baliza/Debug/Baliza.map
 *.o
 *.o
 *.d
+*.o
+*.ld
