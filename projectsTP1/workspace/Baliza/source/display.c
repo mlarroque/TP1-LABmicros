@@ -9,11 +9,11 @@
 #include "timer.h"
 #include "timer_queue.h"
 
-#define STRING_TIME 325000 //Delay en us entre cada shifteo hacia la izquierda.
+#define STRING_TIME 325 //Delay en ms entre cada shifteo hacia la izquierda.
 #define FPS 60 //Frames per second
 #define MIN_BRIGHTNESS 1
 #define MAX_BRIGHTNESS 4
-#define US_BETWEEN_SYMBOLS ( (1000000/FPS)/(DISPLAY_SIZE) )
+#define MS_BETWEEN_SYMBOLS ( (1000/FPS)/(DISPLAY_SIZE) )
 /******************************************************************************
  *
  * 							VARIABLES GLOBALES
@@ -50,7 +50,7 @@ void InitializeDisplay(void)
 		InitializeTimers();
 		InitializeTimerQueue();
 		ClearDisplay();
-		SetTimer(DISPLAY, US_BETWEEN_SYMBOLS/MAX_BRIGHTNESS, &GenerateDisplayEv);
+		SetTimer(DISPLAY, MS_BETWEEN_SYMBOLS/MAX_BRIGHTNESS, &GenerateDisplayEv);
 		SetTimer(MESSAGE,STRING_TIME, &ShiftLeft);//Setteo el timer con la velocidad de movimiento del string.
 		DisableTimer(MESSAGE); //Por default asumo que se desea un mensaje que nose mueva a traves del display.
 		brigthness = MAX_BRIGHTNESS; //Por default comienza con la intensidad del display al maximo.

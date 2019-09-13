@@ -25,7 +25,7 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-
+#define INACTIVITY_TIME 60000 //Timeout de inactividad en milisegundos.
 
 
 /*******************************************************************************
@@ -57,7 +57,7 @@ void App_Init (void)
 {
 	// IO Initialization
     InitializeTimers();
-    SetTimer(INACTIVITY,60000000,inactCallback);
+    SetTimer(INACTIVITY,INACTIVITY_TIME,inactCallback);
     initializeEncoder();
     InitializeDisplay();
     initMagnetCardLector();

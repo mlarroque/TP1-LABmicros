@@ -22,9 +22,9 @@ typedef struct{
  * 										MACROS
  *******************************************************************************************/
 //Devuelve cuantos ticks de SysTick se requieren para el tiempo deseado
-#define US_TO_PULSES_MAX(t) ( (t/1000000)*SYSTICK_ISR_FREQ_HZ) //Asume que recibe el t en microsegundos.
-#define US_TO_PULSES_MIN(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000000 ) //Asume que recibe el t en microsegundos.
-#define US_LIMIT	1000000
+#define MS_TO_PULSES_MAX(t) ( (t/1000UL)*SYSTICK_ISR_FREQ_HZ) //Asume que recibe el t en milisegundos.
+#define MS_TO_PULSES_MIN(t) ( (t*SYSTICK_ISR_FREQ_HZ)/1000UL ) //Asume que recibe el t en milisegundos.
+#define MS_LIMIT	1000000
 
 
 /*******************************************************************************
@@ -61,11 +61,11 @@ void InitializeTimers(void)
 void SetTimer(unsigned char index, unsigned long int timeout_, callback_ptr func_)
 {
 	(timers+index)->enabled = false; //Deshabilto el timer para efectuar los cambios.
-	if(timeout_>US_LIMIT){
-		(timers+index)->timeout = US_TO_PULSES_MAX(timeout_);
+	if(timeout_>MS_LIMIT){
+		(timers+index)->timeout = MS_TO_PULSES_MAX(timeout_);
 	}
 	else{
-		(timers+index)->timeout = US_TO_PULSES_MIN(timeout_);
+		(timers+index)->timeout = MS_TO_PULSES_MIN(timeout_);
 	}
 	(timers+index)->func = func_;
 	(timers+index)->counter = 0;

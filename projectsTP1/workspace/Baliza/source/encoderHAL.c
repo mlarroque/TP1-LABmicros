@@ -18,8 +18,8 @@
 #define SIGNAL_C_PIN PORTNUM2PIN(PD,2)// PTD2
 
 
-#define BUTTON_TIME 	100000 		// 100 milisegundos
-#define ROTATION_FREQUENCY 5000		//5 milisegundos
+#define BUTTON_TIME 	100 		// 100 milisegundos
+#define ROTATION_FREQUENCY 5		//5 milisegundos
 
 
 typedef void (*callback_t)(void);

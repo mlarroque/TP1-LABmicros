@@ -23,12 +23,12 @@ typedef void (*callback_ptr)(void);
  * 										FUNCIONES
  ********************************************************************************************/
 void InitializeTimers(void);
-//Recibe el timeout en microsegundos
+//Recibe el timeout en milisegundos
 void SetTimer(unsigned char index,unsigned long int timeout, callback_ptr func);
 void DisableTimer(unsigned char index);
 void EnableTimer(unsigned char index);
 void RestartTimer(unsigned char index);
-unsigned int GetTimerCount(unsigned char index); //Devuelve cuanto tiempo, en us, paso desde que se
+unsigned int GetTimerCount(unsigned char index); //Devuelve cuanto tiempo, en ms, paso desde que se
 												//setteo el timer recibido
 
 #endif /* TIMER_H_ */

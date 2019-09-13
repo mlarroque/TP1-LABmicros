@@ -31,6 +31,7 @@ C_SRCS += \
 ../source/stateRemovingUser.c \
 ../source/stateUserApproved.c \
 ../source/timer.c \
+../source/timerHAL.c \
 ../source/timer_queue.c 
 
 OBJS += \
@@ -61,6 +62,7 @@ OBJS += \
 ./source/stateRemovingUser.o \
 ./source/stateUserApproved.o \
 ./source/timer.o \
+./source/timerHAL.o \
 ./source/timer_queue.o 
 
 C_DEPS += \
@@ -91,6 +93,7 @@ C_DEPS += \
 ./source/stateRemovingUser.d \
 ./source/stateUserApproved.d \
 ./source/timer.d \
+./source/timerHAL.d \
 ./source/timer_queue.d 
 
 

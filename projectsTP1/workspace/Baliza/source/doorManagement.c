@@ -25,9 +25,8 @@ void doorInit(void)
 }
 
 void openDoorTemporally(){
-	uint32_t timeOut = TIME_OUT_DOOR;
 	openDoor();
-	SetTimer(DOOR, timeOut, closeAfterTimeOut);
+	SetTimer(DOOR, TIME_OUT_DOOR, closeAfterTimeOut);
 }
 
 void closeAfterTimeOut(void){
