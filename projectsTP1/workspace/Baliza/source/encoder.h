@@ -17,31 +17,25 @@
 /******************************************************************************
  *									DEFINICIONES
  ******************************************************************************/
-#define LOW 0
-#define HIGH 1
 
-typedef enum {UP, DOWN, BACK, ENTER, CANCEL, NO_ENC_EVENT}enc_type;
+typedef enum {UP/*horario*/, DOWN/*antihorario*/, /*BACK*/ ENTER, CANCEL, NO_ENC_EVENT}enc_type;
 
 typedef struct{
 	enc_type input;
 	_Bool isValid;
 }encoderUd_t;
 
-typedef struct{
-	int top; 			//contador de eventos
-	encoderUd_t event;
-	_Bool isEmpty;
-}encoderQueue_t;
-
 /******************************************************************************
  *							FUNCIONES DEL HEADER
  ******************************************************************************/
+//inicializa lo necesario para utilizar el encoder
 void initializeEncoder(void);
 
-
+//popea el primer evento de la cola
 encoderUd_t popEncoderEvent(void);
+
+//indica si el primer evento en la cola es válido
 _Bool isEncEventValid(void);
-//encoderQueue_t getEncoderQueue(void);
 
 
 

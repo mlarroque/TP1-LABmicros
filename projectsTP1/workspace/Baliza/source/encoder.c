@@ -12,6 +12,14 @@
 /******************************************************************************
  *									DEFINICIONES
  ******************************************************************************/
+#define LOW 0
+#define HIGH 1
+
+typedef struct{
+	int top; 			//contador de eventos
+	encoderUd_t event;
+	_Bool isEmpty;
+}encoderQueue_t;
 
 #define ENCODER_EVENTS		200
 

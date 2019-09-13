@@ -29,7 +29,7 @@ typedef struct{
 void resetData(void);
 void updateData(_Bool value, int signal);
 
-counter_type decodeButton();
+
 counter_type decodeEncoder();
 
 _Bool checkEnterRisingEdge();

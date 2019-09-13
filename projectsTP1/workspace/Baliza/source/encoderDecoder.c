@@ -18,30 +18,6 @@ void updateData(_Bool value, int signal)
 	encoder.curr_data[signal] = value;
 }
 
-counter_type decodeButton()
-{
-	counter_type event = NO_CHANGE;
-	if((encoder.prev_data[B] == HIGH) && (encoder.curr_data[B] == LOW))	//flanco descendente de B
-	{
-		if(encoder.prev_data[A]){
-			event = COUNT_UP;
-		}
-	}
-	else if((encoder.prev_data[B] == LOW) && (encoder.curr_data[B] == HIGH))
-			event = RESET;
-	if ((encoder.prev_data[A] == HIGH) && (encoder.curr_data[A] == LOW))	//flanco descendente de A
-	{
-		if(encoder.prev_data[B]){	//si la señal anterior de B estaba en HIGH, fue primer flanco de A
-			event = COUNT_DOWN;
-		}
-	}
-	else if((encoder.prev_data[A] == LOW) && (encoder.curr_data[A] == HIGH))
-		event = RESET;
-
-	return event;
-}
-
-
 counter_type decodeEncoder()
 {
 	counter_type event = NO_CHANGE;
