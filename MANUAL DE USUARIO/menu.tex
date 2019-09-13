@@ -1,44 +1,54 @@
 \section{Menú Principal}
 
-Al comenzar, el display mostrará la palabra $MENU$. 
-Con el encoder se podrá elegir, y confirmar la opción con un enter del encoder, entre $ID$, 
-ya sea para ingresar manualmente el ID o $GLOW$, para cambiar la intensidad.
+Al comenzar, el display mostrará la palabra \texttt{MENU}. 
+Con el encoder se podrá elegir, y confirmar la opción con un enter del encoder, entre \texttt{ID}, 
+ya sea para ingresar manualmente el ID o \texttt{GLOW}, para cambiar la intensidad.
 
 \subsection{Intensidad del display}
 
-Dentro del submenú $GLOW$, se podrá elegir entre 25\%, 50\%, 75\% y 100\%, 
+Dentro del submenú \texttt{GLOW}, se podrá elegir entre \texttt{25\%}, \texttt{50\%}, \texttt{75\%} y \texttt{100\%}, 
 correspondiéndose 25\% con la mínima intensidad, y 100\% con la máxima intensidad del display.
 
 \section{ID}
 \subsection{Ingreso Manual con el Encoder}
 \label{pinsection}
 El código identificatorio de 8 dígitos se puede ingresar manualmente, con el encoder, 
-seleccionando entre $0-9$ para los dígitos. Además, el usuario podrá elegir letras, $L$ ó $A$;
-con $L$ (erase \underline{L}ast) para borrar el último dígito, y $A$ (erase \underline{A}ll)
- para borrar todo el ID.
+seleccionando entre \texttt{0-9} para los dígitos. Además, el usuario podrá elegir letras,
+ \texttt{L} ó \texttt{A}; con \texttt{L} (\texttt{erase \underline{L}ast}) para borrar el último dígito, 
+ y \texttt{A} (\texttt{erase \underline{A}ll}) para borrar todo el ID.
  Para confirmar el dígito, hacer click con el encoder.
- Si el ID se ingresó correctamente, aparecerá el mensaje "valid ID", seguido de "enter PIN".
- De no ser correcto el ID ingresado, aparecerá el mensaje "invalid ID".
+ Si el ID se ingresó correctamente, aparecerá el mensaje \texttt{valid ID}, seguido de \texttt{enter PIN}.
+ De no ser correcto el ID ingresado, aparecerá el mensaje \texttt{invalid ID}, debiéndose ingresar nuevamente.
 
  \subsection{Ingreso Automático con Lector de Tarjeta Magnética}
  Para el ingreso automático, pasar la tarjeta con la orientación indicada en el lector.
- De ser correcta la lectura, aparecerá el mensaje "valid ID", seguido de "enter PIN".
- De no ser correcta la lectura, aparecerá el mensaje "invalid ID".
+ De ser correcta la lectura, aparecerá el mensaje \texttt{valid ID}, seguido de \texttt{enter PIN}.
+ De no ser correcta la lectura, aparecerá el mensaje \texttt{invalid ID}.
 
  \section{PIN}
  El PIN se ingresa manualmente con el encoder, de la misma forma 
- que se indicó en la sección \ref{pinsection}.
- Si se ingresó de manera correcta, aparecerá el mensaje "valid PIN", 
- y se llegará al menú de administrador (ver sección \ref{adminmenu}).
-Si se ingresó de manera incorrecta, aparecerá el mensaje "invalid PIN".
+ que se indicó en la sección \ref{pinsection}. Tiene 4 o 5 dígitos.
+ Si se ingresó de manera correcta, aparecerá el mensaje \texttt{valid PIN}, 
+ y se garantizará el acceso al usuario.
+Si se ingresó de manera incorrecta, aparecerá el mensaje \texttt{invalid PIN}.
 Tras 3 intentos de ingreso de PIN incorrectos, se bloquea el usuario, 
-y deberá esperar un tiempo para poder reingresarlo.
+y deberá esperar un tiempo para poder reingresarlo, incrementándose en cada nuevo intento.
 
 \section{Acceso Garantizado}
-\subsection{Menú de Administrador}
+\subsection{Usuario no Administrador}
+\label{noadminmenu}
+Si el usuario no es administrador, podrá elegir entre \texttt{OPEN}, abrir la puerta; y \texttt{PIN},
+para cambiar su PIN. Para esta última opción, referirse a la sección \ref{pinsection} para 
+el modo de ingreso manual del nuevo PIN.
+\subsection{Usuario Administrador}
  \label{adminmenu}
-
- Una vez en este mnú, si no el usuario no es administrador,
+ Si el usuario es administrador, tendrá las opciones \texttt{OPEN}, para abrir la puerta; \texttt{PIN}, 
+ para cambiar su PIN, ver sección \ref{noadminmenu} para el ingreso manual del nuevo PIN;
+  y \texttt{ADM}, para agregar o eliminar usuarios.\par
+  Al elegir esta última opción, se puede elegir entre \texttt{DLT}, para eliminar un usuario, ingresando su ID,
+  de la manera especificada en la sección \ref{pinsection} o \texttt{ADD}, para agregar un usuario 
+  ingresando su ID y a continuación, su PIN. Si el usuario ya es existente en la base de datos, 
+  aparecerá el mensaje \texttt{USER EXISTS}.
 
 
 
