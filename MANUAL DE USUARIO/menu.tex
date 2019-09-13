@@ -1,8 +1,9 @@
 \section{Menú Principal}
 
-Al comenzar, el display mostrará la palabra \texttt{MENU}. 
-Con el encoder se podrá elegir, y confirmar la opción con un enter del encoder, entre \texttt{ID}, 
-ya sea para ingresar manualmente el ID o \texttt{GLOW}, para cambiar la intensidad.
+Al comenzar el display mostrará la palabra \texttt{MENU}. 
+Con el encoder se podrá elegir, entre \texttt{ID}, 
+ya sea para ingresar manualmente el ID o \texttt{GLOW}, para cambiar la intensidad del display, 
+confirmando la selección clickeando el encoder.
 
 \subsection{Intensidad del display}
 
@@ -12,9 +13,9 @@ correspondiéndose 25\% con la mínima intensidad, y 100\% con la máxima intens
 \section{ID}
 \subsection{Ingreso Manual con el Encoder}
 \label{pinsection}
-El código identificatorio de 8 dígitos se puede ingresar manualmente, con el encoder, 
+El código identificatorio de 8 dígitos se puede ingresar manualmente con el encoder, 
 seleccionando entre \texttt{0-9} para los dígitos. Además, el usuario podrá elegir letras,
- \texttt{L} ó \texttt{A}; con \texttt{L} (\texttt{erase \underline{L}ast}) para borrar el último dígito, 
+ \texttt{L} ó \texttt{A}; con \texttt{L} (\texttt{erase \underline{L}ast}) para borrar el último dígito ingresado, 
  y \texttt{A} (\texttt{erase \underline{A}ll}) para borrar todo el ID.
  Para confirmar el dígito, hacer click con el encoder.
  Si el ID se ingresó correctamente, aparecerá el mensaje \texttt{valid ID}, seguido de \texttt{enter PIN}.
@@ -23,15 +24,15 @@ seleccionando entre \texttt{0-9} para los dígitos. Además, el usuario podrá e
  \subsection{Ingreso Automático con Lector de Tarjeta Magnética}
  Para el ingreso automático, pasar la tarjeta con la orientación indicada en el lector.
  De ser correcta la lectura, aparecerá el mensaje \texttt{valid ID}, seguido de \texttt{enter PIN}.
- De no ser correcta la lectura, aparecerá el mensaje \texttt{invalid ID}.
+ De no ser correcta la lectura, aparecerá el mensaje \texttt{invalid ID}, debiéndose ingresar nuevamente.
 
  \section{PIN}
- El PIN se ingresa manualmente con el encoder, de la misma forma 
- que se indicó en la sección \ref{pinsection}. Tiene 4 o 5 dígitos.
+ El PIN tiene 4 ó 5 dígitos y se deberá ingresar manualmente con el encoder, de la misma forma 
+ que se indicó en la sección \ref{pinsection} para el ingreso del ID. 
  Si se ingresó de manera correcta, aparecerá el mensaje \texttt{valid PIN}, 
  y se garantizará el acceso al usuario.
 Si se ingresó de manera incorrecta, aparecerá el mensaje \texttt{invalid PIN}.
-Tras 3 intentos de ingreso de PIN incorrectos, se bloquea el usuario, 
+Tras 3 intentos de ingreso de PIN incorrectos, se bloqueará el usuario, 
 y deberá esperar un tiempo para poder reingresarlo, incrementándose en cada nuevo intento.
 
 \section{Acceso Garantizado}
@@ -45,10 +46,10 @@ el modo de ingreso manual del nuevo PIN.
  Si el usuario es administrador, tendrá las opciones \texttt{OPEN}, para abrir la puerta; \texttt{PIN}, 
  para cambiar su PIN, ver sección \ref{noadminmenu} para el ingreso manual del nuevo PIN;
   y \texttt{ADM}, para agregar o eliminar usuarios.\par
-  Al elegir esta última opción, se puede elegir entre \texttt{DLT}, para eliminar un usuario, ingresando su ID,
+  Al seleccionar esta última opción, se puede elegir \texttt{DLT}, para eliminar un usuario, ingresando su ID
   de la manera especificada en la sección \ref{pinsection} o \texttt{ADD}, para agregar un usuario 
-  ingresando su ID y a continuación, su PIN. Si el usuario ya es existente en la base de datos, 
-  aparecerá el mensaje \texttt{USER EXISTS}.
+  ingresando su ID y, a continuación, su PIN. Si el usuario ya es existente en la base de datos, 
+  aparecerá el mensaje \texttt{ID ALREADY TAKEN}.
 
 
 
