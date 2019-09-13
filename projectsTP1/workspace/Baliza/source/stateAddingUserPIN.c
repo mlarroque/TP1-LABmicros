@@ -107,10 +107,10 @@ state_t AUPinputEvHandler(UserData_t * ud)
 					}
 					if(j == PIN_MAX_LENGTH){ // save user
 						user_t newUser;
-						for(k = 0;;k++){
+						for(k = 0;k<ID_LENGTH;k++){
 							newUser.usersID[k] = ud->received_ID[k];
 						}
-						for(k = 0;;k++){
+						for(k = 0;k<PIN_MAX_LENGTH;k++){
 							newUser.usersPIN[k] = ud->received_PIN[k];
 						}
 						newUser.category = BASIC;

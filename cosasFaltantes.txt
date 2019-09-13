@@ -1,6 +1,1 @@
-debug add user
-debug TIMER BLOCK
-
-encoder
-debug ENTER
-debug CANCEL
+4-5 digits

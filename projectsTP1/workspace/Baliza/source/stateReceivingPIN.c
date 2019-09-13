@@ -13,6 +13,7 @@
 #include "display.h"
 #include "encoder.h"
 #include "dataBase.h"
+#include "timer_queue.h"
 #include <stdbool.h>
 
 #define PIN_OPTIONS	12
@@ -23,12 +24,22 @@
 #define HIDDEN '-'
 #define STRING_CANT	(PIN_MAX_LENGTH+1)
 #define INT2CHAR(x)	((char)(x+48))
+#define BLOCKED_TIME	60000000UL // 1 min in us
 
 typedef enum {ZERO,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ERASE_LAST,ERASE_ALL}idOption_name;
 static const char pinStrings[PIN_OPTIONS] = {'0','1','2','3','4','5','6','7','8','9','L','A'};
 static char PINstring[STRING_CANT];
 
 static void createPINString(UserData_t * ud);
+
+static long unsigned int getBlockedTime(void);
+
+void blockedCallback(void);
+
+void blockedCallback(){
+	PushTimerEv(UNBLOCKED);
+	DisableTimer(UNBLOCKED);
+}
 
 static void createPINString(UserData_t * ud){
 	int i=0;
@@ -43,7 +54,18 @@ static void createPINString(UserData_t * ud){
 	PINstring[i] = '\0';
 }
 
-int tryNro = 0;
+static int tryNro = 0;
+static long unsigned int f1=0;
+static long unsigned int f2=1;
+
+static long unsigned int getBlockedTime(void)
+{
+	static long unsigned int f3;
+	f3 = f2+f1;
+	f1 = f2;
+	f2 = f3;
+	return f3*BLOCKED_TIME;
+}
 
 state_t RPinputEvHandler(UserData_t * ud)
 {
@@ -123,7 +145,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 						{
 							PrintMessage("INCORRECT PIN", true);
 							userDataReset(false ,true ,false ,true ,ud);
-						    tryNro += 1;
+						    tryNro ++;
 						    if(tryNro < MAX_TRIES){
 						    	nextState.name = STAY;
 						    }
@@ -133,7 +155,7 @@ state_t RPinputEvHandler(UserData_t * ud)
 								nextState.routines[TIMER_EV] = &BtimerEvHandler;
 								nextState.routines[KEYCARD_EV] = &BkeycardEvHandler;
 								PrintMessage("USER BLOCKED", true);
-								//init blocked timer
+								SetTimer(UNBLOCKED,getBlockedTime(),blockedCallback);
 						    }
 						}
 					}
@@ -202,7 +224,6 @@ state_t RPkeycardEvHandler(UserData_t * ud)
 		nextState.routines[INPUT_EV] = &RPinputEvHandler;
 		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
 		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
-		PrintMessage("ENTER PIN", true);
 	}
 	else{
 		// show message in display

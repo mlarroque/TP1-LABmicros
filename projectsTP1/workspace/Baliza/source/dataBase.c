@@ -129,9 +129,9 @@ bool verifyID(char usersID[ID_LENGTH])
 	// checks if ID is on list
 	bool IDfound = false;
 	int i,j;
-	for(i=0 ; i< (dataBase.top + 1) ; ++i){
+	for(i=0 ; i< (dataBase.top + 1) ; i++){
 		bool same = true;
-		for(j=0 ; j<ID_LENGTH ; ++j){
+		for(j=0 ; j<ID_LENGTH ; j++){
 			if(dataBase.userList[i].usersID[j] != usersID[j]){
 				same = false;
 				break;

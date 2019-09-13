@@ -6,10 +6,11 @@
  */
 
 #include "stateBlocked.h"
-#include "stateReceivingID.h"
+#include "stateReceivingPIN.h"
 
 #include "display.h"
 #include "encoder.h"
+#include "timer.h"
 
 state_t BinputEvHandler(UserData_t * ud)
 {
@@ -27,12 +28,11 @@ state_t BtimerEvHandler(UserData_t * ud)
 	}
 	if(ud->timerUd == UNBLOCKED){
 		userDataReset(false ,true ,false ,true ,ud);
-		nextState.name = RECEIVING_ID;
-		nextState.routines[INPUT_EV] = &RIinputEvHandler;
-		nextState.routines[TIMER_EV] = &RItimerEvHandler;
-		nextState.routines[KEYCARD_EV] = &RIkeycardEvHandler;
+		nextState.name = RECEIVING_PIN;
+		nextState.routines[INPUT_EV] = &RPinputEvHandler;
+		nextState.routines[TIMER_EV] = &RPtimerEvHandler;
+		nextState.routines[KEYCARD_EV] = &RPkeycardEvHandler;
 		PrintMessage("BLOCKED TIME OVER", true);
-		//apagar (?) timer
 	}
 	return nextState;
 }
