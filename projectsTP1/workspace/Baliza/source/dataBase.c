@@ -15,8 +15,10 @@ void initializeDataBase(void)
 	dataBase.top = -1;
 	user_t newUser1 = {{'6','0','6','1','2','6','8','3'},{'0','0','0','0','0'},ADMIN};
 	user_t newUser2 = {{'6','0','6','1','2','6','8','4'},{'0','0','0','0','1'},BASIC};
+	user_t newUser3 = {{'4','5','1','7','6','6','0','1'},{'0','0','0','0',' '},ADMIN};
 	addUser(newUser1);
 	addUser(newUser2);
+	addUser(newUser3);
 
 }
 
