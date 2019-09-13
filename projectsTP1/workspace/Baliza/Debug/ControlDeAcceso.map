@@ -654,7 +654,7 @@ END GROUP
                 0x14001000                __top_FLEX_RAM = 0x14001000
                 0x14001000                __top_RAM3 = 0x14001000
 
-.text           0x00000000     0x3fa0
+.text           0x00000000     0x3f70
  FILL mask 0xff
                 0x00000000                __vectors_start__ = ABSOLUTE (.)
  *(SORT_BY_ALIGNMENT(.isr_vector))
@@ -664,13 +664,13 @@ END GROUP
                 0x00000198                . = ALIGN (0x4)
                 0x00000198                __section_table_start = .
                 0x00000198                __data_section_table = .
-                0x00000198        0x4 LONG 0x3fa0 LOADADDR (.data)
+                0x00000198        0x4 LONG 0x3f70 LOADADDR (.data)
                 0x0000019c        0x4 LONG 0x20000000 ADDR (.data)
                 0x000001a0        0x4 LONG 0x28 SIZEOF (.data)
-                0x000001a4        0x4 LONG 0x3fa0 LOADADDR (.data_RAM2)
+                0x000001a4        0x4 LONG 0x3f70 LOADADDR (.data_RAM2)
                 0x000001a8        0x4 LONG 0x1fff0000 ADDR (.data_RAM2)
                 0x000001ac        0x4 LONG 0x0 SIZEOF (.data_RAM2)
-                0x000001b0        0x4 LONG 0x3fa0 LOADADDR (.data_RAM3)
+                0x000001b0        0x4 LONG 0x3f70 LOADADDR (.data_RAM3)
                 0x000001b4        0x4 LONG 0x14000000 ADDR (.data_RAM3)
                 0x000001b8        0x4 LONG 0x0 SIZEOF (.data_RAM3)
                 0x000001bc                __data_section_table_end = .
@@ -947,635 +947,636 @@ END GROUP
  .text.createPINString
                 0x000015f8       0x4c ./source/stateAddingUserPIN.o
  .text.AUPinputEvHandler
-                0x00001644      0x2a4 ./source/stateAddingUserPIN.o
+                0x00001644      0x290 ./source/stateAddingUserPIN.o
                 0x00001644                AUPinputEvHandler
  .text.AUPtimerEvHandler
-                0x000018e8       0x58 ./source/stateAddingUserPIN.o
-                0x000018e8                AUPtimerEvHandler
+                0x000018d4       0x58 ./source/stateAddingUserPIN.o
+                0x000018d4                AUPtimerEvHandler
  .text.AUPkeycardEvHandler
-                0x00001940       0xa4 ./source/stateAddingUserPIN.o
-                0x00001940                AUPkeycardEvHandler
+                0x0000192c       0xa4 ./source/stateAddingUserPIN.o
+                0x0000192c                AUPkeycardEvHandler
  .text.AMinputEvHandler
-                0x000019e4      0x114 ./source/stateAdminMode.o
-                0x000019e4                AMinputEvHandler
+                0x000019d0      0x114 ./source/stateAdminMode.o
+                0x000019d0                AMinputEvHandler
  .text.AMtimerEvHandler
-                0x00001af8       0x58 ./source/stateAdminMode.o
-                0x00001af8                AMtimerEvHandler
+                0x00001ae4       0x58 ./source/stateAdminMode.o
+                0x00001ae4                AMtimerEvHandler
  .text.AMkeycardEvHandler
-                0x00001b50       0xa4 ./source/stateAdminMode.o
-                0x00001b50                AMkeycardEvHandler
+                0x00001b3c       0xa4 ./source/stateAdminMode.o
+                0x00001b3c                AMkeycardEvHandler
  .text.BtimerEvHandler
-                0x00001bf4       0x5c ./source/stateBlocked.o
-                0x00001bf4                BtimerEvHandler
+                0x00001be0       0x5c ./source/stateBlocked.o
+                0x00001be0                BtimerEvHandler
  .text.CIinputEvHandler
-                0x00001c50       0xe0 ./source/stateChangeIntensity.o
-                0x00001c50                CIinputEvHandler
+                0x00001c3c       0xe0 ./source/stateChangeIntensity.o
+                0x00001c3c                CIinputEvHandler
  .text.CIkeycardEvHandler
-                0x00001d30       0xa4 ./source/stateChangeIntensity.o
-                0x00001d30                CIkeycardEvHandler
+                0x00001d1c       0xa4 ./source/stateChangeIntensity.o
+                0x00001d1c                CIkeycardEvHandler
  .text.createPINString
-                0x00001dd4       0x4c ./source/stateChangingPIN.o
+                0x00001dc0       0x4c ./source/stateChangingPIN.o
  .text.CPinputEvHandler
-                0x00001e20      0x1ec ./source/stateChangingPIN.o
-                0x00001e20                CPinputEvHandler
+                0x00001e0c      0x1dc ./source/stateChangingPIN.o
+                0x00001e0c                CPinputEvHandler
  .text.CPtimerEvHandler
-                0x0000200c       0x58 ./source/stateChangingPIN.o
-                0x0000200c                CPtimerEvHandler
+                0x00001fe8       0x58 ./source/stateChangingPIN.o
+                0x00001fe8                CPtimerEvHandler
  .text.CPkeycardEvHandler
-                0x00002064       0xa4 ./source/stateChangingPIN.o
-                0x00002064                CPkeycardEvHandler
+                0x00002040       0xa4 ./source/stateChangingPIN.o
+                0x00002040                CPkeycardEvHandler
  .text.MinputEvHandler
-                0x00002108       0xe0 ./source/stateMenu.o
-                0x00002108                MinputEvHandler
+                0x000020e4       0xe0 ./source/stateMenu.o
+                0x000020e4                MinputEvHandler
  .text.MkeycardEvHandler
-                0x000021e8       0x98 ./source/stateMenu.o
-                0x000021e8                MkeycardEvHandler
+                0x000021c4       0x98 ./source/stateMenu.o
+                0x000021c4                MkeycardEvHandler
  .text.createIDString
-                0x00002280       0x50 ./source/stateReceivingID.o
+                0x0000225c       0x50 ./source/stateReceivingID.o
  .text.RIinputEvHandler
-                0x000022d0      0x1d0 ./source/stateReceivingID.o
-                0x000022d0                RIinputEvHandler
+                0x000022ac      0x1d0 ./source/stateReceivingID.o
+                0x000022ac                RIinputEvHandler
  .text.RItimerEvHandler
-                0x000024a0       0x58 ./source/stateReceivingID.o
-                0x000024a0                RItimerEvHandler
+                0x0000247c       0x58 ./source/stateReceivingID.o
+                0x0000247c                RItimerEvHandler
  .text.RIkeycardEvHandler
-                0x000024f8       0x98 ./source/stateReceivingID.o
-                0x000024f8                RIkeycardEvHandler
+                0x000024d4       0x98 ./source/stateReceivingID.o
+                0x000024d4                RIkeycardEvHandler
  .text.createPINString
-                0x00002590       0x70 ./source/stateReceivingPIN.o
+                0x0000256c       0x70 ./source/stateReceivingPIN.o
  .text.getBlockedTime
-                0x00002600       0x44 ./source/stateReceivingPIN.o
+                0x000025dc       0x44 ./source/stateReceivingPIN.o
  .text.RPinputEvHandler
-                0x00002644      0x350 ./source/stateReceivingPIN.o
-                0x00002644                RPinputEvHandler
+                0x00002620      0x340 ./source/stateReceivingPIN.o
+                0x00002620                RPinputEvHandler
  .text.RPtimerEvHandler
-                0x00002994       0x7c ./source/stateReceivingPIN.o
-                0x00002994                RPtimerEvHandler
+                0x00002960       0x7c ./source/stateReceivingPIN.o
+                0x00002960                RPtimerEvHandler
  .text.RPkeycardEvHandler
-                0x00002a10       0xf0 ./source/stateReceivingPIN.o
-                0x00002a10                RPkeycardEvHandler
+                0x000029dc       0xf0 ./source/stateReceivingPIN.o
+                0x000029dc                RPkeycardEvHandler
  .text.createIDString
-                0x00002b00       0x50 ./source/stateRemovingUser.o
+                0x00002acc       0x50 ./source/stateRemovingUser.o
  .text.RUinputEvHandler
-                0x00002b50      0x1a4 ./source/stateRemovingUser.o
-                0x00002b50                RUinputEvHandler
+                0x00002b1c      0x1a4 ./source/stateRemovingUser.o
+                0x00002b1c                RUinputEvHandler
  .text.RUtimerEvHandler
-                0x00002cf4       0x58 ./source/stateRemovingUser.o
-                0x00002cf4                RUtimerEvHandler
+                0x00002cc0       0x58 ./source/stateRemovingUser.o
+                0x00002cc0                RUtimerEvHandler
  .text.RUkeycardEvHandler
-                0x00002d4c       0xa4 ./source/stateRemovingUser.o
-                0x00002d4c                RUkeycardEvHandler
+                0x00002d18       0xa4 ./source/stateRemovingUser.o
+                0x00002d18                RUkeycardEvHandler
  .text.UAinputEvHandler
-                0x00002df0      0x168 ./source/stateUserApproved.o
-                0x00002df0                UAinputEvHandler
+                0x00002dbc      0x168 ./source/stateUserApproved.o
+                0x00002dbc                UAinputEvHandler
  .text.UAtimerEvHandler
-                0x00002f58       0x58 ./source/stateUserApproved.o
-                0x00002f58                UAtimerEvHandler
+                0x00002f24       0x58 ./source/stateUserApproved.o
+                0x00002f24                UAtimerEvHandler
  .text.UAkeycardEvHandler
-                0x00002fb0       0xa4 ./source/stateUserApproved.o
-                0x00002fb0                UAkeycardEvHandler
+                0x00002f7c       0xa4 ./source/stateUserApproved.o
+                0x00002f7c                UAkeycardEvHandler
  .text.sysTickCallback
-                0x00003054       0x34 ./source/timer.o
-                0x00003054                sysTickCallback
+                0x00003020       0x34 ./source/timer.o
+                0x00003020                sysTickCallback
  .text.InitializeTimers
-                0x00003088       0x3c ./source/timer.o
-                0x00003088                InitializeTimers
+                0x00003054       0x3c ./source/timer.o
+                0x00003054                InitializeTimers
  .text.SetTimer
-                0x000030c4       0x54 ./source/timer.o
-                0x000030c4                SetTimer
+                0x00003090       0x54 ./source/timer.o
+                0x00003090                SetTimer
  .text.EnableTimer
-                0x00003118       0x10 ./source/timer.o
-                0x00003118                EnableTimer
+                0x000030e4       0x10 ./source/timer.o
+                0x000030e4                EnableTimer
  .text.DisableTimer
-                0x00003128       0x10 ./source/timer.o
-                0x00003128                DisableTimer
+                0x000030f4       0x10 ./source/timer.o
+                0x000030f4                DisableTimer
  .text.RestartTimer
-                0x00003138       0x10 ./source/timer.o
-                0x00003138                RestartTimer
+                0x00003104       0x10 ./source/timer.o
+                0x00003104                RestartTimer
  .text.InitializeTimerQueue
-                0x00003148        0xc ./source/timer_queue.o
-                0x00003148                InitializeTimerQueue
+                0x00003114        0xc ./source/timer_queue.o
+                0x00003114                InitializeTimerQueue
  .text.PushTimerEv
-                0x00003154       0x24 ./source/timer_queue.o
-                0x00003154                PushTimerEv
+                0x00003120       0x24 ./source/timer_queue.o
+                0x00003120                PushTimerEv
  .text.PopTimerEv
-                0x00003178       0x10 ./source/timer_queue.o
-                0x00003178                PopTimerEv
+                0x00003144       0x10 ./source/timer_queue.o
+                0x00003144                PopTimerEv
  .text.IsTimerQueueEmpty
-                0x00003188       0x10 ./source/timer_queue.o
-                0x00003188                IsTimerQueueEmpty
- .text.hw_Init  0x00003198       0xc0 ./SDK/startup/hardware.o
-                0x00003198                hw_Init
+                0x00003154       0x10 ./source/timer_queue.o
+                0x00003154                IsTimerQueueEmpty
+ .text.hw_Init  0x00003164       0xc0 ./SDK/startup/hardware.o
+                0x00003164                hw_Init
  .text.hw_EnableInterrupts
-                0x00003258       0x18 ./SDK/startup/hardware.o
-                0x00003258                hw_EnableInterrupts
+                0x00003224       0x18 ./SDK/startup/hardware.o
+                0x00003224                hw_EnableInterrupts
  .text.hw_DisableInterrupts
-                0x00003270       0x10 ./SDK/startup/hardware.o
-                0x00003270                hw_DisableInterrupts
+                0x0000323c       0x10 ./SDK/startup/hardware.o
+                0x0000323c                hw_DisableInterrupts
  .text.SystemInit
-                0x00003280       0x34 ./SDK/CMSIS/system_MK64F12.o
-                0x00003280                SystemInit
+                0x0000324c       0x34 ./SDK/CMSIS/system_MK64F12.o
+                0x0000324c                SystemInit
  .text.inactCallback
-                0x000032b4        0xa ./source/App.o
-                0x000032b4                inactCallback
+                0x00003280        0xa ./source/App.o
+                0x00003280                inactCallback
  .text.SelectDigit
-                0x000032be       0x56 ./source/SegmentDisplay.o
-                0x000032be                SelectDigit
+                0x0000328a       0x56 ./source/SegmentDisplay.o
+                0x0000328a                SelectDigit
  .text.SetDigit
-                0x00003314       0x80 ./source/SegmentDisplay.o
-                0x00003314                SetDigit
+                0x000032e0       0x80 ./source/SegmentDisplay.o
+                0x000032e0                SetDigit
  .text.GenerateDisplayEv
-                0x00003394        0xa ./source/display.o
-                0x00003394                GenerateDisplayEv
+                0x00003360        0xa ./source/display.o
+                0x00003360                GenerateDisplayEv
  .text.GetStringSize
-                0x0000339e       0x14 ./source/display.o
-                0x0000339e                GetStringSize
+                0x0000336a       0x14 ./source/display.o
+                0x0000336a                GetStringSize
  .text.openDoor
-                0x000033b2        0xc ./source/doorManagement.o
-                0x000033b2                openDoor
+                0x0000337e        0xc ./source/doorManagement.o
+                0x0000337e                openDoor
  .text.closeDoor
-                0x000033be        0xc ./source/doorManagement.o
-                0x000033be                closeDoor
+                0x0000338a        0xc ./source/doorManagement.o
+                0x0000338a                closeDoor
  .text.doorInit
-                0x000033ca       0x14 ./source/doorManagement.o
-                0x000033ca                doorInit
+                0x00003396       0x14 ./source/doorManagement.o
+                0x00003396                doorInit
  .text.closeAfterTimeOut
-                0x000033de        0xe ./source/doorManagement.o
-                0x000033de                closeAfterTimeOut
+                0x000033aa        0xe ./source/doorManagement.o
+                0x000033aa                closeAfterTimeOut
  .text.rotationCallback
-                0x000033ec       0x5a ./source/encoder.o
-                0x000033ec                rotationCallback
+                0x000033b8       0x5a ./source/encoder.o
+                0x000033b8                rotationCallback
  .text.buttonCallback
-                0x00003446       0x44 ./source/encoder.o
-                0x00003446                buttonCallback
+                0x00003412       0x44 ./source/encoder.o
+                0x00003412                buttonCallback
  .text.readEncoderSignalX
-                0x0000348a       0x28 ./source/encoderHAL.o
-                0x0000348a                readEncoderSignalX
+                0x00003456       0x28 ./source/encoderHAL.o
+                0x00003456                readEncoderSignalX
  .text.setButtonCallback
-                0x000034b2        0xe ./source/encoderHAL.o
-                0x000034b2                setButtonCallback
+                0x0000347e        0xe ./source/encoderHAL.o
+                0x0000347e                setButtonCallback
  .text.PORTA_IRQHandler
-                0x000034c0        0xa ./source/gpio.o
-                0x000034c0                PORTA_IRQHandler
+                0x0000348c        0xa ./source/gpio.o
+                0x0000348c                PORTA_IRQHandler
  .text.PORTB_IRQHandler
-                0x000034ca        0xa ./source/gpio.o
-                0x000034ca                PORTB_IRQHandler
+                0x00003496        0xa ./source/gpio.o
+                0x00003496                PORTB_IRQHandler
  .text.PORTC_IRQHandler
-                0x000034d4        0xa ./source/gpio.o
-                0x000034d4                PORTC_IRQHandler
+                0x000034a0        0xa ./source/gpio.o
+                0x000034a0                PORTC_IRQHandler
  .text.PORTD_IRQHandler
-                0x000034de        0xa ./source/gpio.o
-                0x000034de                PORTD_IRQHandler
+                0x000034aa        0xa ./source/gpio.o
+                0x000034aa                PORTD_IRQHandler
  .text.PORTE_IRQHandler
-                0x000034e8        0xa ./source/gpio.o
-                0x000034e8                PORTE_IRQHandler
+                0x000034b4        0xa ./source/gpio.o
+                0x000034b4                PORTE_IRQHandler
  .text.setGPIOdataOut
-                0x000034f2       0x1c ./source/gpio.o
-                0x000034f2                setGPIOdataOut
+                0x000034be       0x1c ./source/gpio.o
+                0x000034be                setGPIOdataOut
  .text.setPCRirqc
-                0x0000350e       0x16 ./source/gpio.o
-                0x0000350e                setPCRirqc
+                0x000034da       0x16 ./source/gpio.o
+                0x000034da                setPCRirqc
  .text.identifyCardSymbol
-                0x00003524       0x68 ./source/magnetCardDecode.o
-                0x00003524                identifyCardSymbol
+                0x000034f0       0x68 ./source/magnetCardDecode.o
+                0x000034f0                identifyCardSymbol
  .text.shapeMagnetTrack
-                0x0000358c       0x22 ./source/magnetCardDecode.o
-                0x0000358c                shapeMagnetTrack
+                0x00003558       0x22 ./source/magnetCardDecode.o
+                0x00003558                shapeMagnetTrack
  .text.getTrackShaped
-                0x000035ae       0xd0 ./source/magnetCardDecode.o
-                0x000035ae                getTrackShaped
+                0x0000357a       0xd0 ./source/magnetCardDecode.o
+                0x0000357a                getTrackShaped
  .text.decodeTrackX
-                0x0000367e      0x180 ./source/magnetCardDecode.o
-                0x0000367e                decodeTrackX
+                0x0000364a      0x180 ./source/magnetCardDecode.o
+                0x0000364a                decodeTrackX
  .text.initMagnetCardLector
-                0x000037fe       0x18 ./source/magnetCardLector.o
-                0x000037fe                initMagnetCardLector
+                0x000037ca       0x18 ./source/magnetCardLector.o
+                0x000037ca                initMagnetCardLector
  .text.someMagnetCard2Read
-                0x00003816        0x8 ./source/magnetCardLector.o
-                0x00003816                someMagnetCard2Read
+                0x000037e2        0x8 ./source/magnetCardLector.o
+                0x000037e2                someMagnetCard2Read
  .text.getLectureDecoded
-                0x0000381e       0x4a ./source/magnetCardLector.o
-                0x0000381e                getLectureDecoded
+                0x000037ea       0x4a ./source/magnetCardLector.o
+                0x000037ea                getLectureDecoded
  .text.getEvent
-                0x00003868       0x48 ./source/queue.o
-                0x00003868                getEvent
+                0x00003834       0x48 ./source/queue.o
+                0x00003834                getEvent
  .text.userDataReset
-                0x000038b0       0x58 ./source/queue.o
-                0x000038b0                userDataReset
+                0x0000387c       0x58 ./source/queue.o
+                0x0000387c                userDataReset
  .text.BinputEvHandler
-                0x00003908        0x6 ./source/stateBlocked.o
-                0x00003908                BinputEvHandler
+                0x000038d4        0x6 ./source/stateBlocked.o
+                0x000038d4                BinputEvHandler
  .text.BkeycardEvHandler
-                0x0000390e        0x6 ./source/stateBlocked.o
-                0x0000390e                BkeycardEvHandler
+                0x000038da        0x6 ./source/stateBlocked.o
+                0x000038da                BkeycardEvHandler
  .text.CItimerEvHandler
-                0x00003914       0x18 ./source/stateChangeIntensity.o
-                0x00003914                CItimerEvHandler
+                0x000038e0       0x18 ./source/stateChangeIntensity.o
+                0x000038e0                CItimerEvHandler
  .text.MtimerEvHandler
-                0x0000392c       0x18 ./source/stateMenu.o
-                0x0000392c                MtimerEvHandler
+                0x000038f8       0x18 ./source/stateMenu.o
+                0x000038f8                MtimerEvHandler
  .text.blockedCallback
-                0x00003944       0x1a ./source/stateReceivingPIN.o
-                0x00003944                blockedCallback
- .text.main     0x0000395e       0x18 ./SDK/startup/main.o
-                0x0000395e                main
+                0x00003910       0x1a ./source/stateReceivingPIN.o
+                0x00003910                blockedCallback
+ .text.main     0x0000392a       0x18 ./SDK/startup/main.o
+                0x0000392a                main
  .text.HardFault_Handler
-                0x00003976       0x2a ./SDK/startup/semihost_hardfault.o
-                0x00003976                HardFault_Handler
+                0x00003942       0x2a ./SDK/startup/semihost_hardfault.o
+                0x00003942                HardFault_Handler
  .text.DMA0_IRQHandler
-                0x000039a0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039a0                DMA0_IRQHandler
+                0x0000396c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x0000396c                DMA0_IRQHandler
  .text.DMA1_IRQHandler
-                0x000039a8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039a8                DMA1_IRQHandler
+                0x00003974        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003974                DMA1_IRQHandler
  .text.DMA2_IRQHandler
-                0x000039b0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039b0                DMA2_IRQHandler
+                0x0000397c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x0000397c                DMA2_IRQHandler
  .text.DMA3_IRQHandler
-                0x000039b8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039b8                DMA3_IRQHandler
+                0x00003984        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003984                DMA3_IRQHandler
  .text.DMA4_IRQHandler
-                0x000039c0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039c0                DMA4_IRQHandler
+                0x0000398c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x0000398c                DMA4_IRQHandler
  .text.DMA5_IRQHandler
-                0x000039c8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039c8                DMA5_IRQHandler
+                0x00003994        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003994                DMA5_IRQHandler
  .text.DMA6_IRQHandler
-                0x000039d0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039d0                DMA6_IRQHandler
+                0x0000399c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x0000399c                DMA6_IRQHandler
  .text.DMA7_IRQHandler
-                0x000039d8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039d8                DMA7_IRQHandler
+                0x000039a4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039a4                DMA7_IRQHandler
  .text.DMA8_IRQHandler
-                0x000039e0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039e0                DMA8_IRQHandler
+                0x000039ac        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039ac                DMA8_IRQHandler
  .text.DMA9_IRQHandler
-                0x000039e8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039e8                DMA9_IRQHandler
+                0x000039b4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039b4                DMA9_IRQHandler
  .text.DMA10_IRQHandler
-                0x000039f0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039f0                DMA10_IRQHandler
+                0x000039bc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039bc                DMA10_IRQHandler
  .text.DMA11_IRQHandler
-                0x000039f8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x000039f8                DMA11_IRQHandler
+                0x000039c4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039c4                DMA11_IRQHandler
  .text.DMA12_IRQHandler
-                0x00003a00        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a00                DMA12_IRQHandler
+                0x000039cc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039cc                DMA12_IRQHandler
  .text.DMA13_IRQHandler
-                0x00003a08        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a08                DMA13_IRQHandler
+                0x000039d4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039d4                DMA13_IRQHandler
  .text.DMA14_IRQHandler
-                0x00003a10        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a10                DMA14_IRQHandler
+                0x000039dc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039dc                DMA14_IRQHandler
  .text.DMA15_IRQHandler
-                0x00003a18        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a18                DMA15_IRQHandler
+                0x000039e4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039e4                DMA15_IRQHandler
  .text.DMA_Error_IRQHandler
-                0x00003a20        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a20                DMA_Error_IRQHandler
+                0x000039ec        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039ec                DMA_Error_IRQHandler
  .text.MCM_IRQHandler
-                0x00003a28        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a28                MCM_IRQHandler
+                0x000039f4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039f4                MCM_IRQHandler
  .text.FTFE_IRQHandler
-                0x00003a30        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a30                FTFE_IRQHandler
+                0x000039fc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x000039fc                FTFE_IRQHandler
  .text.Read_Collision_IRQHandler
-                0x00003a38        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a38                Read_Collision_IRQHandler
+                0x00003a04        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a04                Read_Collision_IRQHandler
  .text.LVD_LVW_IRQHandler
-                0x00003a40        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a40                LVD_LVW_IRQHandler
+                0x00003a0c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a0c                LVD_LVW_IRQHandler
  .text.LLWU_IRQHandler
-                0x00003a48        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a48                LLWU_IRQHandler
+                0x00003a14        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a14                LLWU_IRQHandler
  .text.WDOG_EWM_IRQHandler
-                0x00003a50        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a50                WDOG_EWM_IRQHandler
+                0x00003a1c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a1c                WDOG_EWM_IRQHandler
  .text.RNG_IRQHandler
-                0x00003a58        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a58                RNG_IRQHandler
+                0x00003a24        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a24                RNG_IRQHandler
  .text.I2C0_IRQHandler
-                0x00003a60        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a60                I2C0_IRQHandler
+                0x00003a2c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a2c                I2C0_IRQHandler
  .text.I2C1_IRQHandler
-                0x00003a68        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a68                I2C1_IRQHandler
+                0x00003a34        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a34                I2C1_IRQHandler
  .text.SPI0_IRQHandler
-                0x00003a70        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a70                SPI0_IRQHandler
+                0x00003a3c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a3c                SPI0_IRQHandler
  .text.SPI1_IRQHandler
-                0x00003a78        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a78                SPI1_IRQHandler
+                0x00003a44        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a44                SPI1_IRQHandler
  .text.I2S0_Tx_IRQHandler
-                0x00003a80        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a80                I2S0_Tx_IRQHandler
+                0x00003a4c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a4c                I2S0_Tx_IRQHandler
  .text.I2S0_Rx_IRQHandler
-                0x00003a88        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a88                I2S0_Rx_IRQHandler
+                0x00003a54        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a54                I2S0_Rx_IRQHandler
  .text.UART0_LON_IRQHandler
-                0x00003a90        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a90                UART0_LON_IRQHandler
+                0x00003a5c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a5c                UART0_LON_IRQHandler
  .text.UART0_RX_TX_IRQHandler
-                0x00003a98        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003a98                UART0_RX_TX_IRQHandler
+                0x00003a64        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a64                UART0_RX_TX_IRQHandler
  .text.UART0_ERR_IRQHandler
-                0x00003aa0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003aa0                UART0_ERR_IRQHandler
+                0x00003a6c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a6c                UART0_ERR_IRQHandler
  .text.UART1_RX_TX_IRQHandler
-                0x00003aa8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003aa8                UART1_RX_TX_IRQHandler
+                0x00003a74        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a74                UART1_RX_TX_IRQHandler
  .text.UART1_ERR_IRQHandler
-                0x00003ab0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ab0                UART1_ERR_IRQHandler
+                0x00003a7c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a7c                UART1_ERR_IRQHandler
  .text.UART2_RX_TX_IRQHandler
-                0x00003ab8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ab8                UART2_RX_TX_IRQHandler
+                0x00003a84        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a84                UART2_RX_TX_IRQHandler
  .text.UART2_ERR_IRQHandler
-                0x00003ac0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ac0                UART2_ERR_IRQHandler
+                0x00003a8c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a8c                UART2_ERR_IRQHandler
  .text.UART3_RX_TX_IRQHandler
-                0x00003ac8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ac8                UART3_RX_TX_IRQHandler
+                0x00003a94        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a94                UART3_RX_TX_IRQHandler
  .text.UART3_ERR_IRQHandler
-                0x00003ad0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ad0                UART3_ERR_IRQHandler
+                0x00003a9c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003a9c                UART3_ERR_IRQHandler
  .text.ADC0_IRQHandler
-                0x00003ad8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ad8                ADC0_IRQHandler
+                0x00003aa4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003aa4                ADC0_IRQHandler
  .text.CMP0_IRQHandler
-                0x00003ae0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ae0                CMP0_IRQHandler
+                0x00003aac        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003aac                CMP0_IRQHandler
  .text.CMP1_IRQHandler
-                0x00003ae8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ae8                CMP1_IRQHandler
+                0x00003ab4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003ab4                CMP1_IRQHandler
  .text.FTM0_IRQHandler
-                0x00003af0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003af0                FTM0_IRQHandler
+                0x00003abc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003abc                FTM0_IRQHandler
  .text.FTM1_IRQHandler
-                0x00003af8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003af8                FTM1_IRQHandler
+                0x00003ac4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003ac4                FTM1_IRQHandler
  .text.FTM2_IRQHandler
-                0x00003b00        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b00                FTM2_IRQHandler
+                0x00003acc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003acc                FTM2_IRQHandler
  .text.CMT_IRQHandler
-                0x00003b08        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b08                CMT_IRQHandler
+                0x00003ad4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003ad4                CMT_IRQHandler
  .text.RTC_IRQHandler
-                0x00003b10        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b10                RTC_IRQHandler
+                0x00003adc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003adc                RTC_IRQHandler
  .text.RTC_Seconds_IRQHandler
-                0x00003b18        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b18                RTC_Seconds_IRQHandler
+                0x00003ae4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003ae4                RTC_Seconds_IRQHandler
  .text.PIT0_IRQHandler
-                0x00003b20        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b20                PIT0_IRQHandler
+                0x00003aec        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003aec                PIT0_IRQHandler
  .text.PIT1_IRQHandler
-                0x00003b28        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b28                PIT1_IRQHandler
+                0x00003af4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003af4                PIT1_IRQHandler
  .text.PIT2_IRQHandler
-                0x00003b30        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b30                PIT2_IRQHandler
+                0x00003afc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003afc                PIT2_IRQHandler
  .text.PIT3_IRQHandler
-                0x00003b38        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b38                PIT3_IRQHandler
+                0x00003b04        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b04                PIT3_IRQHandler
  .text.PDB0_IRQHandler
-                0x00003b40        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b40                PDB0_IRQHandler
+                0x00003b0c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b0c                PDB0_IRQHandler
  .text.USB0_IRQHandler
-                0x00003b48        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b48                USB0_IRQHandler
+                0x00003b14        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b14                USB0_IRQHandler
  .text.USBDCD_IRQHandler
-                0x00003b50        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b50                USBDCD_IRQHandler
+                0x00003b1c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b1c                USBDCD_IRQHandler
  .text.Reserved71_IRQHandler
-                0x00003b58        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b58                Reserved71_IRQHandler
+                0x00003b24        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b24                Reserved71_IRQHandler
  .text.DAC0_IRQHandler
-                0x00003b60        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b60                DAC0_IRQHandler
+                0x00003b2c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b2c                DAC0_IRQHandler
  .text.MCG_IRQHandler
-                0x00003b68        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b68                MCG_IRQHandler
+                0x00003b34        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b34                MCG_IRQHandler
  .text.LPTMR0_IRQHandler
-                0x00003b70        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b70                LPTMR0_IRQHandler
+                0x00003b3c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b3c                LPTMR0_IRQHandler
  .text.SWI_IRQHandler
-                0x00003b78        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b78                SWI_IRQHandler
+                0x00003b44        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b44                SWI_IRQHandler
  .text.SPI2_IRQHandler
-                0x00003b80        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b80                SPI2_IRQHandler
+                0x00003b4c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b4c                SPI2_IRQHandler
  .text.UART4_RX_TX_IRQHandler
-                0x00003b88        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b88                UART4_RX_TX_IRQHandler
+                0x00003b54        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b54                UART4_RX_TX_IRQHandler
  .text.UART4_ERR_IRQHandler
-                0x00003b90        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b90                UART4_ERR_IRQHandler
+                0x00003b5c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b5c                UART4_ERR_IRQHandler
  .text.UART5_RX_TX_IRQHandler
-                0x00003b98        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003b98                UART5_RX_TX_IRQHandler
+                0x00003b64        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b64                UART5_RX_TX_IRQHandler
  .text.UART5_ERR_IRQHandler
-                0x00003ba0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ba0                UART5_ERR_IRQHandler
+                0x00003b6c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b6c                UART5_ERR_IRQHandler
  .text.CMP2_IRQHandler
-                0x00003ba8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003ba8                CMP2_IRQHandler
+                0x00003b74        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b74                CMP2_IRQHandler
  .text.FTM3_IRQHandler
-                0x00003bb0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003bb0                FTM3_IRQHandler
+                0x00003b7c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b7c                FTM3_IRQHandler
  .text.DAC1_IRQHandler
-                0x00003bb8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003bb8                DAC1_IRQHandler
+                0x00003b84        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b84                DAC1_IRQHandler
  .text.ADC1_IRQHandler
-                0x00003bc0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003bc0                ADC1_IRQHandler
+                0x00003b8c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b8c                ADC1_IRQHandler
  .text.I2C2_IRQHandler
-                0x00003bc8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003bc8                I2C2_IRQHandler
+                0x00003b94        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b94                I2C2_IRQHandler
  .text.CAN0_ORed_Message_buffer_IRQHandler
-                0x00003bd0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003bd0                CAN0_ORed_Message_buffer_IRQHandler
+                0x00003b9c        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003b9c                CAN0_ORed_Message_buffer_IRQHandler
  .text.CAN0_Bus_Off_IRQHandler
-                0x00003bd8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003bd8                CAN0_Bus_Off_IRQHandler
+                0x00003ba4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003ba4                CAN0_Bus_Off_IRQHandler
  .text.CAN0_Error_IRQHandler
-                0x00003be0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003be0                CAN0_Error_IRQHandler
+                0x00003bac        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003bac                CAN0_Error_IRQHandler
  .text.CAN0_Tx_Warning_IRQHandler
-                0x00003be8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003be8                CAN0_Tx_Warning_IRQHandler
+                0x00003bb4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003bb4                CAN0_Tx_Warning_IRQHandler
  .text.CAN0_Rx_Warning_IRQHandler
-                0x00003bf0        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003bf0                CAN0_Rx_Warning_IRQHandler
+                0x00003bbc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003bbc                CAN0_Rx_Warning_IRQHandler
  .text.CAN0_Wake_Up_IRQHandler
-                0x00003bf8        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003bf8                CAN0_Wake_Up_IRQHandler
+                0x00003bc4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003bc4                CAN0_Wake_Up_IRQHandler
  .text.SDHC_IRQHandler
-                0x00003c00        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003c00                SDHC_IRQHandler
+                0x00003bcc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003bcc                SDHC_IRQHandler
  .text.ENET_1588_Timer_IRQHandler
-                0x00003c08        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003c08                ENET_1588_Timer_IRQHandler
+                0x00003bd4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003bd4                ENET_1588_Timer_IRQHandler
  .text.ENET_Transmit_IRQHandler
-                0x00003c10        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003c10                ENET_Transmit_IRQHandler
+                0x00003bdc        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003bdc                ENET_Transmit_IRQHandler
  .text.ENET_Receive_IRQHandler
-                0x00003c18        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003c18                ENET_Receive_IRQHandler
+                0x00003be4        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003be4                ENET_Receive_IRQHandler
  .text.ENET_Error_IRQHandler
-                0x00003c20        0x8 ./SDK/startup/startup_mk64f12.o
-                0x00003c20                ENET_Error_IRQHandler
+                0x00003bec        0x8 ./SDK/startup/startup_mk64f12.o
+                0x00003bec                ENET_Error_IRQHandler
  .text.SystemInitHook
-                0x00003c28        0x2 ./SDK/CMSIS/system_MK64F12.o
-                0x00003c28                SystemInitHook
- .text.memcpy   0x00003c2a        0x4 c:/nxp/mcuxpressoide_10.2.0_759/ide/tools/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard\libcr_c.a(memcpy.o)
-                0x00003c2a                memcpy
+                0x00003bf4        0x2 ./SDK/CMSIS/system_MK64F12.o
+                0x00003bf4                SystemInitHook
+ .text.memcpy   0x00003bf6        0x4 c:/nxp/mcuxpressoide_10.2.0_759/ide/tools/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard\libcr_c.a(memcpy.o)
+                0x00003bf6                memcpy
  .text.__aeabi_memcpy
-                0x00003c2e       0x34 c:/nxp/mcuxpressoide_10.2.0_759/ide/tools/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m/fpv4-sp/hard\libcr_eabihelpers.a(memcpy.o)
-                0x00003c2e                __aeabi_memcpy
-                0x00003c38                __aeabi_memcpy8
-                0x00003c38                __aeabi_memcpy4
+                0x00003bfa       0x34 c:/nxp/mcuxpressoide_10.2.0_759/ide/tools/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v7e-m/fpv4-sp/hard\libcr_eabihelpers.a(memcpy.o)
+                0x00003bfa                __aeabi_memcpy
+                0x00003c04                __aeabi_memcpy8
+                0x00003c04                __aeabi_memcpy4
  *(SORT_BY_ALIGNMENT(.rodata) SORT_BY_ALIGNMENT(.rodata.*) SORT_BY_ALIGNMENT(.constdata) SORT_BY_ALIGNMENT(.constdata.*))
- *fill*         0x00003c62        0x2 ff
+ *fill*         0x00003c2e        0x2 ff
  .rodata.initFSM.str1.4
-                0x00003c64        0x5 ./source/FSM.o
- *fill*         0x00003c69        0x3 ff
+                0x00003c30        0x5 ./source/FSM.o
+ *fill*         0x00003c35        0x3 ff
  .rodata.letters_segment_array
-                0x00003c6c       0x1a ./source/SegmentDisplay.o
- *fill*         0x00003c86        0x2 ff
+                0x00003c38       0x1a ./source/SegmentDisplay.o
+ *fill*         0x00003c52        0x2 ff
  .rodata.number_segment_array
-                0x00003c88        0xa ./source/SegmentDisplay.o
- *fill*         0x00003c92        0x2 ff
- .rodata        0x00003c94       0x2e ./source/dataBase.o
+                0x00003c54        0xa ./source/SegmentDisplay.o
+ *fill*         0x00003c5e        0x2 ff
+ .rodata        0x00003c60       0x2e ./source/dataBase.o
  .rodata.ClearDisplay.str1.4
-                0x00003cc2        0x5 ./source/display.o
+                0x00003c8e        0x5 ./source/display.o
                                   0x1 (size before relaxing)
- *fill*         0x00003cc2        0x2 ff
- .rodata        0x00003cc4       0x28 ./source/gpio.o
+ *fill*         0x00003c8e        0x2 ff
+ .rodata        0x00003c90       0x28 ./source/gpio.o
  .rodata.track1
-                0x00003cec       0x18 ./source/magnetCardDecode.o
-                0x00003cec                track1
+                0x00003cb8       0x18 ./source/magnetCardDecode.o
+                0x00003cb8                track1
  .rodata.track2
-                0x00003d04       0x18 ./source/magnetCardDecode.o
-                0x00003d04                track2
+                0x00003cd0       0x18 ./source/magnetCardDecode.o
+                0x00003cd0                track2
  .rodata.track3
-                0x00003d1c       0x18 ./source/magnetCardDecode.o
-                0x00003d1c                track3
+                0x00003ce8       0x18 ./source/magnetCardDecode.o
+                0x00003ce8                track3
  .rodata.AUinputEvHandler.str1.4
-                0x00003d34       0x35 ./source/stateAddingUser.o
+                0x00003d00       0x35 ./source/stateAddingUser.o
                                  0x3d (size before relaxing)
- *fill*         0x00003d69        0x3 ff
+ *fill*         0x00003d35        0x3 ff
  .rodata.AUkeycardEvHandler.str1.4
-                0x00003d6c       0x2f ./source/stateAddingUser.o
- *fill*         0x00003d9b        0x1 ff
+                0x00003d38       0x2f ./source/stateAddingUser.o
+ *fill*         0x00003d67        0x1 ff
  .rodata.idStrings
-                0x00003d9c        0xc ./source/stateAddingUser.o
+                0x00003d68        0xc ./source/stateAddingUser.o
  .rodata.AUPinputEvHandler.str1.4
-                0x00003da8       0x32 ./source/stateAddingUserPIN.o
+                0x00003d74       0x32 ./source/stateAddingUserPIN.o
                                  0x39 (size before relaxing)
  .rodata.AUPkeycardEvHandler.str1.4
-                0x00003dda       0x2f ./source/stateAddingUserPIN.o
- *fill*         0x00003dda        0x2 ff
+                0x00003da6       0x2f ./source/stateAddingUserPIN.o
+ *fill*         0x00003da6        0x2 ff
  .rodata.pinStrings
-                0x00003ddc        0xd ./source/stateAddingUserPIN.o
- *fill*         0x00003de9        0x3 ff
+                0x00003da8        0xd ./source/stateAddingUserPIN.o
+ *fill*         0x00003db5        0x3 ff
  .rodata.AMinputEvHandler.str1.4
-                0x00003dec       0x30 ./source/stateAdminMode.o
+                0x00003db8       0x30 ./source/stateAdminMode.o
                                  0x35 (size before relaxing)
  .rodata.AMkeycardEvHandler.str1.4
-                0x00003e1c       0x2f ./source/stateAdminMode.o
+                0x00003de8       0x2f ./source/stateAdminMode.o
  .rodata.str1.4
-                0x00003e1c        0x8 ./source/stateAdminMode.o
+                0x00003de8        0x8 ./source/stateAdminMode.o
  .rodata.BtimerEvHandler.str1.4
-                0x00003e24       0x12 ./source/stateBlocked.o
- *fill*         0x00003e36        0x2 ff
+                0x00003df0       0x12 ./source/stateBlocked.o
+ *fill*         0x00003e02        0x2 ff
  .rodata.CIinputEvHandler.str1.4
-                0x00003e38       0x1e ./source/stateChangeIntensity.o
+                0x00003e04       0x1e ./source/stateChangeIntensity.o
                                  0x25 (size before relaxing)
  .rodata.CIkeycardEvHandler.str1.4
-                0x00003e56       0x2f ./source/stateChangeIntensity.o
- *fill*         0x00003e56        0x2 ff
+                0x00003e22       0x2f ./source/stateChangeIntensity.o
+ *fill*         0x00003e22        0x2 ff
  .rodata.str1.4
-                0x00003e58       0x10 ./source/stateChangeIntensity.o
+                0x00003e24       0x10 ./source/stateChangeIntensity.o
  .rodata.CPinputEvHandler.str1.4
-                0x00003e68        0xc ./source/stateChangingPIN.o
+                0x00003e34        0xc ./source/stateChangingPIN.o
                                  0x11 (size before relaxing)
  .rodata.CPkeycardEvHandler.str1.4
-                0x00003e74       0x2f ./source/stateChangingPIN.o
+                0x00003e40       0x2f ./source/stateChangingPIN.o
  .rodata.pinStrings
-                0x00003e74        0xd ./source/stateChangingPIN.o
- *fill*         0x00003e81        0x3 ff
+                0x00003e40        0xd ./source/stateChangingPIN.o
+ *fill*         0x00003e4d        0x3 ff
  .rodata.MinputEvHandler.str1.4
-                0x00003e84       0x1d ./source/stateMenu.o
+                0x00003e50       0x1d ./source/stateMenu.o
  .rodata.MkeycardEvHandler.str1.4
-                0x00003ea1       0x23 ./source/stateMenu.o
- *fill*         0x00003ea1        0x3 ff
+                0x00003e6d       0x23 ./source/stateMenu.o
+ *fill*         0x00003e6d        0x3 ff
  .rodata.menuStrings
-                0x00003ea4        0x8 ./source/stateMenu.o
+                0x00003e70        0x8 ./source/stateMenu.o
  .rodata.str1.4
-                0x00003eac        0x5 ./source/stateMenu.o
+                0x00003e78        0x5 ./source/stateMenu.o
                                   0x9 (size before relaxing)
  .rodata.RIinputEvHandler.str1.4
-                0x00003eb1       0x29 ./source/stateReceivingID.o
- *fill*         0x00003eb1        0x3 ff
+                0x00003e7d       0x29 ./source/stateReceivingID.o
+ *fill*         0x00003e7d        0x3 ff
  .rodata.idStrings
-                0x00003eb4        0xc ./source/stateReceivingID.o
+                0x00003e80        0xc ./source/stateReceivingID.o
  .rodata.pinStrings
-                0x00003ec0        0xd ./source/stateReceivingPIN.o
- *fill*         0x00003ecd        0x3 ff
- .rodata        0x00003ed0       0x5b ./source/stateReceivingPIN.o
- *fill*         0x00003f2b        0x1 ff
+                0x00003e8c        0xd ./source/stateReceivingPIN.o
+ *fill*         0x00003e99        0x3 ff
+ .rodata        0x00003e9c       0x5b ./source/stateReceivingPIN.o
+ *fill*         0x00003ef7        0x1 ff
  .rodata.RUinputEvHandler.str1.4
-                0x00003f2c       0x1f ./source/stateRemovingUser.o
+                0x00003ef8       0x1f ./source/stateRemovingUser.o
                                  0x25 (size before relaxing)
  .rodata.RUkeycardEvHandler.str1.4
-                0x00003f4b       0x2f ./source/stateRemovingUser.o
- *fill*         0x00003f4b        0x1 ff
+                0x00003f17       0x2f ./source/stateRemovingUser.o
+ *fill*         0x00003f17        0x1 ff
  .rodata.idStrings
-                0x00003f4c        0xc ./source/stateRemovingUser.o
+                0x00003f18        0xc ./source/stateRemovingUser.o
  .rodata.UAinputEvHandler.str1.4
-                0x00003f58       0x2b ./source/stateUserApproved.o
+                0x00003f24       0x2b ./source/stateUserApproved.o
                                  0x43 (size before relaxing)
  .rodata.UAkeycardEvHandler.str1.4
-                0x00003f83       0x2f ./source/stateUserApproved.o
- *fill*         0x00003f83        0x1 ff
+                0x00003f4f       0x2f ./source/stateUserApproved.o
+ *fill*         0x00003f4f        0x1 ff
  .rodata.menuStrings
-                0x00003f84        0xc ./source/stateUserApproved.o
+                0x00003f50        0xc ./source/stateUserApproved.o
  .rodata.str1.4
-                0x00003f90       0x10 ./source/stateUserApproved.o
-                0x00003fa0                . = ALIGN (0x8)
+                0x00003f5c       0x10 ./source/stateUserApproved.o
+                0x00003f70                . = ALIGN (0x8)
+ *fill*         0x00003f6c        0x4 ff
 
-.glue_7         0x00003fa0        0x0
- .glue_7        0x00003fa0        0x0 linker stubs
+.glue_7         0x00003f70        0x0
+ .glue_7        0x00003f70        0x0 linker stubs
 
-.glue_7t        0x00003fa0        0x0
- .glue_7t       0x00003fa0        0x0 linker stubs
+.glue_7t        0x00003f70        0x0
+ .glue_7t       0x00003f70        0x0 linker stubs
 
-.vfp11_veneer   0x00003fa0        0x0
- .vfp11_veneer  0x00003fa0        0x0 linker stubs
+.vfp11_veneer   0x00003f70        0x0
+ .vfp11_veneer  0x00003f70        0x0 linker stubs
 
-.v4_bx          0x00003fa0        0x0
- .v4_bx         0x00003fa0        0x0 linker stubs
+.v4_bx          0x00003f70        0x0
+ .v4_bx         0x00003f70        0x0 linker stubs
 
-.iplt           0x00003fa0        0x0
- .iplt          0x00003fa0        0x0 ./source/App.o
+.iplt           0x00003f70        0x0
+ .iplt          0x00003f70        0x0 ./source/App.o
 
-.rel.dyn        0x00003fa0        0x0
- .rel.iplt      0x00003fa0        0x0 ./source/App.o
+.rel.dyn        0x00003f70        0x0
+ .rel.iplt      0x00003f70        0x0 ./source/App.o
 
 .ARM.extab
  *(SORT_BY_ALIGNMENT(.ARM.extab*) SORT_BY_ALIGNMENT(.gnu.linkonce.armextab.*))
-                0x00003fa0                __exidx_start = .
+                0x00003f70                __exidx_start = .
 
 .ARM.exidx
  *(SORT_BY_ALIGNMENT(.ARM.exidx*) SORT_BY_ALIGNMENT(.gnu.linkonce.armexidx.*))
-                0x00003fa0                __exidx_end = .
-                0x00003fa0                _etext = .
+                0x00003f70                __exidx_end = .
+                0x00003f70                _etext = .
 
 .m_usb_data
  *(SORT_BY_ALIGNMENT(m_usb_bdt))
 
-.data_RAM2      0x1fff0000        0x0 load address 0x00003fa0
+.data_RAM2      0x1fff0000        0x0 load address 0x00003f70
  FILL mask 0xff
                 [!provide]                PROVIDE (__start_data_RAM2, .)
  *(SORT_BY_ALIGNMENT(.ramfunc.$RAM2))
@@ -1585,7 +1586,7 @@ END GROUP
                 0x1fff0000                . = ALIGN (0x8)
                 [!provide]                PROVIDE (__end_data_RAM2, .)
 
-.data_RAM3      0x14000000        0x0 load address 0x00003fa0
+.data_RAM3      0x14000000        0x0 load address 0x00003f70
  FILL mask 0xff
                 [!provide]                PROVIDE (__start_data_RAM3, .)
  *(SORT_BY_ALIGNMENT(.ramfunc.$RAM3))
@@ -1601,7 +1602,7 @@ END GROUP
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _end_uninit_RESERVED = .
 
-.data           0x20000000       0x28 load address 0x00003fa0
+.data           0x20000000       0x28 load address 0x00003f70
  FILL mask 0xff
                 0x20000000                _data = .
  *(SORT_BY_ALIGNMENT(vtable))
@@ -1620,7 +1621,7 @@ END GROUP
                 0x20000028                . = ALIGN (0x8)
                 0x20000028                _edata = .
 
-.igot.plt       0x20000028        0x0 load address 0x00003fc8
+.igot.plt       0x20000028        0x0 load address 0x00003f98
  .igot.plt      0x20000028        0x0 ./source/App.o
 
 .bss_RAM2       0x1fff0000        0x0
@@ -1755,11 +1756,11 @@ END GROUP
                 0x2002f000                . = ALIGN (0x8)
                 0x20030000                _vStackTop = (. + _StackSize)
                 0x00000000                _image_start = LOADADDR (.text)
-                0x00003fc8                _image_end = (LOADADDR (.data) + SIZEOF (.data))
-                0x00003fc8                _image_size = (_image_end - _image_start)
+                0x00003f98                _image_end = (LOADADDR (.data) + SIZEOF (.data))
+                0x00003f98                _image_size = (_image_end - _image_start)
 OUTPUT(ControlDeAcceso.axf elf32-littlearm)
 
-.debug_info     0x00000000     0xb52d
+.debug_info     0x00000000     0xb4d1
  .debug_info    0x00000000      0x594 ./source/App.o
  .debug_info    0x00000594      0x397 ./source/FSM.o
  .debug_info    0x0000092b      0x4a0 ./source/SegmentDisplay.o
@@ -1776,25 +1777,25 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_info    0x00004108      0x45e ./source/magnetLectorHAL.o
  .debug_info    0x00004566      0x3b3 ./source/queue.o
  .debug_info    0x00004919      0x825 ./source/stateAddingUser.o
- .debug_info    0x0000513e      0x984 ./source/stateAddingUserPIN.o
- .debug_info    0x00005ac2      0x665 ./source/stateAdminMode.o
- .debug_info    0x00006127      0x429 ./source/stateBlocked.o
- .debug_info    0x00006550      0x5ec ./source/stateChangeIntensity.o
- .debug_info    0x00006b3c      0x8db ./source/stateChangingPIN.o
- .debug_info    0x00007417      0x5c2 ./source/stateMenu.o
- .debug_info    0x000079d9      0x82b ./source/stateReceivingID.o
- .debug_info    0x00008204      0x557 ./source/stateReceivingPIN.o
- .debug_info    0x0000875b      0x856 ./source/stateRemovingUser.o
- .debug_info    0x00008fb1      0x701 ./source/stateUserApproved.o
- .debug_info    0x000096b2      0x288 ./source/timer.o
- .debug_info    0x0000993a      0x1aa ./source/timer_queue.o
- .debug_info    0x00009ae4      0x675 ./SDK/startup/hardware.o
- .debug_info    0x0000a159      0x120 ./SDK/startup/main.o
- .debug_info    0x0000a279       0x3b ./SDK/startup/semihost_hardfault.o
- .debug_info    0x0000a2b4      0xc71 ./SDK/startup/startup_mk64f12.o
- .debug_info    0x0000af25      0x608 ./SDK/CMSIS/system_MK64F12.o
+ .debug_info    0x0000513e      0x958 ./source/stateAddingUserPIN.o
+ .debug_info    0x00005a96      0x665 ./source/stateAdminMode.o
+ .debug_info    0x000060fb      0x429 ./source/stateBlocked.o
+ .debug_info    0x00006524      0x5ec ./source/stateChangeIntensity.o
+ .debug_info    0x00006b10      0x8ab ./source/stateChangingPIN.o
+ .debug_info    0x000073bb      0x5c2 ./source/stateMenu.o
+ .debug_info    0x0000797d      0x82b ./source/stateReceivingID.o
+ .debug_info    0x000081a8      0x557 ./source/stateReceivingPIN.o
+ .debug_info    0x000086ff      0x856 ./source/stateRemovingUser.o
+ .debug_info    0x00008f55      0x701 ./source/stateUserApproved.o
+ .debug_info    0x00009656      0x288 ./source/timer.o
+ .debug_info    0x000098de      0x1aa ./source/timer_queue.o
+ .debug_info    0x00009a88      0x675 ./SDK/startup/hardware.o
+ .debug_info    0x0000a0fd      0x120 ./SDK/startup/main.o
+ .debug_info    0x0000a21d       0x3b ./SDK/startup/semihost_hardfault.o
+ .debug_info    0x0000a258      0xc71 ./SDK/startup/startup_mk64f12.o
+ .debug_info    0x0000aec9      0x608 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_abbrev   0x00000000     0x2b8a
+.debug_abbrev   0x00000000     0x2b81
  .debug_abbrev  0x00000000      0x166 ./source/App.o
  .debug_abbrev  0x00000166      0x106 ./source/FSM.o
  .debug_abbrev  0x0000026c       0xf0 ./source/SegmentDisplay.o
@@ -1811,23 +1812,23 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_abbrev  0x000011e8      0x190 ./source/magnetLectorHAL.o
  .debug_abbrev  0x00001378      0x159 ./source/queue.o
  .debug_abbrev  0x000014d1      0x186 ./source/stateAddingUser.o
- .debug_abbrev  0x00001657      0x18f ./source/stateAddingUserPIN.o
- .debug_abbrev  0x000017e6      0x170 ./source/stateAdminMode.o
- .debug_abbrev  0x00001956      0x13e ./source/stateBlocked.o
- .debug_abbrev  0x00001a94      0x170 ./source/stateChangeIntensity.o
- .debug_abbrev  0x00001c04      0x186 ./source/stateChangingPIN.o
- .debug_abbrev  0x00001d8a      0x15f ./source/stateMenu.o
- .debug_abbrev  0x00001ee9      0x186 ./source/stateReceivingID.o
- .debug_abbrev  0x0000206f      0x158 ./source/stateReceivingPIN.o
- .debug_abbrev  0x000021c7      0x186 ./source/stateRemovingUser.o
- .debug_abbrev  0x0000234d      0x15f ./source/stateUserApproved.o
- .debug_abbrev  0x000024ac      0x14d ./source/timer.o
- .debug_abbrev  0x000025f9      0x10a ./source/timer_queue.o
- .debug_abbrev  0x00002703      0x138 ./SDK/startup/hardware.o
- .debug_abbrev  0x0000283b       0x9b ./SDK/startup/main.o
- .debug_abbrev  0x000028d6       0x2f ./SDK/startup/semihost_hardfault.o
- .debug_abbrev  0x00002905      0x13b ./SDK/startup/startup_mk64f12.o
- .debug_abbrev  0x00002a40      0x14a ./SDK/CMSIS/system_MK64F12.o
+ .debug_abbrev  0x00001657      0x186 ./source/stateAddingUserPIN.o
+ .debug_abbrev  0x000017dd      0x170 ./source/stateAdminMode.o
+ .debug_abbrev  0x0000194d      0x13e ./source/stateBlocked.o
+ .debug_abbrev  0x00001a8b      0x170 ./source/stateChangeIntensity.o
+ .debug_abbrev  0x00001bfb      0x186 ./source/stateChangingPIN.o
+ .debug_abbrev  0x00001d81      0x15f ./source/stateMenu.o
+ .debug_abbrev  0x00001ee0      0x186 ./source/stateReceivingID.o
+ .debug_abbrev  0x00002066      0x158 ./source/stateReceivingPIN.o
+ .debug_abbrev  0x000021be      0x186 ./source/stateRemovingUser.o
+ .debug_abbrev  0x00002344      0x15f ./source/stateUserApproved.o
+ .debug_abbrev  0x000024a3      0x14d ./source/timer.o
+ .debug_abbrev  0x000025f0      0x10a ./source/timer_queue.o
+ .debug_abbrev  0x000026fa      0x138 ./SDK/startup/hardware.o
+ .debug_abbrev  0x00002832       0x9b ./SDK/startup/main.o
+ .debug_abbrev  0x000028cd       0x2f ./SDK/startup/semihost_hardfault.o
+ .debug_abbrev  0x000028fc      0x13b ./SDK/startup/startup_mk64f12.o
+ .debug_abbrev  0x00002a37      0x14a ./SDK/CMSIS/system_MK64F12.o
 
 .debug_aranges  0x00000000      0xac8
  .debug_aranges
@@ -1897,7 +1898,7 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_aranges
                 0x00000a98       0x30 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_ranges   0x00000000      0x918
+.debug_ranges   0x00000000      0x900
  .debug_ranges  0x00000000       0x20 ./source/App.o
  .debug_ranges  0x00000020       0x10 ./source/FSM.o
  .debug_ranges  0x00000030       0x28 ./source/SegmentDisplay.o
@@ -1914,23 +1915,23 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_ranges  0x00000328       0x38 ./source/magnetLectorHAL.o
  .debug_ranges  0x00000360       0x18 ./source/queue.o
  .debug_ranges  0x00000378       0x28 ./source/stateAddingUser.o
- .debug_ranges  0x000003a0       0x40 ./source/stateAddingUserPIN.o
- .debug_ranges  0x000003e0       0x20 ./source/stateAdminMode.o
- .debug_ranges  0x00000400       0x20 ./source/stateBlocked.o
- .debug_ranges  0x00000420       0x20 ./source/stateChangeIntensity.o
- .debug_ranges  0x00000440       0x28 ./source/stateChangingPIN.o
- .debug_ranges  0x00000468       0x20 ./source/stateMenu.o
- .debug_ranges  0x00000488       0x28 ./source/stateReceivingID.o
- .debug_ranges  0x000004b0       0x38 ./source/stateReceivingPIN.o
- .debug_ranges  0x000004e8       0x28 ./source/stateRemovingUser.o
- .debug_ranges  0x00000510       0x20 ./source/stateUserApproved.o
- .debug_ranges  0x00000530       0x40 ./source/timer.o
- .debug_ranges  0x00000570       0x28 ./source/timer_queue.o
- .debug_ranges  0x00000598       0x20 ./SDK/startup/hardware.o
- .debug_ranges  0x000005b8       0x10 ./SDK/startup/main.o
- .debug_ranges  0x000005c8       0x10 ./SDK/startup/semihost_hardfault.o
- .debug_ranges  0x000005d8      0x320 ./SDK/startup/startup_mk64f12.o
- .debug_ranges  0x000008f8       0x20 ./SDK/CMSIS/system_MK64F12.o
+ .debug_ranges  0x000003a0       0x28 ./source/stateAddingUserPIN.o
+ .debug_ranges  0x000003c8       0x20 ./source/stateAdminMode.o
+ .debug_ranges  0x000003e8       0x20 ./source/stateBlocked.o
+ .debug_ranges  0x00000408       0x20 ./source/stateChangeIntensity.o
+ .debug_ranges  0x00000428       0x28 ./source/stateChangingPIN.o
+ .debug_ranges  0x00000450       0x20 ./source/stateMenu.o
+ .debug_ranges  0x00000470       0x28 ./source/stateReceivingID.o
+ .debug_ranges  0x00000498       0x38 ./source/stateReceivingPIN.o
+ .debug_ranges  0x000004d0       0x28 ./source/stateRemovingUser.o
+ .debug_ranges  0x000004f8       0x20 ./source/stateUserApproved.o
+ .debug_ranges  0x00000518       0x40 ./source/timer.o
+ .debug_ranges  0x00000558       0x28 ./source/timer_queue.o
+ .debug_ranges  0x00000580       0x20 ./SDK/startup/hardware.o
+ .debug_ranges  0x000005a0       0x10 ./SDK/startup/main.o
+ .debug_ranges  0x000005b0       0x10 ./SDK/startup/semihost_hardfault.o
+ .debug_ranges  0x000005c0      0x320 ./SDK/startup/startup_mk64f12.o
+ .debug_ranges  0x000008e0       0x20 ./SDK/CMSIS/system_MK64F12.o
 
 .debug_macro    0x00000000    0x13148
  .debug_macro   0x00000000       0x96 ./source/App.o
@@ -1997,7 +1998,7 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_macro   0x000130a5       0x23 ./SDK/startup/startup_mk64f12.o
  .debug_macro   0x000130c8       0x80 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_line     0x00000000     0x3ff4
+.debug_line     0x00000000     0x3fe6
  .debug_line    0x00000000      0x187 ./source/App.o
  .debug_line    0x00000187      0x128 ./source/FSM.o
  .debug_line    0x000002af      0x15e ./source/SegmentDisplay.o
@@ -2014,23 +2015,23 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_line    0x00001658      0x17d ./source/magnetLectorHAL.o
  .debug_line    0x000017d5      0x14a ./source/queue.o
  .debug_line    0x0000191f      0x25b ./source/stateAddingUser.o
- .debug_line    0x00001b7a      0x283 ./source/stateAddingUserPIN.o
- .debug_line    0x00001dfd      0x219 ./source/stateAdminMode.o
- .debug_line    0x00002016      0x174 ./source/stateBlocked.o
- .debug_line    0x0000218a      0x1e6 ./source/stateChangeIntensity.o
- .debug_line    0x00002370      0x25d ./source/stateChangingPIN.o
- .debug_line    0x000025cd      0x1f1 ./source/stateMenu.o
- .debug_line    0x000027be      0x248 ./source/stateReceivingID.o
- .debug_line    0x00002a06      0x2a2 ./source/stateReceivingPIN.o
- .debug_line    0x00002ca8      0x247 ./source/stateRemovingUser.o
- .debug_line    0x00002eef      0x242 ./source/stateUserApproved.o
- .debug_line    0x00003131      0x16c ./source/timer.o
- .debug_line    0x0000329d      0x11c ./source/timer_queue.o
- .debug_line    0x000033b9      0x1d1 ./SDK/startup/hardware.o
- .debug_line    0x0000358a      0x175 ./SDK/startup/main.o
- .debug_line    0x000036ff       0x55 ./SDK/startup/semihost_hardfault.o
- .debug_line    0x00003754      0x6d8 ./SDK/startup/startup_mk64f12.o
- .debug_line    0x00003e2c      0x1c8 ./SDK/CMSIS/system_MK64F12.o
+ .debug_line    0x00001b7a      0x27c ./source/stateAddingUserPIN.o
+ .debug_line    0x00001df6      0x219 ./source/stateAdminMode.o
+ .debug_line    0x0000200f      0x174 ./source/stateBlocked.o
+ .debug_line    0x00002183      0x1e6 ./source/stateChangeIntensity.o
+ .debug_line    0x00002369      0x259 ./source/stateChangingPIN.o
+ .debug_line    0x000025c2      0x1f1 ./source/stateMenu.o
+ .debug_line    0x000027b3      0x248 ./source/stateReceivingID.o
+ .debug_line    0x000029fb      0x29f ./source/stateReceivingPIN.o
+ .debug_line    0x00002c9a      0x247 ./source/stateRemovingUser.o
+ .debug_line    0x00002ee1      0x242 ./source/stateUserApproved.o
+ .debug_line    0x00003123      0x16c ./source/timer.o
+ .debug_line    0x0000328f      0x11c ./source/timer_queue.o
+ .debug_line    0x000033ab      0x1d1 ./SDK/startup/hardware.o
+ .debug_line    0x0000357c      0x175 ./SDK/startup/main.o
+ .debug_line    0x000036f1       0x55 ./SDK/startup/semihost_hardfault.o
+ .debug_line    0x00003746      0x6d8 ./SDK/startup/startup_mk64f12.o
+ .debug_line    0x00003e1e      0x1c8 ./SDK/CMSIS/system_MK64F12.o
 
 .debug_str      0x00000000    0x7a7a6
  .debug_str     0x00000000     0x3b26 ./source/App.o
@@ -2245,7 +2246,7 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_frame   0x000011a4      0x904 ./SDK/startup/startup_mk64f12.o
  .debug_frame   0x00001aa8       0x48 ./SDK/CMSIS/system_MK64F12.o
 
-.debug_loc      0x00000000     0x39f6
+.debug_loc      0x00000000     0x39e9
  .debug_loc     0x00000000       0x21 ./source/FSM.o
  .debug_loc     0x00000021      0x1cb ./source/SegmentDisplay.o
  .debug_loc     0x000001ec       0x87 ./source/SysTick.o
@@ -2258,16 +2259,16 @@ OUTPUT(ControlDeAcceso.axf elf32-littlearm)
  .debug_loc     0x000016c9       0xa0 ./source/magnetLectorHAL.o
  .debug_loc     0x00001769      0x1cd ./source/queue.o
  .debug_loc     0x00001936      0x2f8 ./source/stateAddingUser.o
- .debug_loc     0x00001c2e      0x447 ./source/stateAddingUserPIN.o
- .debug_loc     0x00002075      0x2de ./source/stateAdminMode.o
- .debug_loc     0x00002353       0xbb ./source/stateBlocked.o
- .debug_loc     0x0000240e      0x269 ./source/stateChangeIntensity.o
- .debug_loc     0x00002677      0x3a8 ./source/stateChangingPIN.o
- .debug_loc     0x00002a1f      0x255 ./source/stateMenu.o
- .debug_loc     0x00002c74      0x34a ./source/stateReceivingID.o
- .debug_loc     0x00002fbe      0x2ff ./source/stateRemovingUser.o
- .debug_loc     0x000032bd      0x2ff ./source/stateUserApproved.o
- .debug_loc     0x000035bc      0x11d ./source/timer.o
- .debug_loc     0x000036d9       0x72 ./source/timer_queue.o
- .debug_loc     0x0000374b      0x1e7 ./SDK/startup/startup_mk64f12.o
- .debug_loc     0x00003932       0xc4 ./SDK/CMSIS/system_MK64F12.o
+ .debug_loc     0x00001c2e      0x43a ./source/stateAddingUserPIN.o
+ .debug_loc     0x00002068      0x2de ./source/stateAdminMode.o
+ .debug_loc     0x00002346       0xbb ./source/stateBlocked.o
+ .debug_loc     0x00002401      0x269 ./source/stateChangeIntensity.o
+ .debug_loc     0x0000266a      0x3a8 ./source/stateChangingPIN.o
+ .debug_loc     0x00002a12      0x255 ./source/stateMenu.o
+ .debug_loc     0x00002c67      0x34a ./source/stateReceivingID.o
+ .debug_loc     0x00002fb1      0x2ff ./source/stateRemovingUser.o
+ .debug_loc     0x000032b0      0x2ff ./source/stateUserApproved.o
+ .debug_loc     0x000035af      0x11d ./source/timer.o
+ .debug_loc     0x000036cc       0x72 ./source/timer_queue.o
+ .debug_loc     0x0000373e      0x1e7 ./SDK/startup/startup_mk64f12.o
+ .debug_loc     0x00003925       0xc4 ./SDK/CMSIS/system_MK64F12.o

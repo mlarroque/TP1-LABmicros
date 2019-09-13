@@ -150,10 +150,6 @@ state_t AUPinputEvHandler(UserData_t * ud)
 						nextState.routines[KEYCARD_EV] = &MkeycardEvHandler;
 						userDataReset(true ,true ,true ,true ,ud);
 					}
-					else{
-						createPINString(ud);
-						PrintMessage(PINstring, false);
-					}
 					break;
 			}
 			userDataReset(false ,false ,false ,true ,ud);
